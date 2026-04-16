@@ -54,11 +54,13 @@ h1, h2, h3, h4, h5, h6 {
 
 <!-- Page content -->
 <div class="w3-content" style="max-width:1100px">
-
+ <input type="text" id="userName" placeholder="Enter your name"   > 
+  <button  auto;" onclick="greetUser()">Saludame</button>
+ 
   <!-- About Section -->
   <div class="w3-row w3-padding-64" id="about">
     <div class="w3-col m6 w3-padding-large w3-hide-small">
-     <img src="palmira.jpg" alt="Table Setting" width="500px" height="550px">
+     <img src="fotoabril.jpeg" alt="Table Setting" width="500px" height="550px">
     </div>
 
     <div class="w3-col m6 w3-padding-large">
@@ -92,7 +94,6 @@ h1, h2, h3, h4, h5, h6 {
    
   </div>
 
-  <embed src="wild.mp3" autostart="true" >
 
 <div class="w3-container w3-padding-64" >
     <h1>GPS Running App</h1><br>
@@ -108,7 +109,8 @@ h1, h2, h3, h4, h5, h6 {
 
 
   <div class="w3-container w3-padding-64" >
-    <h1>GPS Running App Con Calorias En Descanso</h1><br>
+    <h1>GPS Running App Calcula Calorias por Distancia + En Reposo </h1><br>
+   <p class="w3-large w3-text-grey w3-hide-medium"></p>    </h1><br>
    <p class="w3-large w3-text-grey w3-hide-medium"></p>    
     </div> </p>
    <div class="image-row">
@@ -120,7 +122,7 @@ h1, h2, h3, h4, h5, h6 {
   </div>
 
   <div class="w3-container w3-padding-64" >
-    <h1>GPS Running App Con Calorias Por Kilometro</h1><br>
+    <h1>GPS Running App Calcula Calorias Solo Por Distancia</h1><br>
    <p class="w3-large w3-text-grey w3-hide-medium"></p>    
     </div> </p>
    <div class="image-row">
@@ -128,7 +130,16 @@ h1, h2, h3, h4, h5, h6 {
     <img src="green.jpeg" alt="Blue" >
  
   </div>
-
+ <audio autoplay controls id="myAudio">
+  <source src="wild.mp3" type="audio/mpeg" id="myAudio">
+  Your browser does not support the audio element.
+</audio>
+<script>
+document.addEventListener('click', () => {
+    const audio = document.getElementById('myAudio');
+    audio.play();
+}, { once: true }); // Runs only once after the first click
+</script>
   <hr>
  <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Widget</a> is loading comments...</div>
  <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />

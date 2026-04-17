@@ -1,5 +1,10 @@
-
-   function greetUser() {
+  
+  
+  
+  
+  
+ 
+    function greetUser() {
       // 1. Get the value from the input field
       const name = document.getElementById("userName").value;
 

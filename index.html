@@ -72,16 +72,19 @@ h1, h2, h3, h4, h5, h6 {
     }
   }
 </script>
-  <div class="w3-content" style="max-width:1100px" class="input-group">
-
+  <div class="w3-content" style="max-width:1100px">
   <div class="w3-row w3-padding-64" id="about">
-   <div class="w3-col m6 w3-padding-large w3-hide-small">
-
-     <picture>
-        <source media="300" srcset="small-mobile-img.jpeg">
-        <img class="w3-image" src="fotoabril3.jpeg"  alt="Menu" width="500px" height="530px">
-     </picture>
+    <!-- Removed 'w3-hide-small' so it shows on phones -->
+    <div class="w3-col m6 w3-padding-large">
+      <picture>
+        <!-- Corrected media query syntax -->
+        <source media="(max-width: 600px)" srcset="small-mobile-img.jpeg">
+        <img class="w3-image" src="fotoabril3.jpeg" alt="Menu" style="width:100%; height:auto;">
+      </picture>
     </div>
+  </div>
+</div>
+
 
     <div class="w3-col m6 w3-padding-large">
       <h1 class="w3-center">Cristian es</h1><br>

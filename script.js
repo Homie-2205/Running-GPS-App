@@ -1,5 +1,5 @@
-  <script>
-    function greetUser() {
+
+   function greetUser() {
       // 1. Get the value from the input field
       const name = document.getElementById("userName").value;
 
@@ -11,4 +11,4 @@
         document.getElementById("greetingOutput").innerText = "Please enter a name.";
       }
     }
-  </script>
+ 

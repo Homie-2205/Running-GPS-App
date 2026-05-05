@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Principal</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+
+<style>
+/* This container lines images up in a row */
+  .image-row {
+    display: flex;
+    justify-content: center; /* Centers the group on the page */
+    gap: 15px;               /* Adds space between images */
+    flex-wrap: wrap;         /* Allows images to stack on phones */
+  }
+
+  /* This controls the size of each "little" image */
+  .image-row img {
+    width: 150px;            /* Change this number to make them smaller/larger */
+    height: auto;            /* Keeps the images from looking stretched */
+    border-radius: 8px;      /* Optional: rounds the corners */
+  }
+body {font-family: "Times New Roman", Georgia, Serif;}
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Playfair Display";
+  letter-spacing: 5px;
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-padding w3-card" style="letter-spacing:4px;">
+    <a href="indexEnglish" class="w3-bar-item w3-button">English</a>
+    <a href="indexFrancais" class="w3-bar-item w3-button"> Français</a>
+    <a href="index" class="w3-bar-item w3-button"> Español</a>
+    <!-- Right-sided navbar links. Hide them on small screens -->
+    <div class="w3-right w3-hide-small">
+     
+      <a href="" class="w3-bar-item w3-button">Principal</a>
+      <a href="" class="w3-bar-item w3-button">Inglés</a>
+      <a href="" class="w3-bar-item w3-button">Proyectos</a>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="w3-display-container w3-content w3-wide" style="max-width:1600px;min-width:300px" id="home">
+  <img class="w3-image" src="I.gif" alt="Hamburger Catering" width="1600" height="800">
+  <div class="w3-display-bottomleft w3-padding-large w3-opacity">
+    <h1 class="w3-xxlarge">Palmira Valle Del Cauca</h1>
+  </div>
+</header>
+<input type="text" id="userName" placeholder="Enter your name">
+<button onclick="greetUser()">Dis bonjour</button>
+
+<p id="greetingText"></p>
+
+<script>
+  function greetUser() {
+    // 1. Get the value from the input field
+    const name = document.getElementById('userName').value;
+    
+    // 2. Target the paragraph where we want to show the message
+    const display = document.getElementById('greetingText');
+    
+    // 3. Update the text if a name is provided
+    if (name.trim() !== "") {
+      display.textContent = `Salut, ${name}! Ça va bien.`;
+    } else {
+      display.textContent = "S'il vous plait écrivez votre prénom !";
+    }
+  }
+</script>
+
+  
+<div class="w3-content" style="max-width:1100px">
+
+  <!-- About Section -->
+  <div class="w3-row w3-padding-64" id="about">
+    <div class="w3-col m6 w3-padding-large">
+      
+     <img src="fotoabril3.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="600" height="750">
+    </div>
+   
+  
+
+
+    <div class="w3-col m6 w3-padding-large">
+      <h1 class="w3-center">Cristian est</h1><br>
+      <h5 class="w3-center">Rejoignez le projet</h5>
+      <p class="w3-large">Mes applications sont basées sur la formule de calcul des calories : Calories = Poids corporel (kg) × Distance (km) × Coefficient. Il s'agit de la formule simplifiée, intégrée au code. Les experts et chercheurs en fitness l'utilisent. Je suis titulaire d'un diplôme d'anglais obtenu en Floride (États-Unis) et d'une certification en informatique de SENA, entre autres qualifications.</p>
+      <p class="w3-large w3-text-grey w3-hide-medium"> Je suis passionné de fitness et de courir. J'utilise mes applications et elles fonctionnent à merveille. De nombreuses personnes à travers le monde m'inspirent et contribuent positivement à ce projet. Voir mes pectoraux bien dessinés, courir, faire du CrossFit, du functional training ou du circuit training, tout cela me fait du bien. Et les encouragements d'influenceurs et de YouTubeurs comme Weyni Tesfai (Allemagne), Lily Petals (Corée du Sud), Ashley (États-Unis) et bien d'autres me rendent encore plus heureux. Les mots ont un pouvoir apaisant.
+  </p>
+    </div>
+  </div>
+  
+  <hr>
+  
+  <!-- Menu Section -->
+  <div class="w3-row w3-padding-64" id="menu">
+    <div class="w3-col l6 w3-padding-large">
+      <h1 class="w3-center">Principes et valeurs</h1><br>
+      <h4></h4>
+      <p class="w3-large"> My applications are based on the calorie calculation equation: Calories = Body Weight (kg) × Distance (km) × Coefficient. This is a simplified calorie calculation equation, embedded in the programming code. Fitness experts and researchers use this formula. I have a diploma in English from Florida, USA, and a diploma in computers from SENA, among other qualifications.</p>
+      
+      <p class="w3-large w3-text-grey w3-hide-medium">I'm obsessed and really passionate about fitness and running. I use my apps and they work really well, Melo. Many people around the world inspire and positively influence this endeavor. When I take off my shirt and see a well-defined chest, running, doing good CrossFit, functional training, or circuits—all of that—makes me feel good. And the beautiful words that some influencers and YouTubers say, like Weyni Tesfai from Germany, Lily Petals from South Korea, Ashley USA, and others, make me feel even happier. Words are like medicine.
+</p>
+      
+     
+   
+      <h4></h4>
+      <p class="w3-text-grey"></p>    
+    </div>
+    
+    <div class="w3-col l6 w3-padding-large">
+ <picture>
+    <source media="300" srcset="small-mobile-img.jpg">
+        <img class="w3-image" src="imder.jpg"  alt="Menu" width="500px" height="530px">
+ </picture>
+    </div>
+   
+  </div>
+
+
+<div class="w3-container w3-padding-64" >
+    <h1>GPS Running App</h1><br>
+   <p class="w3-large w3-text-grey w3-hide-medium">Many Americans talk about the work ethic, which means working honestly. Like Tiffani, the English teacher who worked at NASA, if you want something, work honestly to get it. Even during the national unemployment period, I didn't pick a single grape or banana. I'm honest, like the people of Singapore.
+</p>    
+    </div> </p>
+   <div class="image-row">
+    <img src="original.jpeg" alt="Hope"  >
+    <img src="blue.jpeg" alt="Blue" >
+    <img src="pink.jpeg" alt="Pink" >
+    <img src="cheetah.jpeg" alt="Cheetah Guepardo">
+    <img src="ronaldo.jpeg" alt="Ronaldo" >
+  </div>
+
+
+  <div class="w3-container w3-padding-64" >
+    <h1>GPS Running App workout calories with distance + resting calories </h1><br>
+   <p class="w3-large w3-text-grey w3-hide-medium"></p>    </h1><br>
+   <p class="w3-large w3-text-grey w3-hide-medium"></p>    
+    </div> </p>
+   <div class="image-row">
+    <img src="camilo.jpeg" alt="Hope"  >
+    <img src="lily.jpeg" alt="Blue" >
+    <img src="maple.jpeg" alt="Pink" >
+    <img src="sifan.jpeg" alt="Cheetah Guepardo">
+    <img src="wom.jpeg" alt="Ronaldo" >
+  </div>
+
+  <div class="w3-container w3-padding-64" >
+    <h1>GPS Running App  workout calories with the distance</h1><br>
+   <p class="w3-large w3-text-grey w3-hide-medium"></p>    
+    </div> </p>
+   <div class="image-row">
+    <img src="neutral.jpeg" alt="Hope"  >
+    <img src="green.jpeg" alt="Blue" >
+      <img src="China.png" alt="Hope"  >
+    <img src="corea.png" alt="Blue" >
+      <img src="Rihanna.png" alt="Hope"  >
+
+  </div>
+ <audio autoplay controls id="myAudio">
+  <source src="Michael.mp3" type="audio/mpeg" id="myAudio">
+  Your browser does not support the audio element.
+</audio>
+<script>
+document.addEventListener('click', () => {
+    const audio = document.getElementById('myAudio');
+    audio.play();
+}, { once: true }); // Runs only once after the first click
+</script>
+  <hr>
+    
+ <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Widget</a> is loading comments...</div>
+ <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
+ <script type="text/javascript" id="hcb"> /*<!--*/ if(!window.hcb_user){hcb_user={};} (function(){var s=document.createElement("script"), l=hcb_user.PAGE || (""+window.location).replace(/'/g,"%27"), h="https://www.htmlcommentbox.com";s.setAttribute("type","text/javascript");s.setAttribute("src", h+"/jread?page="+encodeURIComponent(l).replace("+","%2B")+"&mod=%241%24wq1rdBcg%247aB745nspKAd5Xstqg1Kt1"+"&opts=16862&num=10&ts=1554953903298");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})(); /*-->*/ </script>
+
+    </form>
+  </div>
+  <!-- Contact Section -->
+  <div class="w3-container w3-padding-64" id="contact">
+    <h1>Contact</h1><br>
+   <p class="w3-large">WhatsApp: 3156545314</p>
+   
+      
+    </form>
+  </div>
+  
+  
+  
+<!-- End page content -->
+</div>
+
+<!-- Footer -->
+<footer class="w3-center w3-light-grey w3-padding-32">
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">Cristian Mauricio Arcos Gracias a w3.css</a></p>
+</footer>
+
+</body>
+</html>
+

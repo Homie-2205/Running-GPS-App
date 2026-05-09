@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Notepad (20k) with Recovery</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Verdana, sans-serif; padding: 20px; background: #eef2f3; color: #333; }
+        .container { max-width: 1100px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .table-container { height: 600px; overflow-y: auto; border: 1px solid #ddd; margin-top: 20px; position: relative; background: #fff; }
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        th, td { border: 1px solid #eee; padding: 12px; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        th { background-color: #007bff; color: white; position: sticky; top: 0; z-index: 10; }
+        .phantom-spacer { position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; }
+        .controls { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+        button { padding: 12px 20px; cursor: pointer; border: none; border-radius: 6px; color: white; font-weight: bold; }
+        .save-btn { background-color: #28a745; }
+        .export-btn { background-color: #17a2b8; }
+        .recover-btn { background-color: #ffc107; color: #333; } /* Yellow for recovery */
+        .clear-btn { background-color: #dc3545; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Contact Notepad (20,000 Rows)</h2>
+    <p>Use <b>Recover</b> if you accidentally deleted or cleared your data after the last save.</p>
+
+    <div class="table-container" id="scrollContainer">
+        <div id="spacer" class="phantom-spacer"></div>
+        <table id="contactTable">
+            <thead>
+                <tr>
+                    <th style="width: 20%;">Name</th>
+                    <th style="width: 25%;">Neighborhood</th>
+                    <th style="width: 30%;">Address</th>
+                    <th style="width: 25%;">Cellphone</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+    <div class="controls">
+        <button class="save-btn" onclick="saveToLocal()">Save Changes</button>
+        <button class="recover-btn" onclick="recoverData()">Recover Last Save</button>
+        <button class="export-btn" onclick="exportToTXT()">Export to TXT</button>
+        <button class="clear-btn" onclick="resetData()">Reset to Default</button>
+    </div>
+</div>
+
+<script>
+    const TOTAL_ROWS = 20000;
+    const ROW_HEIGHT = 45;
+    const VISIBLE_COUNT = 20;
+    
+    let contacts = [];
+    const tableBody = document.getElementById('tableBody');
+    const scrollContainer = document.getElementById('scrollContainer');
+    const spacer = document.getElementById('spacer');
+
+    function init() {
+        const saved = localStorage.getItem('contactData_20k');
+        if (saved) {
+            contacts = JSON.parse(saved);
+        } else {
+            generateDefaultData();
+        }
+        spacer.style.height = (TOTAL_ROWS * ROW_HEIGHT) + 'px';
+        render();
+    }
+
+    function generateDefaultData() {
+        contacts = [];
+        for (let i = 1; i <= TOTAL_ROWS; i++) {
+            contacts.push([`Client ${i}`, `Neighborhood ${Math.ceil(i/100)}`, `Ave ${i} # ${i+10}`, `+1-555-${i.toString().padStart(7, '0')}`]);
+        }
+    }
+
+    function render() {
+        const startIndex = Math.floor(scrollContainer.scrollTop / ROW_HEIGHT);
+        const endIndex = startIndex + VISIBLE_COUNT;
+        tableBody.innerHTML = '';
+        tableBody.style.transform = `translateY(${startIndex * ROW_HEIGHT}px)`;
+
+        for (let i = startIndex; i < Math.min(endIndex, TOTAL_ROWS); i++) {
+            const tr = document.createElement('tr');
+            contacts[i].forEach((text, colIndex) => {
+                const td = document.createElement('td');
+                td.contentEditable = true;
+                td.innerText = text;
+                td.onblur = (e) => { contacts[i][colIndex] = e.target.innerText; };
+                tr.appendChild(td);
+            });
+            tableBody.appendChild(tr);
+        }
+    }
+
+    function saveToLocal() {
+        try {
+            // Before saving new data, move current storage to a backup slot
+            const currentData = localStorage.getItem('contactData_20k');
+            if (currentData) localStorage.setItem('contactData_backup', currentData);
+            
+            localStorage.setItem('contactData_20k', JSON.stringify(contacts));
+            alert("Saved! A backup was also created.");
+        } catch (e) {
+            alert("Storage full. Try exporting to TXT.");
+        }
+    }
+
+    function recoverData() {
+        const backup = localStorage.getItem('contactData_backup');
+        if (backup) {
+            if (confirm("Restore the last version you saved? (Current unsaved changes will be lost)")) {
+                contacts = JSON.parse(backup);
+                localStorage.setItem('contactData_20k', backup); // Move backup to main slot
+                render();
+                alert("Data recovered successfully!");
+            }
+        } else {
+            alert("No backup found to recover.");
+        }
+    }
+
+    function exportToTXT() {
+        let txt = "NAME\tNEIGHBORHOOD\tADDRESS\tCELLPHONE\n";
+        contacts.forEach(row => txt += row.join("\t") + "\n");
+        const blob = new Blob([txt], { type: 'text/plain' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = "contacts_20k.txt";
+        a.click();
+    }
+
+    function resetData() {
+        if(confirm("This clears everything. You can still use 'Recover' if you had a previous save.")) {
+            // Backup before clearing so recovery still works
+            localStorage.setItem('contactData_backup', JSON.stringify(contacts));
+            localStorage.removeItem('contactData_20k');
+            location.reload();
+        }
+    }
+
+    scrollContainer.addEventListener('scroll', render);
+    window.onload = init;
+</script>
+
+</body>
+</html>
+

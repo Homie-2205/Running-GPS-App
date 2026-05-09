@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Contact Notepad Pro (Mobile & Desktop)</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 10px; background: #f0f2f5; color: #333; margin: 0; }
+        .container { max-width: 100%; margin: auto; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .table-container { height: 70vh; overflow-y: auto; border: 1px solid #ccc; margin-top: 15px; position: relative; background: #fff; -webkit-overflow-scrolling: touch; }
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        th, td { border: 1px solid #eee; padding: 10px; text-align: left; font-size: 14px; word-wrap: break-word; }
+        th { background-color: #007bff; color: white; position: sticky; top: 0; z-index: 10; }
+        .phantom-spacer { position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; }
+        .controls { margin-top: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        button { padding: 12px; cursor: pointer; border: none; border-radius: 6px; color: white; font-weight: bold; font-size: 13px; transition: opacity 0.2s; }
+        button:active { opacity: 0.7; }
+        .save-btn { background-color: #28a745; }
+        .export-btn { background-color: #17a2b8; }
+        .recover-btn { background-color: #ffc107; color: #333; }
+        .clear-btn { background-color: #dc3545; grid-column: span 2; }
+        h2 { margin-top: 0; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Contact Notepad (20,000 Rows)</h2>
+    
+    <div class="table-container" id="scrollContainer">
+        <div id="spacer" class="phantom-spacer"></div>
+        <table id="contactTable">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">Name</th>
+                    <th style="width: 25%;">Area</th>
+                    <th style="width: 25%;">Addr</th>
+                    <th style="width: 25%;">Cell</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+    <div class="controls">
+        <button class="save-btn" onclick="saveToDB()">Save Changes</button>
+        <button class="recover-btn" onclick="recoverData()">Recover Save</button>
+        <button class="export-btn" onclick="exportToTXT()">Export TXT</button>
+        <button class="clear-btn" onclick="resetData()">Reset Default</button>
+    </div>
+</div>
+
+<script>
+    const TOTAL_ROWS = 20000;
+    const ROW_HEIGHT = 48; // Slightly taller for mobile fingers
+    const VISIBLE_COUNT = 15;
+    
+    let contacts = [];
+    let db;
+    const tableBody = document.getElementById('tableBody');
+    const scrollContainer = document.getElementById('scrollContainer');
+    const spacer = document.getElementById('spacer');
+
+    // --- IndexedDB Logic for Large Mobile Storage ---
+    const request = indexedDB.open("ContactDB", 1);
+    request.onupgradeneeded = (e) => {
+        db = e.target.result;
+        db.createObjectStore("contacts", { keyPath: "id" });
+    };
+    request.onsuccess = (e) => {
+        db = e.target.result;
+        loadFromDB();
+    };
+
+    function loadFromDB() {
+        const transaction = db.transaction(["contacts"], "readonly");
+        const store = transaction.objectStore("contacts");
+        const getReq = store.get("main_list");
+        
+        getReq.onsuccess = () => {
+            if (getReq.result) {
+                contacts = getReq.result.data;
+            } else {
+                generateDefaultData();
+            }
+            spacer.style.height = (TOTAL_ROWS * ROW_HEIGHT) + 'px';
+            render();
+        };
+    }
+
+    function saveToDB() {
+        const transaction = db.transaction(["contacts"], "readwrite");
+        const store = transaction.objectStore("contacts");
+        
+        // Backup current to backup slot first
+        const getOld = store.get("main_list");
+        getOld.onsuccess = () => {
+            if (getOld.result) store.put({ id: "backup_list", data: getOld.result.data });
+            store.put({ id: "main_list", data: contacts });
+            alert("Data saved securely to phone memory.");
+        };
+    }
+
+    function recoverData() {
+        const transaction = db.transaction(["contacts"], "readonly");
+        const store = transaction.objectStore("contacts");
+        const getBak = store.get("backup_list");
+        
+        getBak.onsuccess = () => {
+            if (getBak.result && confirm("Restore last backup?")) {
+                contacts = getBak.result.data;
+                render();
+                alert("Recovered!");
+            } else {
+                alert("No backup found.");
+            }
+        };
+    }
+
+    function generateDefaultData() {
+        contacts = [];
+        for (let i = 1; i <= TOTAL_ROWS; i++) {
+            contacts.push([`User ${i}`, `Nbh ${Math.ceil(i/100)}`, `Add ${i}`, `${i.toString().slice(-8)}`]);
+        }
+    }
+
+    function render() {
+        // Optimized for mobile scrolling
+        window.requestAnimationFrame(() => {
+            const startIndex = Math.floor(scrollContainer.scrollTop / ROW_HEIGHT);
+            const endIndex = startIndex + VISIBLE_COUNT;
+            
+            tableBody.innerHTML = '';
+            tableBody.style.transform = `translateY(${startIndex * ROW_HEIGHT}px)`;
+
+            for (let i = startIndex; i < Math.min(endIndex, TOTAL_ROWS); i++) {
+                const tr = document.createElement('tr');
+                contacts[i].forEach((text, colIndex) => {
+                    const td = document.createElement('td');
+                    td.contentEditable = true;
+                    td.innerText = text;
+                    // Input handling for mobile keyboards
+                    td.oninput = (e) => { contacts[i][colIndex] = e.target.innerText; };
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            }
+        });
+    }
+
+    function exportToTXT() {
+        let txt = "NAME,AREA,ADDRESS,PHONE\n";
+        contacts.forEach(row => txt += row.join(",") + "\n");
+        const blob = new Blob([txt], { type: 'text/plain' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = "contacts_mobile.csv";
+        a.click();
+    }
+
+    function resetData() {
+        if(confirm("Erase all data?")) {
+            generateDefaultData();
+            render();
+        }
+    }
+
+    scrollContainer.addEventListener('scroll', render);
+</script>
+</body>
+</html>
+

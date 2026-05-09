@@ -29,11 +29,17 @@
     
     <div class="table-container" id="scrollContainer">
         <div id="spacer" class="phantom-spacer"></div>
+         <div class="controls">
+        <button class="save-btn" onclick="saveToDB()">Save Changes</button>
+        <button class="recover-btn" onclick="recoverData()">Recover Save</button>
+        <button class="export-btn" onclick="exportToTXT()">Export TXT</button>
+        <button class="clear-btn" onclick="resetData()">Reset Default</button>
+    </div>
         <table id="contactTable">
             <thead>
                 <tr>
                     <th style="width: 25%;">Name</th>
-                    <th style="width: 25%;">Area</th>
+                    <th style="width: 25%;">Neighborhood</th>
                     <th style="width: 25%;">Addr</th>
                     <th style="width: 25%;">Cell</th>
                 </tr>
@@ -42,12 +48,7 @@
         </table>
     </div>
 
-    <div class="controls">
-        <button class="save-btn" onclick="saveToDB()">Save Changes</button>
-        <button class="recover-btn" onclick="recoverData()">Recover Save</button>
-        <button class="export-btn" onclick="exportToTXT()">Export TXT</button>
-        <button class="clear-btn" onclick="resetData()">Reset Default</button>
-    </div>
+   
 </div>
 
 <script>

@@ -27,6 +27,12 @@
     <p>Use <b>Recover</b> if you accidentally deleted or cleared your data after the last save.</p>
 
     <div class="table-container" id="scrollContainer">
+         <div class="controls">
+        <button class="save-btn" onclick="saveToLocal()">Save Changes</button>
+        <button class="recover-btn" onclick="recoverData()">Recover Last Save</button>
+        <button class="export-btn" onclick="exportToTXT()">Export to TXT</button>
+        <button class="clear-btn" onclick="resetData()">Reset to Default</button>
+    </div>
         <div id="spacer" class="phantom-spacer"></div>
         <table id="contactTable">
             <thead>

@@ -3,148 +3,114 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Contact Notepad Pro - Editable</title>
+    <title>Contact Notepad Pro - Database Edition</title>
     <style>
         body { font-family: -apple-system, sans-serif; padding: 10px; background: #f0f2f5; margin: 0; }
         .container { max-width: 100%; margin: auto; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        
-        .search-box { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
-
-        .viewport { height: 65vh; overflow-x: auto; overflow-y: auto; border: 1px solid #ccc; position: relative; background: #fff; }
-        .spacer { position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; }
-
-        /* Added min-width to ensure columns don't squash on small screens */
-        table { width: 100%; min-width: 800px; border-collapse: collapse; table-layout: fixed; position: absolute; top: 0; left: 0; }
-        th, td { border: 1px solid #eee; padding: 5px; text-align: left; font-size: 13px; overflow: hidden; }
-        th { background-color: #007bff; color: white; position: sticky; top: 0; z-index: 10; padding: 10px; }
-        
-        /* Editable Inputs */
-        input.edit-input { width: 100%; border: none; background: transparent; padding: 8px; font-size: 14px; box-sizing: border-box; }
+        .viewport { height: 70vh; overflow: auto; border: 1px solid #ccc; background: #fff; position: relative; }
+        table { width: 100%; min-width: 800px; border-collapse: collapse; table-layout: fixed; }
+        th, td { border: 1px solid #eee; padding: 2px; text-align: left; font-size: 13px; }
+        th { background-color: #007bff; color: white; position: sticky; top: 0; z-index: 10; }
+        input.edit-input { width: 100%; border: none; background: transparent; padding: 8px; box-sizing: border-box; }
         input.edit-input:focus { background: #fffbe6; outline: 1px solid #ffe58f; }
-
-        .controls { margin-top: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        button { padding: 12px; cursor: pointer; border: none; border-radius: 6px; color: white; font-weight: bold; font-size: 14px; }
+        .controls { margin-bottom: 10px; display: flex; gap: 10px; align-items: center; }
+        button { padding: 12px; cursor: pointer; border: none; border-radius: 6px; color: white; font-weight: bold; flex: 1; }
         .save-btn { background-color: #28a745; }
-        .export-btn { background-color: #17a2b8; }
+        .status { font-size: 12px; color: #666; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2 id="title">Clients List</h2>
-    <a href="index.html" class="w3-bar-item w3-button">Tabla</a>
-     <div class="controls">
-        <button class="save-btn" onclick="saveData()">Save Changes</button>
-        <button class="export-btn" onclick="exportCSV()">Export CSV</button>
+    <h3>Contacts Database (5,000 Rows)</h3>
+    <div class="controls">
+        <button class="save-btn" onclick="saveToDB()">Save to Browser DB</button>
+        <span id="statusLabel" class="status">Ready</span>
     </div>
-    <input type="text" id="search" class="search-box" placeholder="Search by name, phone, or neighborhood...">
     
-    <div class="viewport" id="viewport">
-        <div id="spacer" class="spacer"></div>
-        <table id="table">
+    <div class="viewport">
+        <table id="contactTable">
             <thead>
                 <tr>
-                    <th style="width: 60px">ID</th>
-                    <th style="width: 200px">Name</th>
-                    <th style="width: 150px">Phone</th>
-                    <th style="width: 250px">Address</th>
-                    <th style="width: 150px">Neighborhood</th>
+                    <th style="width: 20%">Name</th>
+                    <th style="width: 20%">Phone</th>
+                    <th style="width: 25%">Neighborhood</th>
+                    <th style="width: 35%">Address</th>
                 </tr>
             </thead>
-            <tbody id="tbody"></tbody>
+            <tbody></tbody>
         </table>
     </div>
-
-   
 </div>
 
 <script>
-    const rowHeight = 45; 
-    const viewport = document.getElementById('viewport');
-    const spacer = document.getElementById('spacer');
-    const tbody = document.getElementById('tbody');
-    const searchInput = document.getElementById('search');
+    const dbName = "ContactNotepadDB";
+    const totalRows = 5000;
+    let db;
 
-    // 1. Load Data with Neighborhood and Address fields
-    let clients = JSON.parse(localStorage.getItem('myClients')) || Array.from({ length: 10000 }, (_, i) => ({
-        id: i + 1,
-        name: `Client Name ${i + 1}`,
-        phone: `+1-555-010-${(i + 1000).toString()}`,
-        address: `${100 + i} Street Ave`,
-        neighborhood: `Zone ${Math.floor(i/100) + 1}`
-    }));
+    // 1. Initialize IndexedDB (The "Server" inside the browser)
+    const request = indexedDB.open(dbName, 1);
 
-    let filteredData = clients;
-
-    function updateHeight() {
-        spacer.style.height = `${filteredData.length * rowHeight}px`;
-    }
-
-    function render() {
-        const scrollTop = viewport.scrollTop;
-        const startIndex = Math.floor(scrollTop / rowHeight);
-        const endIndex = Math.min(filteredData.length, startIndex + 25);
-
-        const offset = startIndex * rowHeight;
-        tbody.style.transform = `translateY(${offset}px)`;
-
-        let html = '';
-        for (let i = startIndex; i < endIndex; i++) {
-            const client = filteredData[i];
-            html += `<tr>
-                <td style="padding-left:10px">${client.id}</td>
-                <td><input class="edit-input" value="${client.name}" onchange="updateValue(${client.id}, 'name', this.value)"></td>
-                <td><input class="edit-input" value="${client.phone}" onchange="updateValue(${client.id}, 'phone', this.value)"></td>
-                <td><input class="edit-input" value="${client.address || ''}" onchange="updateValue(${client.id}, 'address', this.value)"></td>
-                <td><input class="edit-input" value="${client.neighborhood || ''}" onchange="updateValue(${client.id}, 'neighborhood', this.value)"></td>
-            </tr>`;
-        }
-        tbody.innerHTML = html;
-        document.getElementById('title').innerText = `Clients (${filteredData.length})`;
-    }
-
-    window.updateValue = (id, field, value) => {
-        const client = clients.find(c => c.id === id);
-        if (client) client[field] = value;
+    request.onupgradeneeded = (e) => {
+        db = e.target.result;
+        db.createObjectStore("contacts", { keyPath: "id" });
     };
 
-    // Updated Search Logic to include Address and Neighborhood
-    searchInput.addEventListener('input', (e) => {
-        const term = e.target.value.toLowerCase();
-        filteredData = clients.filter(c => 
-            c.name.toLowerCase().includes(term) || 
-            c.phone.includes(term) ||
-            (c.neighborhood && c.neighborhood.toLowerCase().includes(term)) ||
-            (c.address && c.address.toLowerCase().includes(term))
-        );
-        viewport.scrollTop = 0;
-        updateHeight();
-        render();
-    });
-
-    window.saveData = () => {
-        localStorage.setItem('myClients', JSON.stringify(clients));
-        alert('All changes saved successfully!');
+    request.onsuccess = (e) => {
+        db = e.target.result;
+        loadFromDB();
     };
 
-    window.exportCSV = () => {
-        // Updated CSV Header
-        let csv = "ID,Name,Phone,Address,Neighborhood\n";
-        csv += clients.map(c => 
-            `${c.id},"${c.name}","${c.phone}","${c.address || ''}","${c.neighborhood || ''}"`
-        ).join("\n");
+    // 2. Load data or generate empty rows
+    function loadFromDB() {
+        const transaction = db.transaction(["contacts"], "readonly");
+        const store = transaction.objectStore("contacts");
+        const request = store.getAll();
+
+        request.onsuccess = () => {
+            const data = request.result;
+            let html = '';
+            for (let i = 0; i < totalRows; i++) {
+                const row = data.find(r => r.id === i) || { n: '', p: '', nh: '', a: '' };
+                html += `<tr>
+                    <td><input type="text" class="edit-input" data-id="${i}" data-field="n" value="${row.n}" placeholder="Name"></td>
+                    <td><input type="text" class="edit-input" data-id="${i}" data-field="p" value="${row.p}" placeholder="Phone"></td>
+                    <td><input type="text" class="edit-input" data-id="${i}" data-field="nh" value="${row.nh}" placeholder="Neighborhood"></td>
+                    <td><input type="text" class="edit-input" data-id="${i}" data-field="a" value="${row.a}" placeholder="Address"></td>
+                </tr>`;
+            }
+            document.querySelector('#contactTable tbody').innerHTML = html;
+            document.getElementById('statusLabel').innerText = "Data Loaded";
+        };
+    }
+
+    // 3. Save all 5,000 rows to IndexedDB
+    function saveToDB() {
+        const transaction = db.transaction(["contacts"], "readwrite");
+        const store = transaction.objectStore("contacts");
+        const inputs = document.querySelectorAll('.edit-input');
         
-        const blob = new Blob([csv], { type: 'text/csv' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.setAttribute('href', url);
-        a.setAttribute('download', 'clients_list.csv');
-        a.click();
-    };
+        document.getElementById('statusLabel').innerText = "Saving...";
 
-    viewport.addEventListener('scroll', render);
-    updateHeight();
-    render();
+        // Group inputs by row ID
+        const rows = {};
+        inputs.forEach(input => {
+            const id = input.getAttribute('data-id');
+            const field = input.getAttribute('data-field');
+            if (!rows[id]) rows[id] = { id: parseInt(id) };
+            rows[id][field] = input.value;
+        });
+
+        // Add to database
+        Object.values(rows).forEach(rowData => {
+            store.put(rowData);
+        });
+
+        transaction.oncomplete = () => {
+            document.getElementById('statusLabel').innerText = "All changes saved!";
+            alert("Success: 5,000 rows saved to browser database.");
+        };
+    }
 </script>
 
 </body>

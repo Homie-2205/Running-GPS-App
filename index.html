@@ -166,16 +166,27 @@ h1, h2, h3, h4, h5, h6 {
     <h1>App Alma de Atleta</h1><br>
    <p class="w3-large w3-text-grey w3-hide-medium"></p>    
     </div> </p>
-   <div class="image-row">
-   
-    <img src="beatshearth.jpeg" alt="" >
-      <img src="Database.jpeg" alt="Hope"  >
-    <img src="inicio.jpeg" alt="Blue" >
-      <img src="mapalma.jpeg" alt="Hope"  >
-     <img src="recipe.jpeg" alt="Hope"  >
+  <div class="image-row">
+  <!-- Image 1 plays its audio when clicked -->
+  <img src="beatshearth.jpeg" alt="Beats Hearth" onclick="document.getElementById('audio1').play()">
+  <audio id="audio1" src="gracias.mp3"></audio>
 
-  </div>
+  <!-- Image 2 plays its audio when clicked -->
+  <img src="Database.jpeg" alt="Hope" onclick="document.getElementById('audio2').play()">
+  <audio id="audio2" src="gracias.mp3"></audio>
 
+  <!-- Image 3 plays its audio when clicked -->
+  <img src="inicio.jpeg" alt="Blue" onclick="document.getElementById('audio3').play()">
+  <audio id="audio3" src="gracias.mp3"></audio>
+
+  <!-- Image 4 plays its audio when clicked -->
+  <img src="mapalma.jpeg" alt="Mapalma" onclick="document.getElementById('audio4').play()">
+  <audio id="audio4" src="gracias.mp3"></audio>
+
+  <!-- Image 5 plays its audio when clicked -->
+  <img src="recipe.jpeg" alt="Recipe" onclick="document.getElementById('audio5').play()">
+  <audio id="audio5" src="gracias.mp3"></audio>
+</div>
 
   <button onclick="window.location.href='tabla.html';" class="start" style="width: 100px; height: 50px;">
  Tabla

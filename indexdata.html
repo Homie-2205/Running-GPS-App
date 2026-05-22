@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Principal</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+
+<style>
+/* This container lines images up in a row */
+  .image-row {
+    display: flex;
+    justify-content: center; /* Centers the group on the page */
+    gap: 15px;               /* Adds space between images */
+    flex-wrap: wrap;         /* Allows images to stack on phones */
+  }
+
+  /* This controls the size of each "little" image */
+  .image-row img {
+    width: 150px;            /* Change this number to make them smaller/larger */
+    height: auto;            /* Keeps the images from looking stretched */
+    border-radius: 8px;      /* Optional: rounds the corners */
+  }
+body {font-family: "Times New Roman", Georgia, Serif;}
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Playfair Display";
+  letter-spacing: 5px;
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-padding w3-card" style="letter-spacing:4px;">
+   <a href="index.html" class="w3-bar-item w3-button">
+        <img src="co.png" style="width:20px;" class="w3-margin-right" alt="ES"> 
+    </a>
+
+    <!-- Example for the English link -->
+    <a href="indexEnglish.html" class="w3-bar-item w3-button">
+        <img src="usa.png" style="width:20px;" class="w3-margin-right" alt="EN"> 
+    </a>
+
+    <!-- Example for the French link -->
+    <a href="indexFrancais.html" class="w3-bar-item w3-button">
+        <img src="fr.png" style="width:20px;" class="w3-margin-right" alt="FR"> 
+    </a>
+    <!-- Right-sided navbar links. Hide them on small screens -->
+    <div class="w3-right w3-hide-small">
+     
+      <a href="" class="w3-bar-item w3-button">Principal</a>
+      <a href="Pedagogía.html" class="w3-bar-item w3-button">Pedagogía</a>
+      <a href="" class="w3-bar-item w3-button">Proyectos</a>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="w3-display-container w3-content w3-wide" style="max-width:1600px;min-width:300px" id="home">
+  <img class="w3-image" src="I.gif" alt="Hamburger Catering" width="1600" height="800">
+  <div class="w3-display-bottomleft w3-padding-large w3-opacity">
+    <h1 class="w3-xxlarge">Palmira Valle Del Cauca</h1>
+  </div>
+</header>
+<input type="text" id="userName" placeholder="Pon tu nombre">
+<button onclick="greetUser()">Saludame</button>
+
+<p id="greetingText"></p>
+
+<script>
+  function greetUser() {
+    // 1. Get the value from the input field
+    const name = document.getElementById('userName').value;
+    
+    // 2. Target the paragraph where we want to show the message
+    const display = document.getElementById('greetingText');
+    
+    // 3. Update the text if a name is provided
+    if (name.trim() !== "") {
+      display.textContent = `Hola, ${name}! Como estas.`;
+    } else {
+      display.textContent = "Please enter a name!";
+    }
+  }
+</script>
+
+  
+<div class="w3-content" style="max-width:1100px">
+
+  <!-- About Section -->
+  <div class="w3-row w3-padding-64" id="about">
+    <div class="w3-col m6 w3-padding-large">
+      
+     <img src="fotoabril3.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="600" height="750">
+    </div>
+   
+  
+
+
+    <div class="w3-col m6 w3-padding-large">
+      <h1 class="w3-center">Cristian es</h1><br>
+      <h5 class="w3-center">Unete Al Proyecto</h5>
+      <p class="w3-large">Mis aplicaciones están basadas en la ecuación para calcular calorías Calories = Body Weight (kg) × Distance (km) × Coefficient esta es la ecuación para calcular calorías simplificada, esta dentro del código de programación, los expertos de fitness e investigadores usan esta fórmula, Yo tengo un diploma de la Florida USA Ingles, del SENA en computadores y más </p>
+      <p class="w3-large w3-text-grey w3-hide-medium"> Estoy obsesionado y tengo mucho fuego por el fitness y correr yo uso mis aplicaciones y funcionan muy bien melo, muchas personas alrededor del mundo inspiran e influencian bien este emprendimiento, cuando me quito la camisa y veo un buen pectoral marcado, correr, hacer buen crossfit, funcionales o circuitos todo eso, me hace sentir bien y las palabras hermosas que dicen algunas influencers y youtubers como Weyni Tesfai Alemania, Lily petals de Corea del sur, Ashley USA y mas me hacen sentir más feliz las palabras son como medicina.
+  </p>
+    </div>
+  </div>
+  
+  <hr>
+  
+  <!-- Menu Section -->
+  <div class="w3-row w3-padding-64" id="menu">
+    <div class="w3-col l6 w3-padding-large">
+      <h1 class="w3-center">Principios y Valores</h1><br>
+      <h4></h4>
+      <p class="w3-large"> Muchos Americanos hablan sobre el work ethic significa trabajar honrado. como la profesora de Inglés Tiffani  la que trabajó en la NASA, si tu quieres algo trabaja honrado para conseguirlo, ni en el paro nacional llegue a coger una sola uva o banana, honrado como los de Singapur.</p>
+      
+      <p class="w3-large w3-text-grey w3-hide-medium">Me gusta los valores de Jesus, el dice que la iglesia son las personas no templos hechos por hombres. Arnold Schwarzenegger, will smith en algún momento de la vida llegaron a trabajar la construcción para invertir en ellos mismos construir su carrera y seguir adelante, ellos hablan muy bien e inspiran hard work never killed any one 
+</p>
+      
+     
+   
+      <h4></h4>
+      <p class="w3-text-grey"></p>    
+    </div>
+    
+    <div class="w3-col l6 w3-padding-large">
+ <picture>
+    <source media="300" srcset="small-mobile-img.jpg">
+        <img class="w3-image" src="imderme.jpg"  alt="Menu" width="500px" height="530px">
+ </picture>
+    </div>
+   
+  </div>
+
+
+<div class="w3-container w3-padding-64" >
+    <h1>GPS Running App</h1><br>
+   <p class="w3-large w3-text-grey w3-hide-medium">Influenciado por medio de las palabras de emprendedores Americanos, gracias a las palabras de la  youtuber Coreana Lily Petals, como lo dije anteriormente, los diplomas del SENA en sistemas, el Ingles y la vida saludable que he vivido a lo largo de mi vida me he tomado la decisión de compartir con ustedes este proyecto innovador alineado con los objetivos de desarrollo sostenible, caminando hacia la sostenibilidad con el ambiente e innovación como lo ha hecho Singapur hasta hoy un medidor de distancia GPS que toma la distancia que se recorre y el tiempo lo que es más fundamental para una persona que hace ejercicio distancia y tiempo. Sirve para caminar, correr, trotar, viajar en bicicletas y más.</p>    
+    </div> </p>
+   <div class="image-row">
+    <img src="original.jpeg" alt="Hope"  >
+    <img src="blue.jpeg" alt="Blue" >
+    <img src="pink.jpeg" alt="Pink" >
+    <img src="cheetah.jpeg" alt="Cheetah Guepardo">
+   
+  </div>
+
+
+  
+  <div class="w3-container w3-padding-64" >
+    <h1>GPS Running App Calcula Calorias por Distancia + En Reposo </h1><br>
+   <p class="w3-large w3-text-grey w3-hide-medium"></p>    </h1><br>
+   <p class="w3-large w3-text-grey w3-hide-medium"></p>    
+    </div> </p>
+   <div class="image-row">
+    <img src="camilo.jpeg" alt="Hope"  >
+   
+    <img src="maple.jpeg" alt="Pink" >
+   <img src="neutral.jpeg" alt="Hope"  >
+    <img src="wom.jpeg" alt="Ronaldo" >
+  </div>
+
+  <div class="w3-container w3-padding-64" >
+    <h1>App Alma de Atleta</h1><br>
+   <p class="w3-large w3-text-grey w3-hide-medium"></p>    
+    </div> </p>
+  <div class="image-row">
+  <!-- Image 1 plays its audio when clicked -->
+  <img src="beatshearth.jpeg" alt="Beats Hearth" onclick="document.getElementById('audio1').play()">
+  <audio id="audio1" src="gracias.mp3"></audio>
+
+  <!-- Image 2 plays its audio when clicked -->
+  <img src="Database.jpeg" alt="Hope" onclick="document.getElementById('audio2').play()">
+  <audio id="audio2" src="gracias.mp3"></audio>
+
+  <!-- Image 3 plays its audio when clicked -->
+  <img src="inicio.jpeg" alt="Blue" onclick="document.getElementById('audio3').play()">
+  <audio id="audio3" src="gracias.mp3"></audio>
+
+  <!-- Image 4 plays its audio when clicked -->
+  <img src="mapalma.jpeg" alt="Mapalma" onclick="document.getElementById('audio4').play()">
+  <audio id="audio4" src="gracias.mp3"></audio>
+
+  <!-- Image 5 plays its audio when clicked -->
+  <img src="recipe.jpeg" alt="Recipe" onclick="document.getElementById('audio5').play()">
+  <audio id="audio5" src="gracias.mp3"></audio>
+</div>
+
+  <button onclick="window.location.href='tabla.html';" class="start" style="width: 100px; height: 50px;">
+ Tabla
+</button>
+   <a href="tabla.html" class="w3-bar-item w3-button">Tabla</a>
+ <audio autoplay controls id="myAudio">
+  <source src="wild.mp3" type="audio/mpeg" id="myAudio">
+  Your browser does not support the audio element.
+</audio>
+<script>
+document.addEventListener('click', () => {
+    const audio = document.getElementById('myAudio');
+    audio.play();
+}, { once: true }); // Runs only once after the first click
+</script>
+  <hr>
+    
+ <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Widget</a> is loading comments...</div>
+ <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
+ <script type="text/javascript" id="hcb"> /*<!--*/ if(!window.hcb_user){hcb_user={};} (function(){var s=document.createElement("script"), l=hcb_user.PAGE || (""+window.location).replace(/'/g,"%27"), h="https://www.htmlcommentbox.com";s.setAttribute("type","text/javascript");s.setAttribute("src", h+"/jread?page="+encodeURIComponent(l).replace("+","%2B")+"&mod=%241%24wq1rdBcg%247aB745nspKAd5Xstqg1Kt1"+"&opts=16862&num=10&ts=1554953903298");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})(); /*-->*/ </script>
+
+    </form>
+  </div>
+  <!-- Contact Section -->
+  <div class="w3-container w3-padding-64" id="contact">
+    <h1>Contact</h1><br>
+   <p class="w3-large">WhatsApp: 3156545314</p>
+   <form id="dataForm" action="https://script.google.com/macros/s/AKfycbz9GEtwO0ItSHohFbFtK5MkxCA35wDjFaJ37BGuSv1zgS-l3GAqMFK002U9uCarsggXAQ/exec" method="POST">
+        <div class="form-group">
+            <label for="Name">Name:</label>
+            <input type="text" id="Name" name="Name" required>
+        </div>
+        <div class="form-group">
+            <label for="Address">Address:</label>
+            <input type="text" id="Address" name="Address" required>
+        </div>
+        <!-- Added Phone Field Here -->
+        <div class="form-group">
+            <label for="Phone">Phone Number:</label>
+            <input type="tel" id="Phone" name="Phone" required>
+        </div>
+        <button type="submit" id="submitBtn">Submit Data</button>
+    </form>
+      
+    </form>
+  </div>
+  
+  
+  
+<!-- End page content -->
+</div>
+
+<!-- Footer -->
+<footer class="w3-center w3-light-grey w3-padding-32">
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">Cristian Mauricio Arcos Gracias a w3.css</a></p>
+</footer>
+
+</body>
+</html>

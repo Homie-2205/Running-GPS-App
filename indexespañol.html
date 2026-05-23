@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <title>Modern Responsive Layout</title>
+    <style>
+        .container2 {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        #display {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            transition: transform 0.1s, opacity 0.2s;
+        }
+
+        /* Base Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Georgia, serif; }
+        body { background-color: #f4f7f6; color: #333; line-height: 1.6; }
+
+        /* Navigation */
+        nav {
+            background: #4dff4d;
+            color: black;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        nav ul {  
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #4dff4d; 
+            display: flex;
+        }
+        nav ul li { float: left; }
+        nav ul li a {  
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        nav a:hover, nav ul li a:hover { background-color: #3ce63c; }
+
+        /* Header (Hero Section) */
+        header {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('land.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 0 20px;
+        }
+        header h1 { font-size: 3.5rem; margin-bottom: 10px; color: white; }
+        header p { font-size: 1.2rem; max-width: 600px; }
+
+        /* Main Content Grid */
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+footer {
+            background-color: #222;
+            color: #fff;
+            padding: 20px 5%; /* Generous top/bottom padding makes it taller */
+            font-size: 1.1rem; /* Slightly larger text size */
+            margin-top: 15px;
+        }
+        
+         .footer-section {
+            flex: 1;
+            min-width: 50px;
+        }
+        
+        .footer-section p {
+            color: #ccc;
+        }
+        .footer-bottom {
+            text-align: center;
+            margin-top: 8px;
+            padding-top: 7px;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 0.95rem;
+        }
+
+        /* Content Blocks */
+        .main-content { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); }
+        .sidebar { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); height: fit-content; }
+
+        h2, h3 { 
+            color: #2ecc71;
+            margin-bottom: 15px;
+            font-size: 30px;
+            font-family: Georgia, Serif;
+            letter-spacing: 2px;
+        }
+        p { 
+            margin-bottom: 20px;
+            font-size: 17px;
+            font-family: Georgia, Serif;
+            text-align: left;
+            color: #555;
+        }
+
+        /* Images */
+        .content-img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        /* Contact Form Formats */
+        .contact-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        .contact-section input, .contact-section textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .btn-submit {
+            background-color: #4dff4d;
+            color: black;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        /* Footer styling */
+        footer {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; }
+            header h1 { font-size: 2.5rem; }
+            nav { flex-direction: column; }
+            nav ul { margin-top: 15px; flex-direction: column; width: 100%; }
+            nav ul li { text-align: center; width: 100%; }
+            nav ul li a:hover { background-color: #003300; color: white; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Horizontal Navigation -->
+    <nav>
+        <div class="lang-flags">
+            <a href="index.html" class="w3-bar-item w3-button">
+                <img src="co.png" style="width:20px;" class="w3-margin-right" alt="ES"> 
+            </a>
+            <a href="indexEnglish.html" class="w3-bar-item w3-button">
+                <img src="usa.png" style="width:20px;" class="w3-margin-right" alt="EN"> 
+            </a>
+            <a href="indexFrancais.html" class="w3-bar-item w3-button">
+                <img src="fr.png" style="width:20px;" class="w3-margin-right" alt="FR">
+            </a>
+        </div>
+        
+        <ul>
+            <li><a href="index.html">Principal</a></li>
+            <li><a href="Pedagogía.html">Pedagogía</a></li>
+            <li><a href="Proyectos.html">Proyectos</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header Section -->
+    <header>
+        <h1>Bienvenido</h1>
+        <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 8px; margin-top: 10px;">
+            <input type="text" id="userName" placeholder="Enter your name">
+            <button onclick="greetUser()" style="background: #4dff4d;">Greet me</button>
+            <p id="greetingText" style="margin: 10px 0 0 0; color: black; font-weight: bold;"></p>
+        </div>
+    </header>
+    
+    <script>
+      function greetUser() {
+        const name = document.getElementById('userName').value;
+        const display = document.getElementById('greetingText');
+        if (name.trim() !== "") {
+          display.textContent = `Hi, ${name}! What's up homie.`;
+        } else {
+          display.textContent = "Please enter a name!";
+        }
+      }
+    </script>
+
+    <!-- Content Area -->
+    <div class="container">
+        <!-- Main Content -->
+        <div class="main-content">
+            <h2>Cristian Is</h2>
+            <p class="w3-large">My applications are based on the calorie calculation formula: Calories = Body Weight (kg) × Distance (km) × Coefficient. This is the simplified formula, embedded in the code. Fitness experts and researchers use it. I hold a degree in English from Florida (USA) and a computer science certification from SENA, among other qualifications.</p>
+            <p class="w3-large w3-text-grey w3-hide-medium">I'm passionate about fitness and running. I use my apps and they work wonderfully. Many people around the world inspire me and contribute positively to this project. Seeing my well-defined pecs, running, doing CrossFit, functional training, or circuit training—it all makes me feel good. And the encouragement from influencers and YouTubers like Weyni Tesfai (Germany), Lily Petals (South Korea), Ashley (USA), and many others makes me even happier. Words have a soothing power.</p>
+            
+            <img src="fotoabril3.jpeg" class="w3-round w3-image w3-opacity-min content-img" alt="Table Setting">
+            
+            <h2>Principles And Values</h2>
+            <p class="w3-large">Many Americans talk about work ethic, meaning working honestly. Like Tiffani, the English teacher who worked at NASA, if you want something, work honestly to get it. Even during the national unemployment period, I didn't pick a single grape or banana. I'm honest, like the Singaporeans.</p>
+            <p class="w3-large w3-text-grey w3-hide-medium">I love Jesus' values. He said that the Church is the people, not temples built by men. Arnold Schwarzenegger and Will Smith, at some point in their lives, worked in construction to invest in themselves, build their careers, and advance. They express themselves eloquently and inspire others with this quote: "Hard work never killed anyone."</p>
+            
+            <img class="w3-image content-img" src="imderme.jpg" alt="Menu">
+            
+           
+                <h2>GPS Running App</h2>
+                <p class="w3-large w3-text-grey w3-hide-medium">Influenced by the words of American entrepreneurs and the Korean YouTuber Lily Petals, and drawing on my SENA degree in Information Systems, my English, and a healthy lifestyle, I decided to share this innovative project with you, aligned with the Sustainable Development Goals. From a sustainable development perspective, respectful of the environment and focused on innovation, like Singapore, this GPS tracker measures distance traveled and time—essential data for athletes. It is suitable for walking, running, jogging, and tracking optimization.</p>
+                
+                <div class="image-row">
+    <img src="original.jpeg" alt="Hope"  >
+    <img src="blue.jpeg" alt="Blue" >
+    <img src="pink.jpeg" alt="Pink" >
+    <img src="cheetah.jpeg" alt="Cheetah Guepardo">
+  
+  </div>
+  <div class="w3-container w3-padding-64" >
+    <h1>GPS Running App Work out Calories + Resting Calories</h1><br>
+   <p class="w3-large w3-text-grey w3-hide-medium"></p>    </h1><br>
+   <p class="w3-large w3-text-grey w3-hide-medium"></p>    
+    </div> </p>
+   <div class="image-row">
+    <img src="camilo.jpeg" alt="Hope"  >
+   
+    <img src="maple.jpeg" alt="Pink" >
+  <img src="neutral.jpeg" alt="Hope"  >
+    <img src="wom.jpeg" alt="Ronaldo" >
+  </div>
+
+ 
+  <div class="w3-container w3-padding-64" >
+    <h1>GPS Running Track Soul</h1><br>
+   <p class="w3-large w3-text-grey w3-hide-medium"></p>    
+    </div> </p>
+ <div class="image-row">
+  <!-- Image 1 plays its audio when clicked -->
+  <img src="beatshearth.jpeg" alt="Beats Hearth" onclick="document.getElementById('audio1').play()">
+  <audio id="audio1" src="gracias.mp3"></audio>
+
+  <!-- Image 2 plays its audio when clicked -->
+  <img src="Database.jpeg" alt="Hope" onclick="document.getElementById('audio2').play()">
+  <audio id="audio2" src="gracias.mp3"></audio>
+
+  <!-- Image 3 plays its audio when clicked -->
+  <img src="inicio.jpeg" alt="Blue" onclick="document.getElementById('audio3').play()">
+  <audio id="audio3" src="gracias.mp3"></audio>
+
+  <!-- Image 4 plays its audio when clicked -->
+  <img src="mapalma.jpeg" alt="Mapalma" onclick="document.getElementById('audio4').play()">
+  <audio id="audio4" src="gracias.mp3"></audio>
+
+  <!-- Image 5 plays its audio when clicked -->
+  <img src="recipe.jpeg" alt="Recipe" onclick="document.getElementById('audio5').play()">
+  <audio id="audio5" src="gracias.mp3"></audio>
+</div>
+ <audio autoplay controls id="myAudio">
+  <source src="Michael.mp3" type="audio/mpeg" id="myAudio">
+  Your browser does not support the audio element.
+</audio>               
+                
+                
+                
+            </div>
+       
+           
+            </div>
+            </div>
+    
+
+        <!-- Sidebar Section -->
+       
+             <div class="contact-section">
+                <h3>Contact Me</h3>
+              
+                    <label for="name">Name</label>
+                    </div>
+            </div>
+            <!-- Contact Form Area inside layout -->
+           
+                    
+                      <footer>
+        <p>&copy; 2026 Your Company. All rights reserved.</p>
+        <p>
+            <a href="#">Privacy Policy</a> | 
+            <a href="#">Terms of Service</a>
+        </p>
+    </footer>
+    
+    </body>
+</html>
+

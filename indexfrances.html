@@ -218,7 +218,7 @@ footer {
         <h1>Bienvenido</h1>
         <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 8px; margin-top: 10px;">
             <input type="text" id="userName" placeholder="Enter your name">
-            <button onclick="greetUser()" style="background: #4dff4d;">Greet me</button>
+            <button onclick="greetUser()" style="background: #4dff4d;">Dis Bonjour</button>
             <p id="greetingText" style="margin: 10px 0 0 0; color: black; font-weight: bold;"></p>
         </div>
     </header>
@@ -228,9 +228,9 @@ footer {
         const name = document.getElementById('userName').value;
         const display = document.getElementById('greetingText');
         if (name.trim() !== "") {
-          display.textContent = `Hi, ${name}! What's up homie.`;
+          display.textContent = `Salut, ${name}! Ça va.`;
         } else {
-          display.textContent = "Please enter a name!";
+          display.textContent = "S'il vous plait écrivez votre prénom !!";
         }
       }
     </script>

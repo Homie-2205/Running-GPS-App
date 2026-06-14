@@ -263,16 +263,81 @@ function openExtensionPopup() {
   <div class="w3-container w3-padding-64" id="contact">
     <h1>Contact</h1><br>
    <p class="w3-large">WhatsApp: 3156545314</p>
+
+         <form id="dataForm" action="https://script.google.com/macros/s/AKfycbz9GEtwO0ItSHohFbFtK5MkxCA35wDjFaJ37BGuSv1zgS-l3GAqMFK002U9uCarsggXAQ/exec" method="POST">
+        <div class="form-group">
+            <label for="Name">Name:</label>
+            <input type="text" id="Name" name="Name" required>
+        </div>
+        <div class="form-group">
+            <label for="Address">Address:</label>
+            <input type="text" id="Address" name="Address" required>
+        </div>
+        <!-- Added Phone Field Here -->
+        <div class="form-group">
+            <label for="Phone">Phone Number:</label>
+            <input type="tel" id="Phone" name="Phone" required>
+        </div>
+        <button type="submit" id="submitBtn">Submit Data</button>
+    </form>
+
+       <div id="message"></div>
+         <script>
+     const form = document.getElementById('dataForm');
+const messageDiv = document.getElementById('message');
+const submitBtn = document.getElementById('submitBtn');
+
+form.addEventListener('submit', function(e) {
+    // Keeps you on the same page
+    e.preventDefault(); 
+    
+    submitBtn.disabled = true;
+    messageDiv.textContent = "Submitting...";
+    messageDiv.style.color = "black";
+
+    const formData = new FormData(form);
+    const urlEncodedData = new URLSearchParams(formData);
+
+       fetch(form.action, {
+        method: 'POST',
+        body: urlEncodedData, // Added missing comma here
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Server responded with status ${response.status}`);
+        }
+        return response.text(); 
+    })
+    .then(text => {
+        submitBtn.disabled = false;
+        
+        try {
+            const data = JSON.parse(text);
+            console.log("Success Data:", data);
+        } catch (e) {
+            console.log("Server responded with plain text instead of JSON:", text);
+        }
+              
+
+        messageDiv.textContent = "Data submitted successfully!";
+        messageDiv.style.color = "green";
+        form.reset();
+    })
+    .catch(error => {
+        submitBtn.disabled = false;
+        messageDiv.textContent = "Error submitting data. Please check your script.";
+        messageDiv.style.color = "red";
+        console.error("Submission Error Details:", error); 
+    });
+});
+
     </div>
   
 
-<script>
-document.addEventListener('click', () => {
-    const audio = document.getElementById('myAudio');
-    audio.play();
-}, { once: true }); // Runs only once after the first click
-</script>
-         
+
 
 
 

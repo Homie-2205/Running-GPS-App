@@ -294,6 +294,17 @@ function openExtensionPopup() {
             
             <p>Me apasiona el fitness y correr. Uso mis aplicaciones y funcionan de maravilla. Mucha gente alrededor del mundo me inspira y contribuye positivamente a este proyecto. Ver mis pectorales bien definidos, correr, hacer CrossFit, entrenamiento funcional o entrenamiento en circuito, todo me hace sentir bien. Y el apoyo de influencers y youtubers como Weyni Tesfai (Alemania), Lily Petals (Corea del Sur), Ashley (EE. UU.) y muchos otros me hace aún más feliz. Las palabras tienen un poder reconfortante.</p>
             </div>
+              <audio autoplay controls id="myAudio">
+  <source src="Michael.mp3" type="audio/mpeg" id="myAudio">
+  Your browser does not support the audio element.
+</audio>
+<script>
+document.addEventListener('click', () => {
+    const audio = document.getElementById('myAudio');
+    audio.play();
+}, { once: true }); // Runs only once after the first click
+</script>
+
                 <div class="container-section">
             <section class="photo-gallery">
             <img src="imderme.jpg"  style="width: 300px; height: 250px;" >

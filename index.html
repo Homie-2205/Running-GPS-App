@@ -99,6 +99,46 @@
   padding: 0;
   gap: 1rem;          /* Spacing between language choices */
 }
+        .custom-button {
+  /* Layout & Sizing */
+  display: inline-block;
+  padding: 12px 24px;
+  
+  /* Typography */
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  
+  /* Colors & Borders */
+  color: #ffffff;
+  background-color: #0076ff;
+  border: none;
+  border-radius: 8px;
+  
+  /* Interactivity & Performance */
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Hover State: When the mouse pointer sits over the button */
+.custom-button:hover {
+  background-color: #005ce6;
+}
+
+/* Active State: When the button is being clicked */
+.custom-button:active {
+  transform: scale(0.98);
+}
+
+/* Focus State: When navigating via keyboard for web accessibility */
+.custom-button:focus-visible {
+  outline: 3px solid #80bfff;
+  outline-offset: 2px;
+}
+
 
         
 
@@ -178,10 +218,9 @@
   </ul>
      
  
-        <ul class="lang-list">
-     
-          <li>  <a href="#">Airbnb</a>  </li>
-       
+        <ul class="nav-links">
+            
+            <li><a href="#">Santa Elena</a></li>
             
         </ul>
     </nav>
@@ -192,7 +231,7 @@
         <p>No hay nada imposible para quien intenta</p>
     </header>
 <input type="text" id="userName" placeholder="Pon tu nombre">
-<button onclick="greetUser()">Saludame</button>
+<button  class="custom-button" onclick="greetUser()">Saludame</button>
 
 <p id="greetingText"></p>
 
@@ -274,6 +313,7 @@ function openExtensionPopup() {
         
             </div>
         <div class="container-section">
+             <section class="content-text">
         <h2>Extension Funciona en Equipos de Escritorios</h2>
 <section class="photo-gallery">
             <img src="screen.png" alt="Open Extension" width="200" style="cursor: pointer;" 
@@ -284,10 +324,12 @@ function openExtensionPopup() {
              
          
             <img src="screen3.png">
+</section>
         </div>
             
         </section>
         <div class="container-section">
+               <section class="content-text">
         <h2>Alma De Atleta</h2>
         
         <section class="photo-gallery">
@@ -300,8 +342,9 @@ function openExtensionPopup() {
   <img src="mapalma.jpeg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="document.getElementById('audio4').play()">
   <audio id="audio4" src="gracias.mp3"></audio>
  </section>
+                      </section>
         </div>
-            </section>
+         
          
             <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Widget</a> is loading comments...</div>
  <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
@@ -311,6 +354,8 @@ function openExtensionPopup() {
   </div>
   <!-- Contact Section -->
    <div class="container-section">
+
+          <section class="content-text">
     <h2>Contact</h2><br>
    <p class="w3-large">WhatsApp: 3156545314</p>
 
@@ -328,8 +373,9 @@ function openExtensionPopup() {
             <label for="Phone">Phone Number:</label>
             <input type="tel" id="Phone" name="Phone" required>
         </div>
-        <button type="submit" id="submitBtn">Submit Data</button>
+        <button  class="custom-button" type="submit" id="submitBtn">Submit Data</button>
     </form>
+          </section>
 
        <div id="message"></div>
          <script>

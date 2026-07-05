@@ -306,9 +306,17 @@ document.addEventListener('click', () => {
         <h2>
 Extension Works on Desktop Computers</h2>
 <section class="photo-gallery">
-            <img src="screen.png" alt="Open Extension" width="200" style="cursor: pointer;" 
-     onclick="openExtensionPopup()">
-            
+           <img src="screen.png" alt="Open Extension" width="200" style="cursor: pointer;" onclick="openExtensionPopup()">
+
+<script>
+function openExtensionPopup() {
+    // This opens page.html in a new browser tab
+    window.open('page.html', '_blank');
+    
+    // OR: If you want it to open in the SAME tab instead, use this line:
+    // window.location.href = 'page.html';
+}
+</script>
             <img src="screen2.png" alt="Open Extension" width="200" style="cursor: pointer;" 
      onclick="openExtensionPopup()">
              

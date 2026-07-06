@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertidor MP4 a MP3</title>
+    <style>
+        /* --- ESTILOS CSS --- */
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg: #f9fafb;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #111827;
+        }
+
+        p {
+            color: #6b7280;
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .file-drop-area {
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: border-color 0.3s;
+            margin-bottom: 1.5rem;
+        }
+
+        .file-drop-area:hover {
+            border-color: var(--primary);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-msg {
+            font-size: 0.9rem;
+            color: #4b5563;
+            word-break: break-all;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        /* Estado de carga */
+        .status-container {
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            height: 8px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background-color: var(--primary);
+            transition: width 0.1s;
+        }
+
+        #downloadLink {
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        #downloadLink:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Convertidor MP4 a MP3</h1>
+        <p>Extrae el audio de tus videos localmente y de forma segura.</p>
+
+        <div class="file-drop-area" id="dropArea">
+            <span class="file-msg" id="fileMsg">Arrastra tu video MP4 aquí o haz clic para buscar</span>
+            <input class="file-input" type="file" id="videoInput" accept="video/mp4">
+        </div>
+
+        <button class="btn" id="convertBtn" disabled>Convertir a MP3</button>
+
+        <div class="status-container" id="statusContainer">
+            <span id="statusText">Cargando herramientas de conversión...</span>
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+        </div>
+
+        <a id="downloadLink" style="display: none;">¡Descargar MP3!</a>
+    </div>
+
+    <script type="module">
+        import { FFmpeg } from 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.6/dist/esm/index.js';
+        import { fetchFile } from 'https://unpkg.com/@ffmpeg/util@0.12.1/dist/esm/index.js';
+
+        const ffmpeg = new FFmpeg();
+        
+        // Elementos del DOM
+        const videoInput = document.getElementById('videoInput');
+        const dropArea = document.getElementById('dropArea');
+        const fileMsg = document.getElementById('fileMsg');
+        const convertBtn = document.getElementById('convertBtn');
+        const statusContainer = document.getElementById('statusContainer');
+        const statusText = document.getElementById('statusText');
+        const progress = document.getElementById('progress');
+        const downloadLink = document.getElementById('downloadLink');
+
+        let videoFile = null;
+
+        // Eventos para seleccionar archivo
+        dropArea.addEventListener('click', () => videoInput.click());
+        
+        videoInput.addEventListener('change', (e) => {
+            handle

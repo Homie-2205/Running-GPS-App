@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Camera</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Buttons */
+        .toggle-btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #28a745;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background 0.2s;
+        }
+
+        .toggle-btn:hover {
+            background-color: #218838;
+        }
+
+        /* FIXED: Instead of display: none, we shrink and hide it visually.
+           Browsers will reject PiP requests on elements with display: none. */
+        video {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="controls">
+        <button id="startBtn">EMPEZAR GRABACIÓN</button>
+        <button id="stopBtn" >FINALIZAR GRABACIÓN</button>
+    </div>
+    <div class="btn-group">
+        <button class="toggle-btn" id="pipBtn">Float on Screen (PiP)</button>
+    </div>
+
+    <video id="webcam" autoplay playsinline muted></video>
+
+
+ <script src="popup.js"></script>
+       <script src="popup4.js"></script>
+
+    <script>
+        const pipBtn = document.getElementById('pipBtn');
+        const video = document.getElementById('webcam');
+        let stream = null;
+
+        pipBtn.addEventListener('click', async () => {
+            try {
+                // 1. If already in PiP mode, exit it
+                if (document.pictureInPictureElement) {
+                    await document.exitPictureInPicture();
+                    return; // The 'leavepictureinpicture' event handles stopping the camera
+                }
+
+                // 2. Start camera if it's not active yet
+                if (!stream) {
+                    stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                    video.srcObject = stream;
+
+                    // Play explicitly and wait for the stream to become active
+                    await video.play();
+                }
+
+                // 3. Trigger Picture-in-Picture
+                if (document.pictureInPictureEnabled) {
+                    await video.requestPictureInPicture();
+                } else {
+                    alert("Your browser does not support Picture-in-Picture.");
+                }
+
+            } catch (err) {
+                console.error("Initialization failed:", err);
+                alert("Could not start floating mode. Ensure camera access is allowed.");
+                stopCamera();
+            }
+        });
+
+        // Track when user closes PiP via native browser UI controls or code
+        video.addEventListener('leavepictureinpicture', () => {
+            pipBtn.textContent = 'Float on Screen (PiP)';
+            pipBtn.style.backgroundColor = '#28a745';
+            stopCamera(); 
+        });
+
+        video.addEventListener('enterpictureinpicture', () => {
+            pipBtn.textContent = 'Stop Floating';
+            pipBtn.style.backgroundColor = '#dc3545'; // Red toggle when active
+        });
+
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                video.srcObject = null;
+                stream = null;
+            }
+        }
+    </script>
+</body>
+</html>

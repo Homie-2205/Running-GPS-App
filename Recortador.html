@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recortador de Video Real HTML5</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a24;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        h1 { margin-bottom: 20px; color: #4facfe; }
+        .contenedor {
+            background-color: #252538;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input[type="file"] {
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #333;
+            border-radius: 6px;
+            border: 1px solid #555;
+            color: #ddd;
+            width: 100%;
+        }
+        video {
+            max-width: 100%;
+            border-radius: 8px;
+            display: none;
+            margin-bottom: 20px;
+        }
+        .controles {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .input-grupo {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        input[type="number"] {
+            padding: 8px;
+            border-radius: 4px;
+            border: none;
+            width: 80px;
+            background: #333;
+            color: white;
+        }
+        button {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,242,254,0.4);
+        }
+        button:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        #estado {
+            margin: 10px 0;
+            color: #00f2fe;
+            font-weight: bold;
+        }
+        .resultado {
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Recortador de Video Real</h1>
+    
+    <div class="contenedor">
+        <input type="file" id="subirVideo" accept="video/*">
+        
+        <video id="videoOriginal" controls muted></video>
+
+        <div class="controles">
+            <div class="input-grupo">
+                <label for="tiempoInicio">Inicio (s):</label>
+                <input type="number" id="tiempoInicio" value="0" min="0" step="0.5">
+            </div>
+            <div class="input-grupo">
+                <label for="tiempoFin">Fin (s):</label>
+                <input type="number" id="tiempoFin" value="5" min="0" step="0.5">
+            </div>
+            <button id="btnRecortar">Procesar Recorte</button>
+        </div>
+
+        <div id="estado"></div>
+
+        <div class="resultado" id="contenedorResultado">
+            <h3>Video Recortado:</h3>
+            <video id="videoResultado" controls style="display:block; margin-top:10px;"></video>
+            <a id="descargarBtn" style="text-decoration: none;">
+                <button style="margin-top: 15px; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">Descargar Video (.webm)</button>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const subirVideo = document.getElementById('subirVideo');
+        const videoOriginal = document.getElementById('videoOriginal');
+        const btnRecortar = document.getElementById('btnRecortar');
+        const contenedorResultado = document.getElementById('contenedorResultado');
+        const videoResultado = document.getElementById('videoResultado');
+        const descargarBtn = document.getElementById('descargarBtn');
+        const tiempoInicio = document.getElementById('tiempoInicio');
+        const tiempoFin = document.getElementById('tiempoFin');
+        const estado = document.getElementById('estado');
+
+        let stream, mediaRecorder, fragmentos = [];
+
+        subirVideo.addEventListener('change', function(event) {
+            const archivo = event.target.files[0];
+            if (archivo) {
+                const url = URL.createObjectURL(archivo);
+                videoOriginal.src = url;
+                videoOriginal.style.display = 'block';
+                contenedorResultado.style.display = 'none';
+                
+                videoOriginal.onloadedmetadata = function() {
+                    tiempoInicio.value = 0;
+                    tiempoFin.value = Math.min(5, videoOriginal.duration).toFixed(1);
+                    tiempoFin.max = videoOriginal.duration;
+                    tiempoInicio.max = videoOriginal.duration;
+                };
+            }
+        });
+
+        btnRecortar.addEventListener('click', function() {
+            const inicio = parseFloat(tiempoInicio.value);
+            const fin = parseFloat(tiempoFin.value);
+
+            if (inicio >= fin || fin > videoOriginal.duration) {
+                alert("Por favor verifica los tiempos seleccionados.");
+                return;
+            }
+
+            btnRecortar.disabled = true;
+            contenedorResultado.style.display = 'none';
+            estado.innerText = "Procesando y grabando fragmento...";
+
+            // Capturar el flujo de video y audio del elemento nativo
+            // Soporta navegadores modernos Chrome/Firefox/Edge
+            const videoStream = videoOriginal.captureStream ? videoOriginal.captureStream() : videoOriginal.mozCaptureStream();
+            
+            fragmentos = [];
+            mediaRecorder = new MediaRecorder(videoStream, { mimeType: 'video/webm;codecs=vp9,opus' });
+
+            mediaRecorder.ondataavailable = function(e) {
+                if (e.data && e.data.size > 0) fragmentos.push(e.data);
+            };
+
+            mediaRecorder.onstop = function() {
+                const blobRecortado = new Blob(fragmentos, { type: 'video/webm' });
+                const urlVideo = URL.createObjectURL(blobRecortado);
+                
+                videoResultado.src = urlVideo;
+                descargarBtn.href = urlVideo;
+                descargarBtn.download = `video_recortado_${parseInt(inicio)}s_${parseInt(fin)}s.webm`;
+                
+                contenedorResultado.style.display = 'flex';
+                estado.innerText = "¡Recorte finalizado con éxito!";
+                btnRecortar.disabled = false;
+            };
+
+            // Posicionar el video en el inicio e iniciar grabación sincronizada
+            videoOriginal.currentTime = inicio;
+            
+            videoOriginal.onseeked = function() {
+                mediaRecorder.start();
+                videoOriginal.play();
+                
+                // Monitorear el tiempo de reproducción para detener la grabación de forma exacta
+                const checkTime = setInterval(() => {
+                    if (videoOriginal.currentTime >= fin || videoOriginal.ended) {
+                        clearInterval(checkTime);
+                        videoOriginal.pause();
+                        mediaRecorder.stop();
+                    }
+                }, 30);
+            };
+        });
+    </script>
+</body>
+</html>
+

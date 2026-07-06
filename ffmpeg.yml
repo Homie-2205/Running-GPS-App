@@ -1,0 +1,12 @@
+name: Procesar Video con FFmpeg
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Instalar FFmpeg
+      run: sudo apt update && sudo apt install -y ffmpeg
+    - name: Convertir Video
+      run: ffmpeg -i video_original.mp4 -vcodec libx264 -crf 28 video_comprimido.mp4
+

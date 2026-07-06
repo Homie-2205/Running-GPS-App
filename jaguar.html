@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Camera</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            /* New Unsplash background featuring a jaguar in a dark lush forest */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("https://unsplash.com");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Organized Dashboard Container */
+        .dashboard {
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            padding: 25px 35px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .dashboard-title {
+            color: #ffffff;
+            margin: 0 0 5px 0;
+            font-size: 22px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Buttons organized into a neat horizontal layout */
+        .controls-container {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Clean Base Button Styling */
+        button {
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: all 0.2s ease-in-out;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Individual Button Color Rules */
+        #startBtn {
+            background-color: #28a745;
+        }
+        #startBtn:hover {
+            background-color: #218838;
+        }
+
+        #stopBtn {
+            background-color: #dc3545;
+        }
+        #stopBtn:hover {
+            background-color: #c82333;
+        }
+
+        .toggle-btn {
+            background-color: #007bff;
+        }
+        .toggle-btn:hover {
+            background-color: #0069d9;
+        }
+
+        /* Video element hidden cleanly for PiP hack */
+        video {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Unified UI Container -->
+    <div class="dashboard">
+        <h2 class="dashboard-title">Camera Console</h2>
+        <div class="controls-container">
+            <button id="startBtn">Empezar Grabación</button>
+            <button class="toggle-btn" id="pipBtn">Cámara</button>
+            <button id="stopBtn">Finalizar Grabación</button>
+        </div>
+    </div>
+
+    <video id="webcam" autoplay playsinline muted></video>
+
+    <script src="popup.js"></script>
+    <script src="popup4.js"></script>
+
+    <script>
+        const pipBtn = document.getElementById('pipBtn');
+        const video = document.getElementById('webcam');
+        let stream = null;
+
+        pipBtn.addEventListener('click', async () => {
+            try {
+                if (document.pictureInPictureElement) {
+                    await document.exitPictureInPicture();
+                    return; 
+                }
+
+                if (!stream) {
+                    stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                    video.srcObject = stream;
+                    await video.play();
+                }
+
+                if (document.pictureInPictureEnabled) {
+                    await video.requestPictureInPicture();
+                } else {
+                    alert("Your browser does not support Picture-in-Picture.");
+                }
+
+            } catch (err) {
+                console.error("Initialization failed:", err);
+                alert("Could not start floating mode. Ensure camera access is allowed.");
+                stopCamera();
+            }
+        });
+
+        video.addEventListener('leavepictureinpicture', () => {
+            pipBtn.textContent = 'Cámara';
+            pipBtn.style.backgroundColor = '#007bff';
+            stopCamera(); 
+        });
+
+        video.addEventListener('enterpictureinpicture', () => {
+            pipBtn.textContent = 'Stop Floating';
+            pipBtn.style.backgroundColor = '#dc3545'; 
+        });
+
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                video.srcObject = null;
+                stream = null;
+            }
+        }
+    </script>
+</body>
+</html>
+

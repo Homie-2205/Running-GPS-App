@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recortador de Video HTML5</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a24;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        h1 { margin-bottom: 20px; color: #4facfe; }
+        .contenedor {
+            background-color: #252538;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input[type="file"] {
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #333;
+            border-radius: 6px;
+            border: 1px solid #555;
+            color: #ddd;
+        }
+        video {
+            max-width: 100%;
+            border-radius: 8px;
+            display: none; /* Oculto hasta que se cargue el video */
+            margin-bottom: 20px;
+        }
+        .controles {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        button {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,242,254,0.4);
+        }
+        button:active { transform: translateY(0); }
+        #canvas {
+            display: none;
+            border: 2px solid #4facfe;
+            border-radius: 8px;
+            max-width: 100%;
+        }
+        .resultado {
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Recortador de Video</h1>
+    
+    <div class="contenedor">
+        <input type="file" id="subirVideo" accept="video/*">
+        
+        <video id="videoOriginal" controls></video>
+
+        <div class="controles">
+            <label for="tiempoInicio">Segundo de inicio:</label>
+            <input type="number" id="tiempoInicio" value="0" min="0" step="0.1" style="padding:8px; border-radius:4px; border:none; width:80px;">
+            <button id="btnRecortar">Capturar Fotograma (Crop)</button>
+        </div>
+
+        <canvas id="canvas"></canvas>
+
+        <div class="resultado" id="contenedorResultado">
+            <h3>Fotograma Recortado:</h3>
+            <img id="imgResultado" alt="Fotograma recortado" style="max-width:100%; border-radius:8px;">
+            <a id="descargarBtn" download="fotograma.png" style="text-decoration: none;">
+                <button style="margin-top: 15px; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">Descargar Imagen</button>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const subirVideo = document.getElementById('subirVideo');
+        const videoOriginal = document.getElementById('videoOriginal');
+        const btnRecortar = document.getElementById('btnRecortar');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const contenedorResultado = document.getElementById('contenedorResultado');
+        const imgResultado = document.getElementById('imgResultado');
+        const descargarBtn = document.getElementById('descargarBtn');
+        const tiempoInicio = document.getElementById('tiempoInicio');
+
+        subirVideo.addEventListener('change', function(event) {
+            const archivo = event.target.files[0];
+            if (archivo) {
+                const url = URL.createObjectURL(archivo);
+                videoOriginal.src = url;
+                videoOriginal.style.display = 'block';
+                contenedorResultado.style.display = 'none';
+                canvas.style.display = 'none';
+            }
+        });
+
+        btnRecortar.addEventListener('click', function() {
+            if (videoOriginal.paused) {
+                videoOriginal.play();
+            }
+            
+            // Pausar en el segundo indicado
+            const tiempo = parseFloat(tiempoInicio.value);
+            videoOriginal.currentTime = tiempo;
+
+            // Esperar a que el video busque el fotograma exacto
+            videoOriginal.onseeked = function() {
+                // Ajustar el tamaño del canvas al tamaño real del video
+                canvas.width = videoOriginal.videoWidth;
+                canvas.height = videoOriginal.videoHeight;
+
+                // Dibujar el fotograma actual del video en el canvas
+                ctx.drawImage(videoOriginal, 0, 0, canvas.width, canvas.height);
+
+                // Exportar el contenido del canvas a formato imagen
+                const dataURL = canvas.toDataURL('image/png');
+                
+                // Mostrar la imagen resultante
+                imgResultado.src = dataURL;
+                descargarBtn.href = dataURL;
+                contenedorResultado.style.display = 'flex';
+                contenedorResultado.style.flexDirection = 'column';
+                contenedorResultado.style.alignItems = 'center';
+            };
+        });
+    </script>
+</body>
+</html>
+

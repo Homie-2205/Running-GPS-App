@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Subtitle Writer & Editor</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-container {
+            max-width: 1100px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 850px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background-color: #1e293b;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #38bdf8;
+            font-size: 1.5rem;
+        }
+
+        /* Video Elements */
+        .video-wrapper {
+            position: relative;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+        }
+
+        video::cue {
+            background-color: rgba(15, 23, 42, 0.85);
+            color: #ffffff;
+            font-size: 18px;
+            padding: 4px 8px;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            background: #0f172a;
+            border: 1px dashed #475569;
+            border-radius: 6px;
+            color: #94a3b8;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        /* Controls Form */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .time-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            color: #fff;
+            font-family: inherit;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 80px;
+        }
+
+        .time-row {
+            display: flex;
+            gap: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-secondary {
+            background-color: #475569;
+            color: #fff;
+            font-size: 0.8rem;
+        }
+
+        .btn-secondary:hover { background-color: #64748b; }
+
+        .btn-primary {
+            background-color: #38bdf8;
+            color: #0f172a;
+            width: 100%;
+            margin-top: 10px;
+            font-size: 1rem;
+        }
+
+        .btn-primary:hover { background-color: #7dd3fc; }
+
+        /* Subtitle List Panel */
+        .subtitle-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            background: #0f172a;
+        }
+
+        .subtitle-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid #334155;
+        }
+
+        .subtitle-item:last-child { border-bottom: none; }
+
+        .sub-details { font-size: 0.9rem; }
+        .sub-time { color: #38bdf8; font-size: 0.8rem; font-family: monospace; }
+
+        .btn-delete {
+            background-color: #ef4444;
+            color: white;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+        .btn-delete:hover { background-color: #f87171; }
+
+        /* VTT Output */
+        .vtt-output {
+            width: 100%;
+            height: 120px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            background: #0f172a;
+            color: #34d399;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    
+    <div class="panel">
+        <h2>1. Upload & View</h2>
+        <input type="file" id="videoFile" accept="video/mp4">
+        
+        <div class="video-wrapper">
+            <video id="videoPlayer" controls>
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <h2>2. Write Subtitle Line</h2>
+        <div class="form-group">
+            <div class="time-inputs">
+                <div>
+                    <label>Start Time</label>
+                    <div class="time-row">
+                        <input type="text" id="startTime" value="00:00:01.000">
+                        <button class="btn-secondary" onclick="captureTime('startTime')">Use Current</button>
+                    </div>
+                </div>
+                <div>
+                    <label>End Time</label>
+                    <div class="time-row">
+                        <input type="text" id="endTime" value="00:00:04.000">
+                        <button class="btn-secondary" onclick="captureTime('endTime')">Use Current</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Subtitle Text</label>
+            <textarea id="subtitleText" placeholder="Type what is being said here..."></textarea>
+        </div>
+        <button class="btn-primary" onclick="addSubtitle()">Add Subtitle Line</button>
+    </div>
+
+    <div class="panel">
+        <h2>Active Subtitles</h2>
+        <div class="subtitle-list" id="subtitleList">
+            <div style="padding: 15px; color: #64748b; text-align: center;">No subtitles added yet.</div>
+        </div>
+
+        <h2>Generated WebVTT Code</h2>
+        <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 10px;">Copy this text into a file named <code>subtitles.vtt</code> to save your work!</p>
+        <textarea id="vttOutput" class="vtt-output" readonly></textarea>
+    </div>
+
+</div>
+
+<script>
+    const videoPlayer = document.getElementById('videoPlayer');
+    const videoFileInput = document.getElementById('videoFile');
+    const subtitleList = document.getElementById('subtitleList');
+    const vttOutput = document.getElementById('vttOutput');
+    
+    let trackElement = null;
+    let subtitlesArray = [];
+
+    // Handle local file loading
+    videoFileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const fileURL = URL.createObjectURL(file);
+            videoPlayer.src = fileURL;
+            videoPlayer.load();
+            
+            // Clean up old track if it exists
+            if (trackElement) trackElement.remove();
+            
+            // Setup a new fresh subtitle track
+            trackElement = document.createElement('track');
+            trackElement.kind = 'subtitles';
+            trackElement.label = 'English';
+            trackElement.srclang = 'en';
+            trackElement.default = true;
+            videoPlayer.appendChild(trackElement);
+            
+            updateVTT();
+        }
+    });
+
+    // Capture standard timestamp format from video progress
+    function captureTime(inputId) {
+        const currentTime = videoPlayer.currentTime;
+        document.getElementById(inputId).value = formatTime(currentTime);
+    }
+
+    function formatTime(seconds) {
+        const date = new Date(null);
+        date.setSeconds(seconds);
+        const hours = String(date.getUTCHours()).padStart(2, '0');
+        const mins = String(date.getUTCMinutes()).padStart(2, '0');
+        const secs = String(date.getUTCSeconds()).padStart(2, '0');
+        
+        // Extract milliseconds
+        const ms = String(Math.floor((seconds % 1) * 1000)).padStart(3, '0');
+        
+        return `${hours}:${mins}:${secs}.${ms}`;
+    }
+
+    // Add subtitle line logic
+    function addSubtitle() {
+        const start = document.getElementById('startTime').value;
+        const end = document.getElementById('endTime').value;
+        const text = document.getElementById('subtitleText').value.trim();
+
+        if (!text) {
+            alert("Please type some text for the subtitle line.");
+            return;
+        }
+
+        subtitlesArray.push({ start, end, text });
+        
+        // Sort subtitles by start time chronologically
+        subtitlesArray.sort((a, b) => a.start.localeCompare(b.start));
+
+        // Reset text field for next line
+        document.getElementById('subtitleText').value = "";
+        
+        updateSubtitleUI();
+        updateVTT();
+    }
+
+    function deleteSubtitle(index) {
+        subtitlesArray.splice(index, 1);
+        updateSubtitleUI();
+        updateVTT();
+    }
+
+    function updateSubtitleUI() {
+        if (subtitlesArray.length === 0) {
+            subtitleList.innerHTML = '<div style="padding: 15px; color: #64748b; text-align: center;">No subtitles added yet.</div>';
+            return;
+        }
+
+        subtitleList.innerHTML = "";
+        subtitlesArray.forEach((sub, index) => {
+            const div = document.createElement('div');
+            div.className = 'subtitle-item';
+            div.innerHTML = `
+                <div class="sub-details">
+                    <div class="sub-time">${sub.start} &rarr; ${sub.end}</div>
+                    <div>${sub.text}</div>
+                </div>
+                <button class="btn-delete" onclick="deleteSubtitle(${index})">Delete</button>
+            `;
+            subtitleList.appendChild(div);
+        });
+    }
+
+    // Compile VTT content and safely push live updates directly to HTML5 track block
+    function updateVTT() {
+        let vttContent = "WEBVTT\n\n";
+        
+        subtitlesArray.forEach((sub, index) => {
+            vttContent += `${index + 1}\n`;
+            vttContent += `${sub.start} --> ${sub.end}\n`;
+            vttContent += `${sub.text}\n\n`;
+        });
+
+        vttOutput.value = vttContent;
+
+        // Apply subtitles to the player via Blob object URL mapping
+        if (trackElement) {
+            const vttBlob = new Blob([vttContent], { type: 'text/vtt' });
+            if (trackElement.src) {
+                URL.revokeObjectURL(trackElement.src); // Free memory
+            }
+            trackElement.src = URL.createObjectURL(vttBlob);
+        }
+    }
+</script>
+
+</body>
+</html>

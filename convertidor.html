@@ -80,12 +80,8 @@
         }
 
         @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .upload-text {
@@ -122,10 +118,6 @@
             box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
         }
 
-        .file-input-btn:active {
-            transform: translateY(-1px);
-        }
-
         .file-info {
             background: #f0f2ff;
             border-left: 4px solid #667eea;
@@ -133,11 +125,11 @@
             border-radius: 8px;
             margin-bottom: 20px;
             display: none;
+            animation: slideIn 0.3s ease;
         }
 
         .file-info.show {
             display: block;
-            animation: slideIn 0.3s ease;
         }
 
         @keyframes slideIn {
@@ -210,21 +202,21 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-        }
-
-        .btn-convert {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
             display: none;
         }
 
-        .btn-convert.show {
+        .btn.show {
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .btn-convert:hover {
+        .btn-convert {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-convert:hover:not(:disabled) {
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
         }
@@ -232,19 +224,11 @@
         .btn-convert:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: none;
         }
 
         .btn-download {
             background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
             color: white;
-            display: none;
-        }
-
-        .btn-download.show {
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .btn-download:hover {
@@ -255,15 +239,16 @@
         .btn-clear {
             background: #ff6b6b;
             color: white;
+            display: none;
+        }
+
+        .btn-clear.show {
+            display: flex;
         }
 
         .btn-clear:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(255, 107, 107, 0.4);
-        }
-
-        .btn-clear.hidden {
-            display: none;
         }
 
         .status-message {
@@ -273,10 +258,22 @@
             margin-bottom: 20px;
             display: none;
             font-weight: 600;
+            animation: slideDown 0.3s ease;
         }
 
         .status-message.show {
             display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .status-message.success {
@@ -313,12 +310,8 @@
         }
 
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .info-box {
@@ -416,30 +409,16 @@
             <ul>
                 <li><strong>Formatos soportados:</strong> MP4, AVI, MOV, MKV, FLV, WMV, WEBM</li>
                 <li><strong>Tamaño máximo:</strong> 500 MB</li>
-                <li><strong>Privacidad:</strong> La conversión ocurre en tu navegador</li>
-                <li><strong>Nota:</strong> Asegúrate de tener una buena conexión a internet</li>
+                <li><strong>Calidad:</strong> Audio de máxima calidad</li>
+                <li><strong>Servidor:</strong> La conversión se realiza en el servidor</li>
             </ul>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.6/dist/ffmpeg.min.js"></script>
     <script>
-        const { FFmpeg, fetchFile } = FFmpeg;
-        let ffmpeg = null;
         let selectedFile = null;
         let convertedBlob = null;
-
-        // Inicializar FFmpeg
-        async function initFFmpeg() {
-            if (!ffmpeg) {
-                ffmpeg = new FFmpeg.FFmpeg();
-                try {
-                    await ffmpeg.load();
-                } catch (error) {
-                    showMessage('Error al cargar FFmpeg: ' + error.message, 'error');
-                }
-            }
-        }
+        const API_BASE = '/api/converter';
 
         // Elementos del DOM
         const uploadArea = document.getElementById('uploadArea');
@@ -480,8 +459,7 @@
             const file = files[0];
 
             // Validar tipo de archivo
-            const validTypes = ['video/mp4', 'video/x-msvideo', 'video/quicktime', 'video/x-matroska', 'video/x-flv', 'video/x-ms-wmv', 'video/webm'];
-            if (!validTypes.includes(file.type)) {
+            if (!file.type.startsWith('video/')) {
                 showMessage('⚠️ Por favor selecciona un archivo de video válido', 'error');
                 return;
             }
@@ -505,7 +483,7 @@
                 document.getElementById('fileSize').textContent = `Tamaño: ${(selectedFile.size / 1024 / 1024).toFixed(2)} MB`;
                 fileInfo.classList.add('show');
                 convertBtn.classList.add('show');
-                clearBtn.classList.remove('hidden');
+                clearBtn.classList.add('show');
             }
         }
 
@@ -517,39 +495,28 @@
             }
 
             try {
-                showMessage('🔄 Inicializando FFmpeg...', 'info');
-                await initFFmpeg();
-
-                showMessage('📥 Cargando video...', 'info');
+                showMessage('🔄 Inicializando conversión...', 'info');
                 convertBtn.disabled = true;
                 document.getElementById('spinner').classList.add('show');
-
-                const inputName = selectedFile.name;
-                const outputName = selectedFile.name.split('.')[0] + '.mp3';
-
-                // Escribir archivo de video
-                ffmpeg.FS('writeFile', inputName, await fetchFile(selectedFile));
-
-                showMessage('⚙️ Convirtiendo video a MP3...', 'info');
                 progressContainer.classList.add('show');
 
-                // Ejecutar FFmpeg
-                await ffmpeg.exec([
-                    '-i', inputName,
-                    '-q:a', '0',
-                    '-map', 'a',
-                    outputName
-                ]);
+                // Crear FormData
+                const formData = new FormData();
+                formData.append('file', selectedFile);
 
-                showMessage('📤 Finalizando...', 'info');
+                // Realizar petición
+                const response = await fetch(`${API_BASE}/convert`, {
+                    method: 'POST',
+                    body: formData
+                });
 
-                // Leer archivo convertido
-                const data = ffmpeg.FS('readFile', outputName);
-                convertedBlob = new Blob([data.buffer], { type: 'audio/mpeg' });
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Error en la conversión');
+                }
 
-                // Limpiar archivos de FFmpeg
-                ffmpeg.FS('unlink', inputName);
-                ffmpeg.FS('unlink', outputName);
+                // Obtener blob
+                convertedBlob = await response.blob();
 
                 showMessage('✅ ¡Conversión completada exitosamente!', 'success');
                 downloadBtn.classList.add('show');
@@ -557,7 +524,7 @@
                 progressPercent.textContent = '100%';
 
             } catch (error) {
-                showMessage('❌ Error en la conversión: ' + error.message, 'error');
+                showMessage('❌ Error: ' + error.message, 'error');
                 console.error(error);
             } finally {
                 convertBtn.disabled = false;
@@ -592,7 +559,7 @@
             fileInfo.classList.remove('show');
             convertBtn.classList.remove('show');
             downloadBtn.classList.remove('show');
-            clearBtn.classList.add('hidden');
+            clearBtn.classList.remove('show');
             progressContainer.classList.remove('show');
             progressFill.style.width = '0%';
             progressPercent.textContent = '0%';
@@ -610,9 +577,17 @@
             }
         }
 
-        // Inicializar FFmpeg al cargar
-        window.addEventListener('load', () => {
-            initFFmpeg();
+        // Verificar salud al cargar
+        window.addEventListener('load', async () => {
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.json();
+                if (!data.ffmpegAvailable) {
+                    showMessage('⚠️ FFmpeg no está disponible en el servidor', 'error');
+                }
+            } catch (error) {
+                console.warn('No se pudo verificar FFmpeg:', error);
+            }
         });
     </script>
 </body>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editor de Imágenes con Texto</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playwrite+CO:wght@100..400&family=Edu+AU+VIC+WA+NT+Guides&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#222;
+    color:white;
+}
+#toolbar{
+    padding:10px;
+    background:#333;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+button,input,select{
+    padding:8px;
+}
+#canvas{
+    display:block;
+    margin:10px auto;
+    border:2px solid #555;
+    max-width:95%;
+    background:white;
+}
+</style>
+</head>
+<body>
+
+<div id="toolbar">
+    <input type="file" id="imageLoader" accept="image/*">
+    <input type="text" id="textInput" placeholder="Escribe un texto">
+    
+    <select id="fontSelect">
+        <option value="Arial">Arial</option>
+        <option value="'Playwrite CO'">Playwrite Colombia</option>
+        <option value="'Edu AU VIC WA NT Guides'">Edu AU VIC WA NT Guides</option>
+        <option value="cursive">Ankara (fallback)</option>
+        <option value="cursive">Capricius Ambrocia (fallback)</option>
+        <option value="cursive">Stekena Script (fallback)</option>
+        <option value="cursive">Spencerian Script (fallback)</option>
+        <option value="cursive">Serenity (fallback)</option>
+    </select>
+
+    <input type="number" id="fontSize" value="48" min="10" max="300">
+    <button onclick="addText()">Agregar Texto</button>
+    <button onclick="downloadImage()">Descargar</button>
+</div>
+
+<canvas id="canvas" width="1200" height="800"></canvas>
+
+<script>
+const canvas=document.getElementById('canvas');
+const ctx=canvas.getContext('2d');
+
+ctx.fillStyle="white";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+document.getElementById('imageLoader').addEventListener('change',function(e){
+    const reader=new FileReader();
+    reader.onload=function(event){
+        const img=new Image();
+        img.onload=function(){
+            canvas.width=img.width;
+            canvas.height=img.height;
+            ctx.drawImage(img,0,0);
+        }
+        img.src=event.target.result;
+    }
+    reader.readAsDataURL(e.target.files[0]);
+});
+
+function addText(){
+    const text=document.getElementById('textInput').value;
+    const font=document.getElementById('fontSelect').value;
+    const size=document.getElementById('fontSize').value;
+
+    ctx.font=size+"px "+font;
+    ctx.fillStyle="red";
+    ctx.fillText(text,50,100);
+}
+
+function downloadImage(){
+    const a=document.createElement('a');
+    a.href=canvas.toDataURL('image/png');
+    a.download='imagen_editada.png';
+    a.click();
+}
+</script>
+
+</body>
+</html>

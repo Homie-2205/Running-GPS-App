@@ -59,13 +59,7 @@
 /* --- LA REGLA CLAVE: Solo Móviles (max-width: 480px) Y SOLO Vertical (portrait) --- */
 @media screen and (max-width: 480px) and (orientation: portrait) {
   
-  /* Mostramos el botón de hamburguesa */
-  .hamburger-icon {
-    display: block;
-    font-size: 1.8rem;
-    cursor: pointer;
-    user-select: none;
-  }
+  
 
   /* Ocultamos por defecto el contenedor con todos los enlaces */
   .nav-menus-container {
@@ -79,21 +73,8 @@
     padding: 1rem 0;
     box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
     gap: 20px;
-  }
-
-  /* Alineamos las listas en vertical dentro del menú desplegado */
-  .lang-list, .nav-links {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-
-  /* Cuando el usuario presiona la hamburguesa (checkbox :checked), se muestran los enlaces */
-  .menu-toggle:checked ~ .nav-menus-container {
-    display: flex;
-  }
-}
-   
+  
+   }
      
         .nav-links li {
             margin-left: 1.5rem;

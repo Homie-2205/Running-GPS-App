@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Simple WebRTC Call</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 1rem; }
+    video { width: 45%; margin: 0.5%; background: #000; }
+    #controls { margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Simple WebRTC Video Call</h1>
+  <div>
+    <video id="localVideo" autoplay muted playsinline></video>
+    <video id="remoteVideo" autoplay playsinline></video>
+  </div>
+
+  <div id="controls">
+    <input id="roomInput" placeholder="room name" />
+    <button id="joinBtn">Join Room</button>
+    <button id="leaveBtn" disabled>Leave</button>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    // Simple one-on-one room-based WebRTC signaling via Socket.IO
+    const socket = io();
+
+    const localVideo = document.getElementById('localVideo');
+    const remoteVideo = document.getElementById('remoteVideo');
+    const joinBtn = document.getElementById('joinBtn');
+    const leaveBtn = document.getElementById('leaveBtn');
+    const roomInput = document.getElementById('roomInput');
+
+    let localStream;
+    let pc;
+    let room;
+
+    // Use a public STUN by default; replace/add TURN for reliability
+    const rtcConfig = {
+      iceServers: [
+        { urls: 'stun:stun.l.google.com:19302' }
+        // add TURN server here for production: { urls: 'turn:your.turn.server', username:'user', credential:'pass' }
+      ]
+    };
+
+    async function startLocalStream() {
+      try {
+        localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        localVideo.srcObject = localStream;
+      } catch (err) {
+        alert('Error accessing camera/microphone: ' + err.message);
+        throw err;
+      }
+    }
+
+    function createPeerConnection(isInitiator) {
+      pc = new RTCPeerConnection(rtcConfig);
+
+      // send any ICE candidates to remote
+      pc.onicecandidate = (e) => {
+        if (e.candidate) {
+          socket.emit('ice-candidate', { room, candidate: e.candidate });
+        }
+      };
+
+      // show remote stream
+      pc.ontrack = (e) => {
+        remoteVideo.srcObject = e.streams[0];
+      };
+
+      // add local tracks
+      localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+
+      return pc;
+    }
+
+    joinBtn.onclick = async () => {
+      if (!roomInput.value) { alert('Enter a room name'); return; }
+      room = roomInput.value;
+      joinBtn.disabled = true;
+
+      await startLocalStream();
+      socket.emit('join', room);
+    };
+
+    leaveBtn.onclick = () => {
+      socket.emit('leave', room);
+      cleanup();
+    };
+
+    socket.on('joined', async (isInitiator) => {
+      // server tells us we joined; isInitiator means "create offer"
+      // create RTCPeerConnection now
+      createPeerConnection(isInitiator);
+      if (isInitiator) {
+        const offer = await pc.createOffer();
+        await pc.setLocalDescription(offer);
+        socket.emit('offer', { room, offer });
+      }
+      leaveBtn.disabled = false;
+    });
+
+    socket.on('offer', async ({ offer }) => {
+      if (!pc) createPeerConnection(false);
+      await pc.setRemoteDescription(new RTCSessionDescription(offer));
+      const answer = await pc.createAnswer();
+      await pc.setLocalDescription(answer);
+      socket.emit('answer', { room, answer });
+    });
+
+    socket.on('answer', async ({ answer }) => {
+      await pc.setRemoteDescription(new RTCSessionDescription(answer));
+    });
+
+    socket.on('ice-candidate', async ({ candidate }) => {
+      try {
+        await pc.addIceCandidate(new RTCIceCandidate(candidate));
+      } catch (e) {
+        console.warn('Error adding received ice candidate', e);
+      }
+    });
+
+    socket.on('peer-left', () => {
+      // remote left
+      cleanupRemote();
+    });
+
+    function cleanupRemote() {
+      if (remoteVideo.srcObject) {
+        remoteVideo.srcObject.getTracks().forEach(t => t.stop());
+      }
+      remoteVideo.srcObject = null;
+      if (pc) {
+        pc.close();
+        pc = null;
+      }
+    }
+
+    function cleanup() {
+      cleanupRemote();
+      if (localStream) {
+        localStream.getTracks().forEach(t => t.stop());
+        localStream = null;
+        localVideo.srcObject = null;
+      }
+      joinBtn.disabled = false;
+      leaveBtn.disabled = true;
+    }
+
+    // If page unloads, leave
+    window.addEventListener('beforeunload', () => {
+      if (room) socket.emit('leave', room);
+    });
+  </script>
+</body>
+</html>

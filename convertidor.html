@@ -1,40 +1,619 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Convertidor Video a MP3</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertidor de Video a MP3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            background-color: #f8f9ff;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background-color: #f0f2ff;
+            transform: scale(1.02);
+        }
+
+        .upload-area.dragover {
+            border-color: #764ba2;
+            background-color: #e8ebff;
+            transform: scale(1.05);
+        }
+
+        .upload-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .upload-text {
+            color: #333;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .upload-subtext {
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        #videoFile {
+            display: none;
+        }
+
+        .file-input-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .file-input-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .file-input-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .file-info {
+            background: #f0f2ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .file-info.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .file-name {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .file-size {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .progress-container {
+            display: none;
+            margin-bottom: 20px;
+        }
+
+        .progress-container.show {
+            display: block;
+        }
+
+        .progress-label {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-convert {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: none;
+        }
+
+        .btn-convert.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-convert:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-convert:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            display: none;
+        }
+
+        .btn-download.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(17, 153, 142, 0.4);
+        }
+
+        .btn-clear {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-clear:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-clear.hidden {
+            display: none;
+        }
+
+        .status-message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            font-weight: 600;
+        }
+
+        .status-message.show {
+            display: block;
+        }
+
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status-message.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        .loading-spinner.show {
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            color: #0c3475;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .info-box h3 {
+            margin-bottom: 10px;
+            color: #0c3475;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+        }
+
+        .info-box li {
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .upload-area {
+                padding: 30px 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Convertidor de Video a MP3</h1>
-    <input type="file" id="videoFile" accept="video/*">
-    <button onclick="convertir()">Convertir</button>
-    
-    <script src="https://cdn.jsdelivr.net/npm/ffmpeg@0.12.6/dist/ffmpeg.min.js"></script>
+    <div class="container">
+        <div class="header">
+            <h1>🎵 Convertidor Video → MP3</h1>
+            <p>Convierte tus videos a audio MP3 fácilmente</p>
+        </div>
+
+        <div class="status-message" id="statusMessage"></div>
+
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📹</div>
+            <div class="upload-text">Arrastra tu video aquí</div>
+            <div class="upload-subtext">o haz clic para seleccionar</div>
+            <button class="file-input-btn" onclick="document.getElementById('videoFile').click()">
+                Seleccionar video
+            </button>
+            <input type="file" id="videoFile" accept="video/*">
+        </div>
+
+        <div class="file-info" id="fileInfo">
+            <div class="file-name" id="fileName"></div>
+            <div class="file-size" id="fileSize"></div>
+        </div>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-label">
+                <span>Progreso de conversión</span>
+                <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn btn-convert" id="convertBtn" onclick="convertToMp3()">
+                <span class="loading-spinner" id="spinner"></span>
+                <span id="convertText">Convertir a MP3</span>
+            </button>
+            <button class="btn btn-download" id="downloadBtn" onclick="downloadMp3()">
+                ⬇️ Descargar MP3
+            </button>
+            <button class="btn btn-clear" id="clearBtn" onclick="clearFile()">
+                Limpiar
+            </button>
+        </div>
+
+        <div class="info-box">
+            <h3>ℹ️ Información importante:</h3>
+            <ul>
+                <li><strong>Formatos soportados:</strong> MP4, AVI, MOV, MKV, FLV, WMV, WEBM</li>
+                <li><strong>Tamaño máximo:</strong> 500 MB</li>
+                <li><strong>Privacidad:</strong> La conversión ocurre en tu navegador</li>
+                <li><strong>Nota:</strong> Asegúrate de tener una buena conexión a internet</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.6/dist/ffmpeg.min.js"></script>
     <script>
         const { FFmpeg, fetchFile } = FFmpeg;
-        const ffmpeg = new FFmpeg.FFmpeg();
-        
-        async function convertir() {
-            const fileInput = document.getElementById('videoFile');
-            const file = fileInput.files[0];
-            
-            if (!file) {
-                alert('Por favor selecciona un video');
+        let ffmpeg = null;
+        let selectedFile = null;
+        let convertedBlob = null;
+
+        // Inicializar FFmpeg
+        async function initFFmpeg() {
+            if (!ffmpeg) {
+                ffmpeg = new FFmpeg.FFmpeg();
+                try {
+                    await ffmpeg.load();
+                } catch (error) {
+                    showMessage('Error al cargar FFmpeg: ' + error.message, 'error');
+                }
+            }
+        }
+
+        // Elementos del DOM
+        const uploadArea = document.getElementById('uploadArea');
+        const videoFileInput = document.getElementById('videoFile');
+        const fileInfo = document.getElementById('fileInfo');
+        const convertBtn = document.getElementById('convertBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressPercent = document.getElementById('progressPercent');
+
+        // Drag and Drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        // Seleccionar archivo
+        videoFileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        // Manejar archivos
+        function handleFiles(files) {
+            if (files.length === 0) return;
+
+            const file = files[0];
+
+            // Validar tipo de archivo
+            const validTypes = ['video/mp4', 'video/x-msvideo', 'video/quicktime', 'video/x-matroska', 'video/x-flv', 'video/x-ms-wmv', 'video/webm'];
+            if (!validTypes.includes(file.type)) {
+                showMessage('⚠️ Por favor selecciona un archivo de video válido', 'error');
                 return;
             }
-            
-            await ffmpeg.load();
-            ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(file));
-            
-            await ffmpeg.run('-i', 'input.mp4', '-q:a', '0', '-map', 'a', 'output.mp3');
-            
-            const data = ffmpeg.FS('readFile', 'output.mp3');
-            const url = URL.createObjectURL(new Blob([data.buffer], {type: 'audio/mpeg'}));
-            
+
+            // Validar tamaño (500 MB)
+            const maxSize = 500 * 1024 * 1024;
+            if (file.size > maxSize) {
+                showMessage('⚠️ El archivo es demasiado grande. Máximo 500 MB', 'error');
+                return;
+            }
+
+            selectedFile = file;
+            updateFileInfo();
+            showMessage('✅ Archivo seleccionado correctamente', 'success');
+        }
+
+        // Actualizar información del archivo
+        function updateFileInfo() {
+            if (selectedFile) {
+                document.getElementById('fileName').textContent = `📄 ${selectedFile.name}`;
+                document.getElementById('fileSize').textContent = `Tamaño: ${(selectedFile.size / 1024 / 1024).toFixed(2)} MB`;
+                fileInfo.classList.add('show');
+                convertBtn.classList.add('show');
+                clearBtn.classList.remove('hidden');
+            }
+        }
+
+        // Convertir a MP3
+        async function convertToMp3() {
+            if (!selectedFile) {
+                showMessage('⚠️ Por favor selecciona un archivo de video', 'error');
+                return;
+            }
+
+            try {
+                showMessage('🔄 Inicializando FFmpeg...', 'info');
+                await initFFmpeg();
+
+                showMessage('📥 Cargando video...', 'info');
+                convertBtn.disabled = true;
+                document.getElementById('spinner').classList.add('show');
+
+                const inputName = selectedFile.name;
+                const outputName = selectedFile.name.split('.')[0] + '.mp3';
+
+                // Escribir archivo de video
+                ffmpeg.FS('writeFile', inputName, await fetchFile(selectedFile));
+
+                showMessage('⚙️ Convirtiendo video a MP3...', 'info');
+                progressContainer.classList.add('show');
+
+                // Ejecutar FFmpeg
+                await ffmpeg.exec([
+                    '-i', inputName,
+                    '-q:a', '0',
+                    '-map', 'a',
+                    outputName
+                ]);
+
+                showMessage('📤 Finalizando...', 'info');
+
+                // Leer archivo convertido
+                const data = ffmpeg.FS('readFile', outputName);
+                convertedBlob = new Blob([data.buffer], { type: 'audio/mpeg' });
+
+                // Limpiar archivos de FFmpeg
+                ffmpeg.FS('unlink', inputName);
+                ffmpeg.FS('unlink', outputName);
+
+                showMessage('✅ ¡Conversión completada exitosamente!', 'success');
+                downloadBtn.classList.add('show');
+                progressFill.style.width = '100%';
+                progressPercent.textContent = '100%';
+
+            } catch (error) {
+                showMessage('❌ Error en la conversión: ' + error.message, 'error');
+                console.error(error);
+            } finally {
+                convertBtn.disabled = false;
+                document.getElementById('spinner').classList.remove('show');
+            }
+        }
+
+        // Descargar MP3
+        function downloadMp3() {
+            if (!convertedBlob) {
+                showMessage('⚠️ No hay archivo para descargar', 'error');
+                return;
+            }
+
+            const url = URL.createObjectURL(convertedBlob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'audio.mp3';
+            a.download = selectedFile.name.split('.')[0] + '.mp3';
+            document.body.appendChild(a);
             a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showMessage('✅ Descarga iniciada', 'success');
         }
+
+        // Limpiar
+        function clearFile() {
+            selectedFile = null;
+            convertedBlob = null;
+            videoFileInput.value = '';
+            fileInfo.classList.remove('show');
+            convertBtn.classList.remove('show');
+            downloadBtn.classList.remove('show');
+            clearBtn.classList.add('hidden');
+            progressContainer.classList.remove('show');
+            progressFill.style.width = '0%';
+            progressPercent.textContent = '0%';
+            showMessage('', '');
+        }
+
+        // Mostrar mensaje
+        function showMessage(message, type) {
+            const statusMessage = document.getElementById('statusMessage');
+            if (message) {
+                statusMessage.textContent = message;
+                statusMessage.className = `status-message show ${type}`;
+            } else {
+                statusMessage.classList.remove('show');
+            }
+        }
+
+        // Inicializar FFmpeg al cargar
+        window.addEventListener('load', () => {
+            initFFmpeg();
+        });
     </script>
 </body>
 </html>

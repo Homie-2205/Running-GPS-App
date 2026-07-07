@@ -62,19 +62,39 @@
   
 
   
-     /* 1. Modifica tu contenedor para que NO se oculte (quitamos display: none) */
+     /* Contenedor principal de los menús */
 .nav-menus-container {
-    display: flex; /* Cambiado de 'none' a 'flex' para que se vea */
+    display: flex;
     flex-direction: column;
+    align-items: flex-start;    /* Alinea todo el contenido a la izquierda */
     position: absolute;
     top: 100%;
     left: 0;
     width: 100%;
     background-color: #ffd480;
-    padding: 1rem 0;
     box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
-    gap: 20px;
+    
+    /* Control del grosor en PX */
+    padding-top: 12px;          /* Espacio superior de la barra */
+    padding-bottom: 12px;       /* Espacio inferior de la barra */
+    padding-left: 20px;         /* Margen izquierdo para que no pegue al borde de la pantalla */
+    padding-right: 20px;        /* Margen derecho de seguridad */
 }
+
+/* Lista de idiomas */
+.lang-list {
+    display: flex;              /* Hace que los idiomas se pongan uno al lado del otro */
+    gap: 15px;                  /* Separación de 15px entre cada idioma */
+    list-style: none;           /* Quita los puntitos negros por defecto de la lista */
+    margin: 0;                  /* Quita márgenes por defecto del navegador */
+    padding: 0;                 /* Quita paddings por defecto del navegador */
+}
+
+/* Ocultar los dos enlaces de navegación */
+.nav-links {
+    display: none;
+}
+    
 
 /* 2. Agrega esta regla para ocultar SOLO los dos enlaces (Santa Elena y Video Call) */
 .nav-links {

@@ -1,158 +1,164 @@
 <!doctype html>
-<html>
+<html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>Simple WebRTC Call</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Video Call Demo</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 1rem; }
-    video { width: 45%; margin: 0.5%; background: #000; }
-    #controls { margin-top: 1rem; }
+    body { font-family: system-ui, sans-serif; padding: 1rem; }
+    video { width: 45%; max-width: 400px; background: #000; }
+    .controls { margin: 1rem 0; }
+    input, button { margin-right: .5rem; }
   </style>
 </head>
 <body>
-  <h1>Simple WebRTC Video Call</h1>
+  <h1>Llamada WebRTC (demo)</h1>
+
+  <div class="controls">
+    <label>Room: <input id="roomInput" value="demo-room" /></label>
+    <button id="startBtn">Iniciar cámara</button>
+    <button id="joinBtn" disabled>Unirse / Crear sala</button>
+    <button id="hangupBtn" disabled>Colgar</button>
+  </div>
+
   <div>
     <video id="localVideo" autoplay muted playsinline></video>
     <video id="remoteVideo" autoplay playsinline></video>
   </div>
 
-  <div id="controls">
-    <input id="roomInput" placeholder="room name" />
-    <button id="joinBtn">Join Room</button>
-    <button id="leaveBtn" disabled>Leave</button>
-  </div>
+  <p>
+    Nota: este archivo usa un servidor de señalización WebSocket. Cambia SIGNALING_SERVER abajo al URL de tu servidor (ws:// o wss://).
+  </p>
 
-  <script src="/socket.io/socket.io.js"></script>
   <script>
-    // Simple one-on-one room-based WebRTC signaling via Socket.IO
-    const socket = io();
+    // CONFIGURA AQUÍ la URL de tu servidor de señalización:
+    // - Para pruebas locales con el servidor Node.js del ejemplo: "ws://localhost:3000"
+    // - Para producción usa WSS (wss://tuservidor) y sirve la página por HTTPS.
+    const SIGNALING_SERVER = "ws://localhost:3000";
 
+    let localStream = null;
+    let pc = null;
+    let ws = null;
+    let room = null;
+    let isCaller = false;
+
+    const startBtn = document.getElementById('startBtn');
+    const joinBtn  = document.getElementById('joinBtn');
+    const hangupBtn = document.getElementById('hangupBtn');
+    const roomInput = document.getElementById('roomInput');
     const localVideo = document.getElementById('localVideo');
     const remoteVideo = document.getElementById('remoteVideo');
-    const joinBtn = document.getElementById('joinBtn');
-    const leaveBtn = document.getElementById('leaveBtn');
-    const roomInput = document.getElementById('roomInput');
 
-    let localStream;
-    let pc;
-    let room;
-
-    // Use a public STUN by default; replace/add TURN for reliability
-    const rtcConfig = {
-      iceServers: [
-        { urls: 'stun:stun.l.google.com:19302' }
-        // add TURN server here for production: { urls: 'turn:your.turn.server', username:'user', credential:'pass' }
-      ]
-    };
-
-    async function startLocalStream() {
+    startBtn.onclick = async () => {
       try {
         localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
         localVideo.srcObject = localStream;
+        joinBtn.disabled = false;
+        startBtn.disabled = true;
       } catch (err) {
-        alert('Error accessing camera/microphone: ' + err.message);
-        throw err;
+        alert('No se pudo acceder a la cámara/micro: ' + err);
       }
+    };
+
+    joinBtn.onclick = () => {
+      room = roomInput.value.trim();
+      if (!room) { alert('Introduce un nombre de sala'); return; }
+      joinBtn.disabled = true;
+      connectSignaling();
+      createPeerConnection();
+      send({ action: 'join', room });
+    };
+
+    hangupBtn.onclick = () => {
+      cleanup();
+      location.reload();
+    };
+
+    function connectSignaling() {
+      ws = new WebSocket(SIGNALING_SERVER);
+      ws.onopen = () => console.log('Conectado al signaling server');
+      ws.onmessage = (ev) => {
+        const msg = JSON.parse(ev.data);
+        if (msg.action === 'joined') {
+          // Si ya hay otro en la sala, el servidor indicará que eres el segundo
+          if (msg.clients > 1) {
+            isCaller = true;
+            // quien entra segundo puede empezar la oferta (o puedes invertir la lógica)
+            createAndSendOffer();
+          }
+          hangupBtn.disabled = false;
+        } else if (msg.action === 'signal' && msg.data) {
+          handleSignal(msg.data);
+        }
+      };
+      ws.onclose = () => console.log('Signaling closed');
+      ws.onerror = (e) => console.error('Signaling error', e);
     }
 
-    function createPeerConnection(isInitiator) {
-      pc = new RTCPeerConnection(rtcConfig);
+    function send(obj) {
+      if (!ws || ws.readyState !== WebSocket.OPEN) return;
+      ws.send(JSON.stringify(obj));
+    }
 
-      // send any ICE candidates to remote
-      pc.onicecandidate = (e) => {
-        if (e.candidate) {
-          socket.emit('ice-candidate', { room, candidate: e.candidate });
+    function createPeerConnection() {
+      const config = {
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' }
+        ]
+      };
+      pc = new RTCPeerConnection(config);
+
+      // enviar pistas locales
+      if (localStream) {
+        for (const track of localStream.getTracks()) pc.addTrack(track, localStream);
+      }
+
+      // recibir pistas remotas
+      pc.ontrack = (evt) => {
+        // puede llegar en varios streams; ponemos el primero
+        remoteVideo.srcObject = evt.streams[0];
+      };
+
+      // ICE candidates
+      pc.onicecandidate = (event) => {
+        if (event.candidate) {
+          send({ action: 'signal', room, data: { type: 'candidate', candidate: event.candidate } });
         }
       };
 
-      // show remote stream
-      pc.ontrack = (e) => {
-        remoteVideo.srcObject = e.streams[0];
+      // estado de conexión
+      pc.onconnectionstatechange = () => {
+        console.log('PC state:', pc.connectionState);
+        if (pc.connectionState === 'disconnected' || pc.connectionState === 'failed' || pc.connectionState === 'closed') {
+          // opcional: limpiar UI
+        }
       };
-
-      // add local tracks
-      localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
-
-      return pc;
     }
 
-    joinBtn.onclick = async () => {
-      if (!roomInput.value) { alert('Enter a room name'); return; }
-      room = roomInput.value;
-      joinBtn.disabled = true;
-
-      await startLocalStream();
-      socket.emit('join', room);
-    };
-
-    leaveBtn.onclick = () => {
-      socket.emit('leave', room);
-      cleanup();
-    };
-
-    socket.on('joined', async (isInitiator) => {
-      // server tells us we joined; isInitiator means "create offer"
-      // create RTCPeerConnection now
-      createPeerConnection(isInitiator);
-      if (isInitiator) {
+    async function createAndSendOffer() {
+      try {
         const offer = await pc.createOffer();
         await pc.setLocalDescription(offer);
-        socket.emit('offer', { room, offer });
-      }
-      leaveBtn.disabled = false;
-    });
+        send({ action: 'signal', room, data: { type: 'offer', sdp: pc.localDescription } });
+      } catch (e) { console.error(e); }
+    }
 
-    socket.on('offer', async ({ offer }) => {
-      if (!pc) createPeerConnection(false);
-      await pc.setRemoteDescription(new RTCSessionDescription(offer));
-      const answer = await pc.createAnswer();
-      await pc.setLocalDescription(answer);
-      socket.emit('answer', { room, answer });
-    });
-
-    socket.on('answer', async ({ answer }) => {
-      await pc.setRemoteDescription(new RTCSessionDescription(answer));
-    });
-
-    socket.on('ice-candidate', async ({ candidate }) => {
+    async function createAndSendAnswer() {
       try {
-        await pc.addIceCandidate(new RTCIceCandidate(candidate));
-      } catch (e) {
-        console.warn('Error adding received ice candidate', e);
-      }
-    });
-
-    socket.on('peer-left', () => {
-      // remote left
-      cleanupRemote();
-    });
-
-    function cleanupRemote() {
-      if (remoteVideo.srcObject) {
-        remoteVideo.srcObject.getTracks().forEach(t => t.stop());
-      }
-      remoteVideo.srcObject = null;
-      if (pc) {
-        pc.close();
-        pc = null;
-      }
+        const answer = await pc.createAnswer();
+        await pc.setLocalDescription(answer);
+        send({ action: 'signal', room, data: { type: 'answer', sdp: pc.localDescription } });
+      } catch (e) { console.error(e); }
     }
 
-    function cleanup() {
-      cleanupRemote();
-      if (localStream) {
-        localStream.getTracks().forEach(t => t.stop());
-        localStream = null;
-        localVideo.srcObject = null;
-      }
-      joinBtn.disabled = false;
-      leaveBtn.disabled = true;
-    }
-
-    // If page unloads, leave
-    window.addEventListener('beforeunload', () => {
-      if (room) socket.emit('leave', room);
-    });
-  </script>
-</body>
-</html>
+    async function handleSignal(data) {
+      if (!pc) createPeerConnection();
+      if (data.type === 'offer') {
+        await pc.setRemoteDescription(new RTCSessionDescription(data.sdp));
+        await createAndSendAnswer();
+      } else if (data.type === 'answer') {
+        await pc.setRemoteDescription(new RTCSessionDescription(data.sdp));
+      } else if (data.type === 'candidate') {
+        try {
+          await pc.addIceCandidate(new RTCIceCandidate(data.candidate));
+        } catch (e)

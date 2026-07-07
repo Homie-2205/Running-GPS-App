@@ -1,12 +1,85 @@
-name: Procesar Video con FFmpeg
-on: [push]
+name: Convertir Video a MP3
+
+on: 
+  push:
+    paths:
+      - '**.mp4'
+      - '**.avi'
+      - '**.mov'
+      - '**.mkv'
+      - '**.flv'
+      - '**.wmv'
+      - '**.webm'
+
 jobs:
-  build:
+  convert-video-to-mp3:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    
     - name: Instalar FFmpeg
       run: sudo apt update && sudo apt install -y ffmpeg
-    - name: Convertir Video
-      run: ffmpeg -i video_original.mp4 -vcodec libx264 -crf 28 video_comprimido.mp4
-
+    
+    - name: Convertir MP4 a MP3
+      run: |
+        for file in *.mp4; do
+          if [ -f "$file" ]; then
+            ffmpeg -i "$file" -q:a 0 -map a "${file%.mp4}.mp3"
+          fi
+        done
+    
+    - name: Convertir AVI a MP3
+      run: |
+        for file in *.avi; do
+          if [ -f "$file" ]; then
+            ffmpeg -i "$file" -q:a 0 -map a "${file%.avi}.mp3"
+          fi
+        done
+    
+    - name: Convertir MOV a MP3
+      run: |
+        for file in *.mov; do
+          if [ -f "$file" ]; then
+            ffmpeg -i "$file" -q:a 0 -map a "${file%.mov}.mp3"
+          fi
+        done
+    
+    - name: Convertir MKV a MP3
+      run: |
+        for file in *.mkv; do
+          if [ -f "$file" ]; then
+            ffmpeg -i "$file" -q:a 0 -map a "${file%.mkv}.mp3"
+          fi
+        done
+    
+    - name: Convertir FLV a MP3
+      run: |
+        for file in *.flv; do
+          if [ -f "$file" ]; then
+            ffmpeg -i "$file" -q:a 0 -map a "${file%.flv}.mp3"
+          fi
+        done
+    
+    - name: Convertir WMV a MP3
+      run: |
+        for file in *.wmv; do
+          if [ -f "$file" ]; then
+            ffmpeg -i "$file" -q:a 0 -map a "${file%.wmv}.mp3"
+          fi
+        done
+    
+    - name: Convertir WEBM a MP3
+      run: |
+        for file in *.webm; do
+          if [ -f "$file" ]; then
+            ffmpeg -i "$file" -q:a 0 -map a "${file%.webm}.mp3"
+          fi
+        done
+    
+    - name: Subir archivos MP3 convertidos
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add *.mp3
+        git commit -m "Agregar archivos MP3 convertidos desde video" || true
+        git push

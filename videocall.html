@@ -161,9 +161,30 @@
       } else if (data.type === 'candidate') {
         try {
           await pc.addIceCandidate(new RTCIceCandidate(data.candidate));
-        } catch (e)
+        } catch (e) {
+          console.warn('Error añadiendo ICE candidate', e);
+        }
+      }
+    }
 
+    function cleanup() {
+      if (pc) {
+        pc.close();
+        pc = null;
+      }
+      if (ws) {
+        try { send({ action: 'leave', room }); } catch (_) {}
+        ws.close();
+        ws = null;
+      }
+      if (localStream) {
+        for (const t of localStream.getTracks()) t.stop();
+        localStream = null;
+      }
+    }
 
-          </script>
+    // limpiar al cerrar la página
+    window.addEventListener('beforeunload', cleanup);
+  </script>
 </body>
 </html>

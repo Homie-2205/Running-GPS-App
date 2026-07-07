@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Convertidor Video a MP3</title>
+</head>
+<body>
+    <h1>Convertidor de Video a MP3</h1>
+    <input type="file" id="videoFile" accept="video/*">
+    <button onclick="convertir()">Convertir</button>
+    
+    <script src="https://cdn.jsdelivr.net/npm/ffmpeg@0.12.6/dist/ffmpeg.min.js"></script>
+    <script>
+        const { FFmpeg, fetchFile } = FFmpeg;
+        const ffmpeg = new FFmpeg.FFmpeg();
+        
+        async function convertir() {
+            const fileInput = document.getElementById('videoFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Por favor selecciona un video');
+                return;
+            }
+            
+            await ffmpeg.load();
+            ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(file));
+            
+            await ffmpeg.run('-i', 'input.mp4', '-q:a', '0', '-map', 'a', 'output.mp3');
+            
+            const data = ffmpeg.FS('readFile', 'output.mp3');
+            const url = URL.createObjectURL(new Blob([data.buffer], {type: 'audio/mpeg'}));
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'audio.mp3';
+            a.click();
+        }
+    </script>
+</body>
+</html>

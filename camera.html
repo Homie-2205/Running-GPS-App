@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Camera Cristian M</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            /* Se integra la imagen del jaguar optimizada en alta calidad directamente en el CSS */
+            background-image: url("Jaguar.png"), url("https://unsplash.com");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Organized Dashboard Container */
+        .dashboard {
+            background-color: rgba(0, 0, 0, 0.55); /* Un poco más oscuro para que resalte frente al fondo del jaguar */
+            backdrop-filter: blur(10px);
+            padding: 25px 35px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .dashboard-title {
+            color: #ffffff;
+            margin: 0 0 5px 0;
+            font-size: 22px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+        }
+
+        /* Buttons organized into a neat horizontal layout */
+        .controls-container {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Clean Base Button Styling (Verde y Blanco) */
+        button {
+            width: 55px; 
+            height: 55px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1e5e2f; /* Verde base elegante */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%; 
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: all 0.2s ease-in-out;
+            padding: 0; 
+        }
+
+        /* Iconos PNG grandes, limpios y blancos */
+        button img {
+            width: 28px;  
+            height: 28px;
+            object-fit: contain;
+            pointer-events: none; 
+            transition: transform 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            background-color: #28a745; /* Verde brillante al pasar el mouse */
+            box-shadow: 0 6px 14px rgba(40, 167, 69, 0.4);
+        }
+
+        button:hover img {
+            transform: scale(1.08); /* Reacción al pasar el cursor */
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Variación para estados dinámicos controlados por JS */
+        .btn-danger-state {
+            background-color: #bd2130 !important;
+        }
+        .btn-danger-state:hover {
+            background-color: #dc3545 !important;
+            box-shadow: 0 6px 14px rgba(220, 53, 69, 0.4) !important;
+        }
+
+        /* Video element hidden cleanly for PiP hack */
+        video {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Unified UI Container -->
+    <div class="dashboard">
+        <h2 class="dashboard-title">Camera Console</h2>
+        <div class="controls-container">
+            <!-- Empezar Grabación -->
+            <button id="startBtn" title="Empezar Grabación">
+                <img src="record.png" alt="Grabar">
+            </button>
+
+            <!-- Subtítulos -->
+            <button type="button" onclick="window.location.href='subtitulos.html';" title="Subtítulos">
+                <img src="subtitles.png" alt="Subtítulos">
+            </button>
+
+            <!-- Recortador -->
+            <button type="button" onclick="window.location.href='Recortador.html';" title="Recortador">
+                <img src="trimmer.png" alt="Recortador">
+            </button>
+
+            <!-- Cámara / PiP Toggle -->
+            <button class="toggle-btn" id="pipBtn" title="Cámara">
+                <img src="camera.png" alt="camera">
+            </button>
+
+             <button class="toggle-btn" id="pipBtn" title="recortador">
+                <img src="image_trimmer.png" alt="recortador">
+            </button>
+            <!-- Finalizar Grabación -->
+            <button id="stopBtn" title="Finalizar Grabación">
+                <img src="stop.png" alt="Detener">
+            </button>
+        </div>
+    </div>
+
+    <video id="webcam" autoplay playsinline muted></video>
+
+    <script src="popup.js"></script>
+    <script src="popup4.js"></script>
+
+<script>
+    const pipBtn = document.getElementById('pipBtn');
+    const video = document.getElementById('webcam');
+    let stream = null;
+
+    pipBtn.addEventListener('click', async () => {
+        try {
+            if (document.pictureInPictureElement) {
+                await document.exitPictureInPicture();
+                return; 
+            }
+
+            if (!stream) {
+                stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                video.srcObject = stream;
+                await video.play();
+            }
+
+            if (document.pictureInPictureEnabled) {
+                await video.requestPictureInPicture();
+            } else {
+                alert("Your browser does not support Picture-in-Picture.");
+            }
+
+        } catch (err) {
+            console.error("Initialization failed:", err);
+            alert("Could not start floating mode. Ensure camera access is allowed.");
+            stopCamera();
+        }
+    });
+
+    // Dynamic icon updates using local file paths (Fixed)
+    video.addEventListener('leavepictureinpicture', () => {
+        // Restores your original local camera image
+        pipBtn.innerHTML = '<img src="camera.png" alt="Cámara">';
+        pipBtn.classList.remove('btn-danger-state');
+        stopCamera(); 
+    });
+
+    video.addEventListener('enterpictureinpicture', () => {
+        // Keeps the camera image or you can point this to a 'camera_off.png' if you have one
+        pipBtn.innerHTML = '<img src="camera.png" alt="Desactivar Cámara">';
+        pipBtn.classList.add('btn-danger-state'); 
+    });
+
+    function stopCamera() {
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+            video.srcObject = null;
+            stream = null;
+        }
+    }
+</script>
+        
+
+</body>
+</html>

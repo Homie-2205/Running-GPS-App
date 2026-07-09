@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Acceso</title>
+</head>
+<body>
+
+<h2>Ingrese su código</h2>
+
+<input type="password" id="codigo" placeholder="Código de acceso">
+<button onclick="verificar()">Entrar</button>
+
+<p id="mensaje"></p>
+
+<script>
+// Aquí puedes colocar hasta 500 códigos o más
+const codigos = [
+"AB12-CD34",
+"ZX98-QW11",
+"USR001",
+"USR002",
+"USR003",
+"USR004",
+"USR005"
+// ... continúa hasta 500 códigos
+];
+
+function verificar(){
+    const c = document.getElementById("codigo").value.trim();
+
+    if(codigos.includes(c)){
+        document.getElementById("mensaje").textContent = "Acceso permitido";
+        // Redireccionar
+        window.location.href = "inicio.html";
+    }else{
+        document.getElementById("mensaje").textContent = "Código incorrecto";
+    }
+}
+</script>
+
+</body>
+</html>

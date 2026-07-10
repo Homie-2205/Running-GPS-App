@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acceso</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f2f2f2;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.login{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,.2);
+    text-align:center;
+}
+
+input{
+    width:220px;
+    padding:10px;
+    margin:10px 0;
+}
+
+button{
+    padding:10px 20px;
+    cursor:pointer;
+}
+
+#mensaje{
+    margin-top:15px;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login">
+    <h2>Iniciar sesión</h2>
+
+    <input type="password" id="password" placeholder="Contraseña">
+<button onclick="verificar()">Entrar</button>
+
+<p id="mensaje"></p>
+
+
+</div>
+
+<script>
+
+const passwords = [
+    "A1B2C",
+    "X7M9Q",
+    "P4L8Z",
+    "R2T6Y",
+    "J5K9N",
+    "F3D8S",
+    "Q2W7E",
+    "H8U5P",
+    "C9V4B",
+    "M6N3X"
+];
+
+function verificar() {
+
+    const pass = document.getElementById("password").value;
+
+    if (passwords.includes(pass)) {
+        window.location.href = "inicio.html";
+    } else {
+        document.getElementById("mensaje").textContent = "❌ Contraseña incorrecta";
+    }
+}
+
+
+
+
+</script>
+
+</body>
+</html>

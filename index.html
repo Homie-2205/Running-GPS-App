@@ -274,21 +274,28 @@ u<!DOCTYPE html>
 
 <p id="greetingText"></p>
 
+
+
 <script>
-  function greetUser() {
-    // 1. Get the value from the input field
-    const name = document.getElementById('userName').value;
+function greet() {
+    const message = new SpeechSynthesisUtterance(
+        "Hello! Welcome. I hope you have a wonderful day."
+    );
 
-    // 2. Target the paragraph where we want to show the message
-    const display = document.getElementById('greetingText');
+    message.lang = "en-US";
+    message.rate = 1;
+    message.pitch = 1;
+    message.volume = 1;
 
-    // 3. Update the text if a name is provided
-    if (name.trim() !== "") {
-      display.textContent = `Hola, ${name}! Como estas ve`;
-    } else {
-      display.textContent = "Escriba su nombre por favor";
-    }
-  }
+    speechSynthesis.speak(message);
+}
+</script>
+
+</html>
+
+
+
+
 </script>
     <!-- 3. Main Div Container -->
     <div class="main-container">

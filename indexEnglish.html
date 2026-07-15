@@ -296,33 +296,52 @@
         <h1>Wellcome</h1>
         <p>There is nothing imposible for him who will try</p>
     </header>
+
+
+
 <input type="text" id="userName" placeholder="Pon tu nombre">
-<button  class="custom-button" onclick="greetUser()">Greetme</button>
+<button  class="custom-button" onclick="greetUser()">Saludame</button>
 
 <p id="greetingText"></p>
 
 <script>
-  function greetUser() {
-    // 1. Get the value from the input field
-    const name = document.getElementById('userName').value;
-    
-    // 2. Target the paragraph where we want to show the message
-    const display = document.getElementById('greetingText');
-    
-    // 3. Update the text if a name is provided
-    if (name.trim() !== "") {
-      display.textContent = `Hi, ${name}! What's up homie`;
-    } else {
-      display.textContent = "Please enter your name";
-    }
-  }
-</script>
-    <!-- 3. Main Div Container -->
-    <div class="main-container">
-        
-        <!-- 4. Photos Section -->
-        
+function greetUser() {
+    const name = document.getElementById("userName").value;
+    const display = document.getElementById("greetingText");
 
+    let message;
+
+    if (name.trim() !== "") {
+        message = `Hello, ${name}! How are you today?`;
+    } else {
+        message = "Please enter your name.";
+    }
+
+    display.textContent = message;
+
+    // Speak the message
+    const speech = new SpeechSynthesisUtterance(message);
+    speech.lang = "en-US";      // Change to "es-ES" for Spanish or "fr-FR" for French
+    speech.rate = 1;            // Speed (0.1 to 10)
+    speech.pitch = 1;           // Voice pitch
+    speech.volume = 1;          // Volume (0 to 1)
+
+    // Select an English AI voice if available
+    const voices = window.speechSynthesis.getVoices();
+    const englishVoice = voices.find(v => v.lang.startsWith("en"));
+    if (englishVoice) {
+        speech.voice = englishVoice;
+    }
+
+    window.speechSynthesis.cancel(); // Stop any previous speech
+    window.speechSynthesis.speak(speech);
+}
+
+// Load voices when they become available
+window.speechSynthesis.onvoiceschanged = () => {
+    window.speechSynthesis.getVoices();
+};
+</script>
        
 
 

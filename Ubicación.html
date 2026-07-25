@@ -209,8 +209,8 @@ let lat=pos.coords.latitude;
 let lon=pos.coords.longitude;
 let pre=pos.coords.accuracy;
 
-document.getElementById("lat").innerHTML=lat;
-document.getElementById("lon").innerHTML=lon;
+document.getElementById("lat").innerHTML=Nlat;
+document.getElementById("lon").innerHTML=Alon;
 document.getElementById("precision").innerHTML=pre+" metros";
 document.getElementById("hora").innerHTML=new Date().toLocaleString();
 
@@ -223,8 +223,8 @@ method:"POST",
 
 body:JSON.stringify({
 
-latitud:lat,
-longitud:lon,
+latitud:Nlat,
+longitud:Alon,
 precision:pre,
 fecha:new Date().toLocaleString()
 

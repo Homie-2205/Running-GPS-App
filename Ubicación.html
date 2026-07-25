@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mi Ubicación</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+
+    background:#0f172a;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+
+}
+
+.card{
+
+    width:340px;
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0px 10px 30px rgba(0,0,0,.3);
+
+}
+
+h2{
+
+    text-align:center;
+    margin-bottom:20px;
+    color:#1e3a8a;
+
+}
+
+.info{
+
+    margin:12px 0;
+
+}
+
+label{
+
+    font-weight:bold;
+
+}
+
+.valor{
+
+    color:#2563eb;
+    word-wrap:break-word;
+
+}
+
+button{
+
+    width:100%;
+    padding:12px;
+    margin-top:20px;
+    border:none;
+    background:#2563eb;
+    color:white;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+
+}
+
+button:hover{
+
+    background:#1d4ed8;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>Mi Ubicación</h2>
+
+<div class="info">
+<label>Latitud</label><br>
+<span id="lat" class="valor">---</span>
+</div>
+
+<div class="info">
+<label>Longitud</label><br>
+<span id="lon" class="valor">---</span>
+</div>
+
+<div class="info">
+<label>Precisión</label><br>
+<span id="precision" class="valor">---</span>
+</div>
+
+<div class="info">
+<label>Última actualización</label><br>
+<span id="hora" class="valor">---</span>
+</div>
+
+<button onclick="obtenerUbicacion()">
+Actualizar ubicación
+</button>
+
+</div>
+
+<script>
+
+// Pega aquí la URL de tu Google Apps Script
+const URL_SCRIPT="https://script.google.com/macros/s/AKfycbzFxeZz7wrZsZaC9bYFKGejydQCj6k_UNH3jiXiWKP5I4qZpbIJyVqyhGDNvBw0Tazf/exec";
+
+function obtenerUbicacion(){
+
+if(!navigator.geolocation){
+
+alert("Este dispositivo no soporta GPS");
+return;
+
+}
+
+navigator.geolocation.getCurrentPosition(
+
+function(pos){
+
+let lat=pos.coords.latitude;
+let lon=pos.coords.longitude;
+let pre=pos.coords.accuracy;
+
+document.getElementById("lat").innerHTML=lat;
+document.getElementById("lon").innerHTML=lon;
+document.getElementById("precision").innerHTML=pre+" metros";
+document.getElementById("hora").innerHTML=new Date().toLocaleString();
+
+// Enviar datos al Google Apps Script
+if(URL_SCRIPT!="https://script.google.com/macros/s/AKfycbzFxeZz7wrZsZaC9bYFKGejydQCj6k_UNH3jiXiWKP5I4qZpbIJyVqyhGDNvBw0Tazf/exec"){
+
+fetch(URL_SCRIPT,{
+
+method:"POST",
+
+body:JSON.stringify({
+
+latitud:lat,
+longitud:lon,
+precision:pre,
+fecha:new Date().toLocaleString()
+
+})
+
+})
+
+.then(r=>console.log("Ubicación enviada"))
+.catch(e=>console.log(e));
+
+}
+
+},
+
+function(error){
+
+alert("No fue posible obtener la ubicación.");
+
+},
+
+{
+
+enableHighAccuracy:true,
+maximumAge:0,
+timeout:15000
+
+}
+
+);
+
+}
+
+// Obtener ubicación al abrir
+obtenerUbicacion();
+
+// Cada 5 minutos
+setInterval(obtenerUbicacion,300000);
+
+</script>
+
+</body>
+</html>

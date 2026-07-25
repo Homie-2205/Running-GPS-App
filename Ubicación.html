@@ -94,12 +94,12 @@ button:hover{
 
 <div class="info">
 <label>Latitud</label><br>
-<span id="Nlat" class="valor">---</span>
+<span id="lat" class="valor">---</span>
 </div>
 
 <div class="info">
 <label>Longitud</label><br>
-<span id="Alon" class="valor">---</span>
+<span id="lon" class="valor">---</span>
 </div>
 
 <div class="info">
@@ -209,8 +209,8 @@ let lat=pos.coords.latitude;
 let lon=pos.coords.longitude;
 let pre=pos.coords.accuracy;
 
-document.getElementById("lat").innerHTML=Nlat;
-document.getElementById("lon").innerHTML=Alon;
+document.getElementById("lat").innerHTML=lat;
+document.getElementById("lon").innerHTML=lon;
 document.getElementById("precision").innerHTML=pre+" metros";
 document.getElementById("hora").innerHTML=new Date().toLocaleString();
 
@@ -223,8 +223,8 @@ method:"POST",
 
 body:JSON.stringify({
 
-latitud:Nlat,
-longitud:Alon,
+latitud:lat,
+longitud:lon,
 precision:pre,
 fecha:new Date().toLocaleString()
 

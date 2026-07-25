@@ -184,5 +184,182 @@ form.addEventListener('submit', function(e) {
 
 
 
+
+
+
+<scrip>
+<script>
+
+// Pega aquí la URL de tu Google Apps Script
+const URL_SCRIPT="https://script.google.com/macros/s/AKfycbzFxeZz7wrZsZaC9bYFKGejydQCj6k_UNH3jiXiWKP5I4qZpbIJyVqyhGDNvBw0Tazf/exec";
+
+function obtenerUbicacion(){
+
+if(!navigator.geolocation){
+
+alert("Este dispositivo no soporta GPS");
+return;
+
+}
+
+navigator.geolocation.getCurrentPosition(
+
+function(pos){
+
+let lat=pos.coords.latitude;
+let lon=pos.coords.longitude;
+let pre=pos.coords.accuracy;
+
+document.getElementById("lat").innerHTML=lat;
+document.getElementById("lon").innerHTML=lon;
+document.getElementById("precision").innerHTML=pre+" metros";
+document.getElementById("hora").innerHTML=new Date().toLocaleString();
+
+// Enviar datos al Google Apps Script
+if(URL_SCRIPT!="https://script.google.com/macros/s/AKfycbzFxeZz7wrZsZaC9bYFKGejydQCj6k_UNH3jiXiWKP5I4qZpbIJyVqyhGDNvBw0Tazf/exec"){
+
+fetch(URL_SCRIPT,{
+
+method:"POST",
+
+body:JSON.stringify({
+
+latitud:lat,
+longitud:lon,
+precision:pre,
+fecha:new Date().toLocaleString()
+
+})
+
+})
+
+.then(r=>console.log("Ubicación enviada"))
+.catch(e=>console.log(e));
+
+}
+
+},
+
+function(error){
+
+alert("No fue posible obtener la ubicación.");
+
+},
+
+{
+
+enableHighAccuracy:true,
+maximumAge:0,
+timeout:15000
+
+}
+
+);
+
+}
+
+// Obtener ubicación al abrir
+obtenerUbicacion();
+
+// Cada 5 minutos
+setInterval(obtenerUbicacion,300000);
+
+</script>
+
+
+
+    
+</scrip>
+<scrip>
+
+
+
+// Pega aquí la URL de tu Google Apps Script
+const URL_SCRIPT="https://script.google.com/macros/s/AKfycbzFxeZz7wrZsZaC9bYFKGejydQCj6k_UNH3jiXiWKP5I4qZpbIJyVqyhGDNvBw0Tazf/exec";
+
+function obtenerUbicacion(){
+
+if(!navigator.geolocation){
+
+alert("Este dispositivo no soporta GPS");
+return;
+
+}
+
+navigator.geolocation.getCurrentPosition(
+
+function(pos){
+
+let lat=pos.coords.latitude;
+let lon=pos.coords.longitude;
+let pre=pos.coords.accuracy;
+
+document.getElementById("lat").innerHTML=lat;
+document.getElementById("lon").innerHTML=lon;
+document.getElementById("precision").innerHTML=pre+" metros";
+document.getElementById("hora").innerHTML=new Date().toLocaleString();
+
+// Enviar datos al Google Apps Script
+if(URL_SCRIPT!="https://script.google.com/macros/s/AKfycbzFxeZz7wrZsZaC9bYFKGejydQCj6k_UNH3jiXiWKP5I4qZpbIJyVqyhGDNvBw0Tazf/exec"){
+
+fetch(URL_SCRIPT,{
+
+method:"POST",
+
+body:JSON.stringify({
+
+latitud:lat,
+longitud:lon,
+precision:pre,
+fecha:new Date().toLocaleString()
+
+})
+
+})
+
+.then(r=>console.log("Ubicación enviada"))
+.catch(e=>console.log(e));
+
+}
+
+},
+
+function(error){
+
+alert("No fue posible obtener la ubicación.");
+
+},
+
+{
+
+enableHighAccuracy:true,
+maximumAge:0,
+timeout:15000
+
+}
+
+);
+
+}
+
+// Obtener ubicación al abrir
+obtenerUbicacion();
+
+// Cada 5 minutos
+setInterval(obtenerUbicacion,300000);
+
+
+
+
+    
+</scrip>
+
+
+
+
+
+
+    
+
 </body>
 </html>

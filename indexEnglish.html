@@ -17,16 +17,36 @@
             font-family: Arial, sans-serif;
         }
 
-                 .navbar {
-    display: flex;
+     nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  
+  /* Fondo transparente al inicio */
+  background-color: transparent; 
+  
+  /* Transición suave de 0.4 segundos para el fondo y la sombra */
+  transition: background-color 0.4s ease, box-shadow 0.4s ease; 
+}
+
+/* 2. Estado activo (Se activa automáticamente al bajar con el scroll) */
+nav.scrolled {
+  /* Fondo amarillo al bajar */
+  background-color: #ffcc00; 
+  
+  
+    
     justify-content: space-between;
     align-items: center;
     background-color: #ffd480;
     padding: 1rem 2rem;
     gap: 16px; /* Separates the flex items by 20px */
-
+  
+  /* Sombra sutil opcional para dar profundidad sobre el contenido */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
 }
-
 
 
 
@@ -286,7 +306,7 @@
   </ul>
      
  
-        <ul class="nav-links">
+        <ul class="nav-links" align="right">
             <a href="">Rappi Cookies</a>
             <a href="Tabla.html">Santa Elena</a>
             
@@ -516,6 +536,23 @@ form.addEventListener('submit', function(e) {
     });
 });
     </script>
+
+
+
+       <script>
+  // Selecciona tu etiqueta <nav> por su ID (asegúrate de que tu <nav id="navbar"> tenga este ID)
+  const navbar = document.getElementById('navbar');
+
+  window.addEventListener('scroll', () => {
+    // Si el usuario baja más de 50 píxeles, añade la clase de fondo amarillo
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      // Si regresa al inicio de la página, vuelve a ser transparente
+      navbar.classList.remove('scrolled');
+    }
+  });
+</script>
     </div>
   
 

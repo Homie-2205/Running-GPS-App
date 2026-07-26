@@ -93,20 +93,34 @@ nav.scrolled {
 }
 
      
-        .nav-links li {
-           
-        align-items: center
-        }
-        .nav-links a {
-            color: #000000;
-            text-decoration: none;
-            transition: color 0.3s;
-            align-items: center
-        }
-        .nav-links a:hover {
-            color: #00adb5;
-            align-items: center
-        }
+        /* 1. Contenedor principal: Activa Flexbox y centra el contenido */
+.nav-links {
+    display: flex;
+    justify-content: center; /* Centra los elementos horizontalmente */
+    align-items: center;     /* Centra los elementos verticalmente */
+    list-style: none;        /* Quita los puntos negros de la lista */
+    padding: 0;              /* Elimina espaciados internos residuales */
+    margin: 0;               /* Elimina márgenes residuales */
+    gap: 20px;               /* Añade separación uniforme entre enlaces */
+}
+
+/* 2. Elementos de la lista: Ya no necesitan alineación individual */
+.nav-links li {
+    /* Mantenlo limpio o añade estilos específicos si lo deseas */
+}
+
+/* 3. Enlaces individuales */
+.nav-links a {
+    color: #000000;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+/* 4. Efecto Hover */
+.nav-links a:hover {
+    color: #00adb5;
+}
+
 
         /* 2. Header */
         .hero-header {

@@ -25,7 +25,11 @@ nav {
   width: 100%;
   z-index: 1000;
    padding: 1rem 2rem;
-    gap: 16px; /* Sep
+    gap: 16px;
+    justify-content: flex-start; / /* Alinea todo el contenido a la izquierda */
+     align-items: center;  /* Alinea todo el contenido vertical */
+    display: flex; 
+    /* Sep
   /* Fondo transparente al inicio */
   background-color: transparent; 
   
@@ -119,16 +123,16 @@ nav.scrolled {
             color: #222;
         }
 
-        .lang-link {
+.lang-link {
   color: #334155;
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 500;
-  display: flex;
-  align-items: left;  /* Perfectly centers small icon with text */
-  gap: 0.3rem;        /* Tight spacing between icon and language text */
+  display: inline-flex; /* Mantiene el link compacto e interno */
+  align-items: center; /* Corrección: "center" alinea el icono con el texto */
+  gap: 0.3rem;
   padding: 0.3rem 0.6rem;
-  border-radius: 0.375rem; /* Smooth rounded edges for background hover */
+  border-radius: 0.375rem;
   transition: all 0.2s ease;
 }
 

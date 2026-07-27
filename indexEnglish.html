@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Webpage</title>
     <style>
-       
-
         /* ==========================================================================
            CSS STYLES
            ========================================================================== */
@@ -36,7 +34,7 @@
     }
     
     nav.scrolled {
-      background-color: #ffcc00; /* Se convierte en amarillo */
+      background-color: #ffd480; /* Se convierte en amarillo */
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidad */
     }
 
@@ -238,14 +236,11 @@
             margin-top: 3rem;
         }
     </style>
- 
-
-
-    
 </head>
 <body>
-    
+
     <!-- 1. Horizontal Navigation -->
+
 
 
 
@@ -283,17 +278,14 @@
         </div>
     </nav>
 
-
     <!-- 2. Header -->
     <header class="hero-header">
-        <h1>Wellcome</h1>
-        <p>There is nothing imposible for him who will try</p>
+        <h1>Bienvenido</h1>
+        <p>No hay nada imposible para aquel que intenta.
+</p>
     </header>
-
-
-
-<input type="text" id="userName" placeholder="Pon tu nombre">
-<button  class="custom-button" onclick="greetUser()">Saludame</button>
+<input type="text" id="userName" placeholder="Put your name">
+<button  class="custom-button" onclick="greetUser()">Greet me</button>
 
 <p id="greetingText"></p>
 
@@ -335,7 +327,21 @@ window.speechSynthesis.onvoiceschanged = () => {
     window.speechSynthesis.getVoices();
 };
 </script>
-       
+
+
+
+
+
+
+
+    <!-- 3. Main Div Container -->
+    <div class="main-container">
+
+        <!-- 4. Photos Section -->
+
+
+
+
 
 
 
@@ -345,10 +351,12 @@ window.speechSynthesis.onvoiceschanged = () => {
         <section class="content-text">
             <div class="container-section">
             <h2>Join the Project</h2>
-            <h3>Work with love</h3>
-            <p>My application is based on the calorie calculation formula: Calories = Body weight (kg) × Distance (km) × Coefficient. This is the simplified formula integrated into the code; it is used by fitness experts and researchers. I hold a bachelor's degree in English from the University of Florida (USA) and a certification in computer science from SENA, among other qualifications.</p>
-            
-            <p>I am passionate about fitness and running. I use my apps, and they work wonders. Many people around the world inspire me and contribute positively to this project. Seeing my well-defined chest, running, doing CrossFit, functional training, or circuit training—it all makes me feel good. And the support from influencers and YouTubers like Weyni Tesfai (Germany), Lily Petals (South Korea), Ashley (USA), and many others makes me even happier. Words have a comforting power.</p>
+            <h3>Work with Love</h3>
+            <p>My application is based on the calorie calculation formula: Calories = Body weight (kg) × Distance (km) × Coefficient. This is the simplified formula integrated into the code; it is used by fitness experts and researchers. I hold a bachelor's degree in English from the University of Florida (USA) and a certification in computer science from SENA, among other qualifications.
+
+</p>
+
+            <p> I am passionate about fitness and running. I use my apps, and they work wonders. Many people around the world inspire me and contribute positively to this project. Seeing my well-defined chest, running, doing CrossFit, functional training, or circuit training—it all makes me feel good. And the support from influencers and YouTubers like Weyni Tesfai (Germany), Lily Petals (South Korea), Ashley (USA), and many others makes me even happier. Words have a comforting power.</p>
             </div>
               <audio autoplay controls id="myAudio">
   <source src="wild.mp3" type="audio/mpeg" id="myAudio">
@@ -361,53 +369,60 @@ document.addEventListener('click', () => {
 }, { once: true }); // Runs only once after the first click
 </script>
 
-                <div class="container-section">
+                   <div class="container-section">
             <section class="photo-gallery">
-            <img src="imderme.jpg"  style="width: 300px; height: 250px;" >
+            <a href="https://homie-2205.github.io/Database/gps.html"> <img src="imderme.jpg"  style="width: 300px; height: 250px;" ></a>
             
             <img src="fotoabril3.jpeg"  style="width: 300px; height: 250px;"  >
              
          
             <img src="prueba.jpg"   style="width: 300px; height: 250px;"   >
            </div>
+        
+
+            
+
         </section>
+
+        
             <div class="container-section">
                 <section class="content-text">
              <h2>Principles and values</h2>
              <p>Many Americans talk about work ethic—that is, working honestly. Like Tiffani, the English teacher who worked at NASA: if you want something, work honestly to achieve it. Even during the period of national unemployment, I didn't pick a single grape or a single banana. I am honest, like Singaporeans.</p>
-          <p>I love the values ​​of Jesus. He said that the Church is the people, not temples built by men. At some point in their lives, Arnold Schwarzenegger and Will Smith worked in construction to invest in themselves, develop their careers, and get ahead. They speak eloquently and inspire others with the quote: "Hard work never killed anyone."</p>
+          <p>I love the values ​​of Jesus. He said that the Church is the people, not temples built by men. At some point in their lives, Arnold Schwarzenegger and Will Smith worked in construction to invest in themselves, develop their careers, and get ahead. They speak eloquently and inspire others with the quote: "Hard work never killed anyone."
+</p>
             </section>
-        
+
             </div>
         <div class="container-section">
              <section class="content-text">
-        <h2>
-Extension Works on Desktop Computers</h2>
+        <h2>Extension Works on Desktop Computers</h2>
 <section class="photo-gallery">
-           <img src="jaguarscreem.png" alt="Open Extension" width="200" style="cursor: pointer;" onclick="openExtensionPopup()">
+
+  <img src="jaguarscreem.png" alt="Open Extension" width="200" style="cursor: pointer;" onclick="openExtensionPopup()">
 
 <script>
 function openExtensionPopup() {
     // This opens page.html in a new browser tab
-    window.open('camera.html', '_blank');
-    
+    window.open('input.html', '_blank');
+
     // OR: If you want it to open in the SAME tab instead, use this line:
     // window.location.href = 'page.html';
 }
 </script>
             <img src="jaguar3.png" alt="Open Extension" width="200" style="cursor: pointer;" 
      onclick="openExtensionPopup()">
-             
-         
+
+
             <img src="jaguar5.png">
 </section>
         </div>
-            
+
         </section>
         <div class="container-section">
                <section class="content-text">
         <h2>Alma De Atleta</h2>
-        
+
         <section class="photo-gallery">
             <img src="base.png"  style="width: 300px; height: 250px;" alt="Hope" onclick="document.getElementById('audio2').play()">
   <audio id="audio2" src="gracias.mp3"></audio>
@@ -420,8 +435,8 @@ function openExtensionPopup() {
  </section>
                       </section>
         </div>
-         
-         
+
+
             <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Widget</a> is loading comments...</div>
  <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
  <script type="text/javascript" id="hcb"> /*<!--*/ if(!window.hcb_user){hcb_user={};} (function(){var s=document.createElement("script"), l=hcb_user.PAGE || (""+window.location).replace(/'/g,"%27"), h="https://www.htmlcommentbox.com";s.setAttribute("type","text/javascript");s.setAttribute("src", h+"/jread?page="+encodeURIComponent(l).replace("+","%2B")+"&mod=%241%24wq1rdBcg%247aB745nspKAd5Xstqg1Kt1"+"&opts=16862&num=10&ts=1554953903298");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})(); /*-->*/ </script>
@@ -454,6 +469,9 @@ function openExtensionPopup() {
           </section>
 
        <div id="message"></div>
+
+
+
          <script>
      const form = document.getElementById('dataForm');
 const messageDiv = document.getElementById('message');
@@ -462,7 +480,7 @@ const submitBtn = document.getElementById('submitBtn');
 form.addEventListener('submit', function(e) {
     // Keeps you on the same page
     e.preventDefault(); 
-    
+
     submitBtn.disabled = true;
     messageDiv.textContent = "Submitting...";
     messageDiv.style.color = "black";
@@ -485,14 +503,14 @@ form.addEventListener('submit', function(e) {
     })
     .then(text => {
         submitBtn.disabled = false;
-        
+
         try {
             const data = JSON.parse(text);
             console.log("Success Data:", data);
         } catch (e) {
             console.log("Server responded with plain text instead of JSON:", text);
         }
-              
+
 
         messageDiv.textContent = "Data submitted successfully!";
         messageDiv.style.color = "green";
@@ -524,13 +542,13 @@ form.addEventListener('submit', function(e) {
   });
 </script>
     </div>
-  
 
 
 
 
 
-   
+
+
     <!-- 7. Footer -->
     <footer class="site-footer">
         <p>&copy; 2026 MyBrand. All rights reserved.</p>

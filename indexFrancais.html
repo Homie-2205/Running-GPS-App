@@ -104,21 +104,30 @@ nav.scrolled {
     gap: 20px;               /* Añade separación uniforme entre enlaces */
 }
 
-/* 2. Elementos de la lista: Ya no necesitan alineación individual */
+
+
+/* Tus estilos existentes para los elementos de lista */
 .nav-links li {
-    /* Mantenlo limpio o añade estilos específicos si lo deseas */
+    margin-left: 1.5rem;
 }
 
-/* 3. Enlaces individuales */
 .nav-links a {
-    color: #000000;
+    color: #fff;
     text-decoration: none;
     transition: color 0.3s;
 }
 
-/* 4. Efecto Hover */
 .nav-links a:hover {
     color: #00adb5;
+}
+
+/* Tu lista de idiomas alineada de forma horizontal */
+.lang-list {
+    display: flex;
+    list-style: none;               
+    margin: 0 0 0 3rem; /* Espaciado a la izquierda del bloque de idiomas */
+    padding: 0;
+    gap: 1rem;          /* Espacio entre las opciones de idioma */
 }
 
 
@@ -173,13 +182,7 @@ nav.scrolled {
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        .lang-list {
-  display: flex;
-  list-style: none;               
-  margin: 0 0 0 3rem; /* Added left margin to space it from the label */
-  padding: 0;
-  gap: 1rem;          /* Spacing between language choices */
-}
+       
         .custom-button {
   /* Layout & Sizing */
   display: inline-block;

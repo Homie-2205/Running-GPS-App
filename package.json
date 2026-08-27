@@ -1,1 +1,16 @@
-{"name":"webrtc-demo","dependencies":{"express":"^4","socket.io":"^4"}}
+{
+  "name": "render-ffmpeg-api",
+  "version": "1.0.0",
+  "description": "Node.js video processing backend using FFmpeg on Render",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "fluent-ffmpeg": "^2.1.3"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

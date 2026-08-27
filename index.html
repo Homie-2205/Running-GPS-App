@@ -439,35 +439,6 @@ function openExtensionPopup() {
          <a href="Tabla.html" class="custom-button">Santa Elena</a>
 
 
-  <h1>Online Video Converter (Browser Powered)</h1>
-  <input type="file" id="uploader">
-  <button id="convertBtn">Convert to MP4</button>
-  <video id="outputVideo" controls></video>
-
-  <script>
-    const { createFFmpeg, fetchFile } = FFmpeg;
-    const ffmpeg = createFFmpeg({ log: true });
-
-    document.getElementById('convertBtn').addEventListener('click', async () => {
-      const file = document.getElementById('uploader').files[0];
-      if (!file) return alert('Please select a file first!');
-
-      // 1. Load FFmpeg binaries into browser memory
-      if (!ffmpeg.isLoaded()) await ffmpeg.load();
-
-      // 2. Write file to virtual memory
-      ffmpeg.FS('writeFile', 'input.mov', await fetchFile(file));
-
-      // 3. Run the FFmpeg command
-      await ffmpeg.run('-i', 'input.mov', 'output.mp4');
-
-      // 4. Read the processed file and display it
-      const data = ffmpeg.FS('readFile', 'output.mp4');
-      const video = document.getElementById('outputVideo');
-      video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
-    });
-  </script>
-
 
 
             <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Widget</a> is loading comments...</div>

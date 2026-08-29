@@ -428,56 +428,32 @@ function openExtensionPopup() {
    
 
         <section class="photo-gallery">
-        <img src="construccion.png" alt="Hope" onclick="openExtensionPopup()" style="cursor: pointer; width: 300px; height: 250px; margin-bottom: 15px; margin-left: 20px;">
-<audio id="audio2" src="construccion.png"></audio>
+  
+   <section class="photo-gallery">
+  <!-- Image 1: Hope -->
+  <img src="construccion.png" alt="Hope" onclick="openExtensionPopup('construccion.png')" style="cursor: pointer; width: 300px; height: 250px; margin-bottom: 15px; margin-left: 20px;">
+  <audio id="audio2" src="construccion.png"></audio>
 
-
-  <script>
-function openExtensionPopup() {
-    // Opens the image in a popup window with exact dimensions
-    window.open(
-        'construccion.png', 
-        '_blank', 
-        'width=300,height=250,resizable=yes,scrollbars=yes'
-    );
-}
-
-</script>
-          
-            
-          
-            <img src="plano.png"  style="width: 300px; height: 250px;" alt="Recipe" onclick="openExtensionPopup()" style="cursor: pointer; width: 200px; margin-bottom: 15px; margin-left: 20px;">
+  <!-- Image 2: Recipe -->
+  <img src="plano.png" alt="Recipe" onclick="openExtensionPopup('plano.png')" style="cursor: pointer; width: 300px; height: 250px; margin-bottom: 15px; margin-left: 20px;">
   <audio id="plano" src="plano.png"></audio>
 
-  <script>
-function openExtensionPopup() {
-    // Opens the image in a popup window with exact dimensions
-    window.open(
-        'plano.png', 
-        '_blank', 
-        'width=300,height=250,resizable=yes,scrollbars=yes'
-    );
-}
-
-</script>
-          
-          
-             <!-- Image 4 plays its audio when clicked -->
-  <img src="tuberia.png" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup()" style="cursor: pointer; width: 200px; margin-bottom: 15px; margin-left: 20px;">
+  <!-- Image 3: Mapalma -->
+  <img src="tuberia.png" alt="Mapalma" onclick="openExtensionPopup('tuberia.png')" style="cursor: pointer; width: 300px; height: 250px; margin-bottom: 15px; margin-left: 20px;">
   <audio id="tubria" src="tuberia.png"></audio>
+</section>
 
-  <script>
-function openExtensionPopup() {
-    // Opens the image in a popup window with exact dimensions
+<script>
+// One single function to rule them all
+function openExtensionPopup(imageSrc) {
     window.open(
-        'tuberia.png', 
+        imageSrc, 
         '_blank', 
         'width=300,height=250,resizable=yes,scrollbars=yes'
     );
 }
-
 </script>
-          
+
             
  </section>
                  

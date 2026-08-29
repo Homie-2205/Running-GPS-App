@@ -428,17 +428,20 @@ function openExtensionPopup() {
    
 
         <section class="photo-gallery">
-            <img src="construccion.png"  style="width: 300px; height: 250px;" alt="Hope" onclick="openExtensionPopup()" style="cursor: pointer; width: 200px; margin-bottom: 15px; margin-left: 20px;">
-  <audio id="audio2" src="construccion.png"></audio>
+        <img src="construccion.png" alt="Hope" onclick="openExtensionPopup()" style="cursor: pointer; width: 300px; height: 250px; margin-bottom: 15px; margin-left: 20px;">
+<audio id="audio2" src="construccion.png"></audio>
+
 
   <script>
 function openExtensionPopup() {
-    // This opens page.html in a new browser tab
-    window.open('construccion.png', '_blank');
-
-    // OR: If you want it to open in the SAME tab instead, use this line:
-    
+    // Opens the image in a popup window with exact dimensions
+    window.open(
+        'construccion.png', 
+        '_blank', 
+        'width=300,height=250,resizable=yes,scrollbars=yes'
+    );
 }
+
 </script>
           
             
@@ -448,12 +451,14 @@ function openExtensionPopup() {
 
   <script>
 function openExtensionPopup() {
-    // This opens page.html in a new browser tab
-    window.open('plano.png', '_blank');
-
-    // OR: If you want it to open in the SAME tab instead, use this line:
-    // window.location.href = 'page.html';
+    // Opens the image in a popup window with exact dimensions
+    window.open(
+        'plano.png', 
+        '_blank', 
+        'width=300,height=250,resizable=yes,scrollbars=yes'
+    );
 }
+
 </script>
           
           
@@ -463,12 +468,14 @@ function openExtensionPopup() {
 
   <script>
 function openExtensionPopup() {
-    // This opens page.html in a new browser tab
-    window.open('tuberia.png', '_blank');
-
-    // OR: If you want it to open in the SAME tab instead, use this line:
-    // window.location.href = 'page.html';
+    // Opens the image in a popup window with exact dimensions
+    window.open(
+        'tuberia.png', 
+        '_blank', 
+        'width=300,height=250,resizable=yes,scrollbars=yes'
+    );
 }
+
 </script>
           
             

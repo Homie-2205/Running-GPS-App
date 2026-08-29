@@ -427,15 +427,37 @@ function openExtensionPopup() {
    
 
         <section class="photo-gallery">
-            <img src="construccion.png"  style="width: 300px; height: 250px;" alt="Hope" onclick="document.getElementById('audio2').play()">
-  <audio id="audio2" src="gracias.mp3"></audio>
+            <img src="construccion.png"  style="width: 300px; height: 250px;" alt="Hope" onclick="openExtensionPopup()" style="cursor: pointer; width: 200px; margin-bottom: 15px; margin-left: 20px;">
+  <audio id="audio2" src="construccion.png"></audio>
 
-             <img src="plano.png"  style="width: 300px; height: 250px;" alt="Recipe" onclick="document.getElementById('audio5').play()">
-  <audio id="audio5" src="gracias.mp3"></audio>
+
+          
+            
+            <button id="add-note-btn" onclick="openExtensionPopup()" style="cursor: pointer; width: 200px; margin-bottom: 15px; margin-left: 20px;">Calculadora</button>
+            
+            <img src="plano.png"  style="width: 300px; height: 250px;" alt="Recipe" onclick="openExtensionPopup()" style="cursor: pointer; width: 200px; margin-bottom: 15px; margin-left: 20px;">
+  <audio id="audio5" src="plano.png"></audio>
              <!-- Image 4 plays its audio when clicked -->
-  <img src="tuberia.png" alt="Mapalma" style="width: 300px; height: 250px;" onclick="document.getElementById('audio4').play()">
-  <audio id="audio4" src="gracias.mp3"></audio>
+  <img src="tuberia.png" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup()" style="cursor: pointer; width: 200px; margin-bottom: 15px; margin-left: 20px;">
+  <audio id="audio4" src="tuberia.png"></audio>
  </section>
+                 
+                   <script>
+function openExtensionPopup() {
+    // 80x90 px is usually too small for browsers; 300x400 px is standard for extensions
+    const width = 500; 
+    const height = 700;
+    
+    // Position the window in the top-right corner of the screen
+    const left = window.screen.width - width;
+    const top = 0; 
+    
+    // 'popup=1' removes toolbars, address bar, and status bars in modern browsers
+    const features = `width=${width},height=${height},left=${left},top=${top},popup=1,resizable=no,scrollbars=yes`;
+    
+    window.open('calculadora.html', 'extensionPopup', features);
+}
+</script>
 
 
                   

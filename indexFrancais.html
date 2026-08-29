@@ -297,28 +297,28 @@ function greetUser() {
     let message;
 
     if (name.trim() !== "") {
-        message = `Hello, ${name}! How are you today?`;
+        message = `Bonjour, ${name} ! Comment allez-vous aujourd'hui ?`;
     } else {
-        message = "Please enter your name.";
+        message = "Veuillez entrer votre nom.";
     }
 
     display.textContent = message;
 
     // Speak the message
     const speech = new SpeechSynthesisUtterance(message);
-    speech.lang = "en-US";      // Change to "es-ES" for Spanish or "fr-FR" for French
-    speech.rate = 1;            // Speed (0.1 to 10)
-    speech.pitch = 1;           // Voice pitch
-    speech.volume = 1;          // Volume (0 to 1)
+    speech.lang = "fr-FR";      // Changer pour "fr-FR" pour le français
+    speech.rate = 1;            // Vitesse (0.1 à 10)
+    speech.pitch = 1;           // Hauteur de la voix
+    speech.volume = 1;          // Volume (0 à 1)
 
-    // Select an English AI voice if available
+    // Select a French AI voice if available
     const voices = window.speechSynthesis.getVoices();
-    const englishVoice = voices.find(v => v.lang.startsWith("en"));
-    if (englishVoice) {
-        speech.voice = englishVoice;
+    const frenchVoice = voices.find(v => v.lang.startsWith("fr"));
+    if (frenchVoice) {
+        speech.voice = frenchVoice;
     }
 
-    window.speechSynthesis.cancel(); // Stop any previous speech
+    window.speechSynthesis.cancel(); // Arrêter toute lecture précédente
     window.speechSynthesis.speak(speech);
 }
 
@@ -327,6 +327,7 @@ window.speechSynthesis.onvoiceschanged = () => {
     window.speechSynthesis.getVoices();
 };
 </script>
+
 
 
 

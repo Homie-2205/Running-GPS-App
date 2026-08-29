@@ -289,7 +289,9 @@
 
 <p id="greetingText"></p>
 
-<script>
+
+
+   <script>
 function greetUser() {
     const name = document.getElementById("userName").value;
     const display = document.getElementById("greetingText");
@@ -297,28 +299,28 @@ function greetUser() {
     let message;
 
     if (name.trim() !== "") {
-        message = `Hello, ${name}! How are you today?`;
+        message = `¡Hola, ${name}! ¿Cómo estás hoy?`;
     } else {
-        message = "Please enter your name.";
+        message = "Por favor, ingresa tu nombre.";
     }
 
     display.textContent = message;
 
     // Speak the message
     const speech = new SpeechSynthesisUtterance(message);
-    speech.lang = "en-US";      // Change to "es-ES" for Spanish or "fr-FR" for French
-    speech.rate = 1;            // Speed (0.1 to 10)
-    speech.pitch = 1;           // Voice pitch
-    speech.volume = 1;          // Volume (0 to 1)
+    speech.lang = "es-ES";      // Cambiado a "es-ES" para español
+    speech.rate = 1;            // Velocidad (0.1 a 10)
+    speech.pitch = 1;           // Tono de voz
+    speech.volume = 1;          // Volumen (0 a 1)
 
-    // Select an English AI voice if available
+    // Select a Spanish AI voice if available
     const voices = window.speechSynthesis.getVoices();
-    const englishVoice = voices.find(v => v.lang.startsWith("en"));
-    if (englishVoice) {
-        speech.voice = englishVoice;
+    const spanishVoice = voices.find(v => v.lang.startsWith("es"));
+    if (spanishVoice) {
+        speech.voice = spanishVoice;
     }
 
-    window.speechSynthesis.cancel(); // Stop any previous speech
+    window.speechSynthesis.cancel(); // Detener cualquier voz anterior
     window.speechSynthesis.speak(speech);
 }
 
@@ -327,6 +329,7 @@ window.speechSynthesis.onvoiceschanged = () => {
     window.speechSynthesis.getVoices();
 };
 </script>
+
 
 
 

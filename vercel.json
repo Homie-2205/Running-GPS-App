@@ -1,14 +1,15 @@
 {
   "version": 2,
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/api/index.js"
-    }
-  ],
   "functions": {
-    "api/index.js": {
+    "api/convert.js": {
+      "includeFiles": "node_modules/ffmpeg-static/ffmpeg",
       "maxDuration": 60
     }
-  }
+  },
+  "routes": [
+    {
+      "src": "/api/convert",
+      "dest": "/api/convert.js"
+    }
+  ]
 }

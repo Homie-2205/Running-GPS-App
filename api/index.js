@@ -25,40 +25,54 @@ app.post('/api/convert', (req, res) => {
     keepExtensions: true,
   });
 
-  form.parse(req, async (err, fields, files) => {
+  form.parse(req, (err, fields, files) => {
     if (err) {
       return res.status(500).json({ error: 'Error parsing upload file.' });
     }
 
-    const uploadedFile = files.file ? files.file[0] : null;
-    if (!uploadedFile) {
+    // Formidable v3 wraps file properties in arrays
+    const uploadedFile = Array.isArray(files.file) ? files.file[0] : files.file;
+    if (!uploadedFile || !uploadedFile.filepath) {
       return res.status(400).json({ error: 'No file uploaded.' });
     }
 
     const inputPath = uploadedFile.filepath;
-    const outputPath = path.join('/tmp', output-${Date.now()}.mp3);
+    // FIXED: Added backticks for template literal evaluation
+    const outputPath = path.join('/tmp', `output-${Date.now()}.mp3`);
 
     // Run FFmpeg conversion
     ffmpeg(inputPath)
       .toFormat('mp3')
+      .audioBitrate('128k') // Ensures standard compression compatibility
       .on('end', () => {
         // Send processed file back to client
-        res.download(outputPath, 'converted.mp3', () => {
-          // Clean up temp files from /tmp after download
-          if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
-          if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
+        res.download(outputPath, 'converted.mp3', (downloadErr) => {
+          // Clean up temp files from /tmp after download finishes or errors
+          try {
+            if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+            if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
+          } catch (cleanupErr) {
+            console.error('Cleanup Error:', cleanupErr);
+          }
         });
       })
       .on('error', (ffmpegErr) => {
         console.error('FFmpeg Error:', ffmpegErr);
         // Clean up temp input file on error
-        if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
-        if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
+        try {
+          if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+          if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
+        } catch (cleanupErr) {
+          console.error('Cleanup Error:', cleanupErr);
+        }
 
-        res.status(500).json({
-          error: 'FFmpeg conversion failed.',
-          details: ffmpegErr.message,
-        });
+        // Avoid sending headers twice if they are already sent
+        if (!res.headersSent) {
+          res.status(500).json({
+            error: 'FFmpeg conversion failed.',
+            details: ffmpegErr.message,
+          });
+        }
       })
       .save(outputPath);
   });

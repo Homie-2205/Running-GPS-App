@@ -603,8 +603,10 @@ function openExtensionPopup() {
             <h1>Contact<span class="highlight">o</span>s</h1>
             <p style="color: #666; margin-top: 10px;">3156545314</p>
         </div>
-         <form id="dataForm" action="https://script.google.com/macros/s/AKfycbz9GEtwO0ItSHohFbFtK5MkxCA35wDjFaJ37BGuSv1zgS-l3GAqMFK002U9uCarsggXAQ/exec" method="POST">
-
+         
+<form id="dataForm" action="https://script.google.com/macros/s/AKfycbz9GEtwO0ItSHohFbFtK5MkxCA35wDjFaJ37BGuSv1zgS-l3GAqMFK002U9uCarsggXAQ/exec" method="POST">
+        <div class="form-group">
+            <label for="Name">Name:</label>
         <!-- Right Side: Input box column -->
         <div class="contact-form">
             <div class="inputs-container">
@@ -619,8 +621,8 @@ function openExtensionPopup() {
                 </div>
             </div> <!-- Closed inputs-container -->
         </div> <!-- Closed contact-form -->
-            
-        <button  class="custom-button" type="submit" id="submitBtn">Submit Data</button>
+             <button  class="custom-button" type="submit" id="submitBtn">Submit Data</button> 
+      
     </form>
     </div> <!-- Closed contact-container -->
 </section> <!-- Closed contact-section -->
@@ -631,7 +633,25 @@ function openExtensionPopup() {
 </footer>
 
 
- <script>
+  
+
+
+
+
+
+
+
+
+
+
+    
+
+       <div id="message"></div>
+
+
+
+
+         <script>
      const form = document.getElementById('dataForm');
 const messageDiv = document.getElementById('message');
 const submitBtn = document.getElementById('submitBtn');
@@ -683,21 +703,6 @@ form.addEventListener('submit', function(e) {
     });
 });
     </script>
-
-
-
-
-
-
-
-
-
-
-    
-
-       <div id="message"></div>
-
-
 
         
 

@@ -624,11 +624,7 @@ function openExtensionPopup() {
              <button  class="custom-button" type="submit" id="submitBtn">Submit Data</button> 
       
     </form>
-    </div> <!-- Closed contact-container -->
-</section> <!-- Closed contact-section -->
-
-  <div id="message"></div>
-    
+    </div> 
          <script>
      const form = document.getElementById('dataForm');
 const messageDiv = document.getElementById('message');
@@ -680,7 +676,12 @@ form.addEventListener('submit', function(e) {
         console.error("Submission Error Details:", error); 
     });
 });
-    </script>
+    </script><!-- Closed contact-container -->
+</section> <!-- Closed contact-section -->
+
+  <div id="message"></div>
+    
+      
 <!-- Footer is now completely outside and at the bottom -->
 <footer class="site-footer">
     <p>&copy; 2026 MyBrand. All rights reserved.</p>

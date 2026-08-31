@@ -606,7 +606,7 @@ function openExtensionPopup() {
          
 <form id="dataForm" action="https://script.google.com/macros/s/AKfycbz9GEtwO0ItSHohFbFtK5MkxCA35wDjFaJ37BGuSv1zgS-l3GAqMFK002U9uCarsggXAQ/exec" method="POST">
         <div class="form-group">
-            <label for="Name">Name:</label>
+            <label for="Name"></label>
         <!-- Right Side: Input box column -->
         <div class="contact-form">
             <div class="inputs-container">
@@ -624,7 +624,7 @@ function openExtensionPopup() {
              <button  class="custom-button" type="submit" id="submitBtn">Submit Data</button> 
       
     </form>
-    </div>   <div id="message"></div>
+        <div id="message"></div>
 
          <script>
      const form = document.getElementById('dataForm');
@@ -677,7 +677,8 @@ form.addEventListener('submit', function(e) {
         console.error("Submission Error Details:", error); 
     });
 });
-    </script><!-- Closed contact-container -->
+    </script><!-
+    </div>   - Closed contact-container -->
 </section> <!-- Closed contact-section -->
 
     

@@ -177,6 +177,35 @@
     flex-wrap: wrap; /* Permite que sea responsive en móviles */
 }
 
+Espacio opcional por si deseas meter el efecto azul sobre la 'o' */
+.contact-text .highlight {
+    position: relative;
+    display: inline-block;
+}
+
+
+/* Reset básico de estilos */
+
+
+/* Fondo principal oscuro */
+
+
+/* Contenedor principal de la sección */
+.contact-section {
+    width: 100%;
+    max-width: 1200px;
+    padding: 40px 20px;
+}
+
+/* Flexbox para alinear las dos columnas */
+.contact-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+    flex-wrap: wrap; /* Permite que sea responsive en móviles */
+}
+
 /* Estilos de la columna de texto */
 .contact-text {
     flex: 1;
@@ -203,6 +232,7 @@
     flex-direction: column;
     gap: 20px;
 }
+
 /* Estilos de los campos de entrada */
 .input-group input {
     width: 100%;
@@ -223,12 +253,12 @@
     background-color: #ffffff;
 }
 
-/* Estilos para el texto de sugerencia (placeholder) */
-.input-group input::placeholder {
-    color: #8c8882;
-    font-weight: 400;
-}
 
+/* Efecto visual al hacer clic en el input */
+.input-group input:focus {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    background-color: #ffffff;
+}
 /* Efecto visual al hacer clic en el input */
 
 

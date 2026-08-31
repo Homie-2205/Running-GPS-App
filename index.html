@@ -510,42 +510,45 @@ function openExtensionPopup() {
 
     </form>
   </div>
-  <!-- Contact Section -->
-   <div class="container-section">
 
-          <section class="content-text">
-    <h2>Contact</h2><br>
-   <p class="w3-large">WhatsApp: 3156545314</p>
 
+  <section class="contact-section">
+    <div class="contact-container">
+        
+        <!-- Left Side: Text heading -->
+        <div class="contact-textm">
+            <h1>Contact<span class="highlight">o</span>s</h1>
+            <p style="color: #666; margin-top: 10px;">3156545314</p>
+        </div>
          <form id="dataForm" action="https://script.google.com/macros/s/AKfycbz9GEtwO0ItSHohFbFtK5MkxCA35wDjFaJ37BGuSv1zgS-l3GAqMFK002U9uCarsggXAQ/exec" method="POST">
 
-
-      <div class="contact-text">
-                <h1>Let's talk about your <span class="highlight">project?</span></h1>
-            </div>
-            
-            <!-- Columna Derecha: Formulario -->
-            <form class="contact-form">
+        <!-- Right Side: Input box column -->
+        <div class="contact-form">
+            <div class="inputs-container">
                 <div class="input-group">
-                    <input type="text" id="Name" placeholder="Name*" required>
+                    <input type="text" id="Name" placeholder="Pon tu nombre">
                 </div>
                 <div class="input-group">
-                    <input type="email" id="Address" placeholder="adress*" required>
+                    <input type="text" id="Address" placeholder="Pon tu dirección">
                 </div>
                 <div class="input-group">
-                    <input type="tel" id=" Phone" placeholder="Phone*" required>
+                    <input type="tel" id="Phone" placeholder="Pon tu teléfono">
                 </div>
-            </form>
+            </div> <!-- Closed inputs-container -->
+        </div> <!-- Closed contact-form -->
             
         <button  class="custom-button" type="submit" id="submitBtn">Submit Data</button>
     </form>
-          </section>
+    </div> <!-- Closed contact-container -->
+</section> <!-- Closed contact-section -->
 
-       <div id="message"></div>
+<!-- Footer is now completely outside and at the bottom -->
+<footer class="site-footer">
+    <p>&copy; 2026 MyBrand. All rights reserved.</p>
+</footer>
 
 
-
-         <script>
+ <script>
      const form = document.getElementById('dataForm');
 const messageDiv = document.getElementById('message');
 const submitBtn = document.getElementById('submitBtn');
@@ -597,6 +600,23 @@ form.addEventListener('submit', function(e) {
     });
 });
     </script>
+
+
+
+
+
+
+
+
+
+
+    
+
+       <div id="message"></div>
+
+
+
+        
 
 
 

@@ -40,25 +40,38 @@
 
 
 
-.form-group input {
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
-    border: 1px solid #ccd0d5;
-    border-radius: 6px;
-    background-color: #f9f9f9;
-    transition: all 0.2s ease-in-out;
+/* Estilos de la columna del formulario */
+.contact-form {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Estilos de los campos de entrada */
+.input-group input {
+    width: 100%;
+    padding: 25px 30px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 25px; /* Bordes redondeados pronunciados */
+    background-color: #fcf9f5; /* Tono blanco hueso del fondo de los inputs */
+    color: #333333;
     outline: none;
+    transition: all 0.3s ease;
 }
 
-/* Input hover & focus states */
-.form-group input:hover {
-    border-color: #a0a5ab;
+/* Estilos para el texto de sugerencia (placeholder) */
+.input-group input::placeholder {
+    color: #8c8882;
+    font-weight: 400;
 }
 
-.form-group input:focus {
+/* Efecto visual al hacer clic en el input */
+.input-group input:focus {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
     background-color: #ffffff;
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
 }
 
 

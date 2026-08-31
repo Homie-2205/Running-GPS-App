@@ -203,18 +203,24 @@
     flex-direction: column;
     gap: 20px;
 }
-
 /* Estilos de los campos de entrada */
 .input-group input {
     width: 100%;
     padding: 25px 30px;
     font-size: 1.1rem;
-    border: none;
-    border-radius: 25px; /* Bordes redondeados pronunciados */
-    background-color: #fcf9f5; /* Tono blanco hueso del fondo de los inputs */
+    border: 2px solid #ffd700; /* 🟡 CHANGED: Added a solid gold/yellow border */
+    border-radius: 25px; 
+    background-color: #fcf9f5; 
     color: #333333;
     outline: none;
     transition: all 0.3s ease;
+}
+
+/* Efecto visual al hacer clic en el input */
+.input-group input:focus {
+    border-color: #ffcc00; /* 🟡 CHANGED: Deeper yellow when active */
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.5); /* Yellow glow */
+    background-color: #ffffff;
 }
 
 /* Estilos para el texto de sugerencia (placeholder) */
@@ -224,10 +230,6 @@
 }
 
 /* Efecto visual al hacer clic en el input */
-.input-group input:focus {
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-    background-color: #ffffff;
-}
 
 
 

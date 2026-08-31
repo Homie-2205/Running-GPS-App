@@ -1,20 +1,24 @@
 {
-  "name": "vercel-ffmpeg-converter",
+  "name": "ffmpeg-video-processor",
   "version": "1.0.0",
-  "description": "Video to MP3 converter using FFmpeg on Vercel Serverless Functions",
-  "main": "api/index.js",
+  "description": "Node.js server for processing videos with FFmpeg",
+  "main": "index.js",
   "scripts": {
-    "dev": "vercel dev"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
+  "keywords": [
+    "ffmpeg",
+    "video",
+    "processing"
+  ],
+  "author": "",
+  "license": "MIT",
   "dependencies": {
-    "@ffmpeg-installer/ffmpeg": "^1.1.0",
-    "fluent-ffmpeg": "^2.1.3",
-    "formidable": "^3.5.1"
+    "express": "^4.18.2",
+    "fluent-ffmpeg": "^2.1.2"
   },
   "devDependencies": {
-    "vercel": "^37.0.0"
-  },
-  "engines": {
-    "node": "24.x"
+    "nodemon": "^3.0.1"
   }
 }

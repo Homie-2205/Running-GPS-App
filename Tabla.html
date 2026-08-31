@@ -30,37 +30,6 @@
 }
 
 
-
-.form-group input {
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
-    border: 1px solid #ccd0d5;
-    border-radius: 6px;
-    background-color: #f9f9f9;
-    transition: all 0.2s ease-in-out;
-    outline: none;
-}
-
-/* Input hover & focus states */
-.form-group input:hover {
-    border-color: #a0a5ab;
-}
-
-.form-group input:focus {
-    background-color: #ffffff;
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
-}
-
-
-
-
-
-
-
-
-
-
 /* 2. Agrega esta regla para ocultar SOLO los dos enlaces (Santa Elena y Video Call) */
 @media (max-width: 490px) {
   .nav-links {
@@ -178,6 +147,87 @@
   outline-offset: 2px;
 }
 
+
+
+<style>
+/* Reset básico de estilos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Fondo principal oscuro */
+
+
+/* Contenedor principal de la sección */
+.contact-section {
+    width: 100%;
+    max-width: 1200px;
+    padding: 40px 20px;
+}
+
+/* Flexbox para alinear las dos columnas */
+.contact-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+    flex-wrap: wrap; /* Permite que sea responsive en móviles */
+}
+
+/* Estilos de la columna de texto */
+.contact-text {
+    flex: 1;
+    min-width: 300px;
+}
+
+.contact-text h1 {
+    font-size: 3.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+/* Espacio opcional por si deseas meter el efecto azul sobre la 'o' */
+.contact-text .highlight {
+    position: relative;
+    display: inline-block;
+}
+
+/* Estilos de la columna del formulario */
+.contact-form {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Estilos de los campos de entrada */
+.input-group input {
+    width: 100%;
+    padding: 25px 30px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 25px; /* Bordes redondeados pronunciados */
+    background-color: #fcf9f5; /* Tono blanco hueso del fondo de los inputs */
+    color: #333333;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+/* Estilos para el texto de sugerencia (placeholder) */
+.input-group input::placeholder {
+    color: #8c8882;
+    font-weight: 400;
+}
+
+/* Efecto visual al hacer clic en el input */
+.input-group input:focus {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    background-color: #ffffff;
+}
 
 
 

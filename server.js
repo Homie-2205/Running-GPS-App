@@ -1,4 +1,4 @@
-onst express = require("express");
+const express = require("express");
 const ffmpeg = require("fluent-ffmpeg");
 
 const app = express();
@@ -30,18 +30,3 @@ app.get("/ffmpeg-test", (req, res) => {
 app.listen(PORT, () => {
     console.log(Server running on port ${PORT});
 });
-{
-  "name": "node-ffmpeg-server",
-  "version": "1.0.0",
-  "description": "Node.js server with FFmpeg",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
-  },
-  "dependencies": {
-    "express": "^5.1.0",
-    "fluent-ffmpeg": "^2.1.3"
-  }
-}
-

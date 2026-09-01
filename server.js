@@ -1,41 +1,47 @@
-const express = require('express');
-const ffmpeg = require('fluent-ffmpeg');
-const path = require('path');
+onst express = require("express");
+const ffmpeg = require("fluent-ffmpeg");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// Servir archivos de la aplicación
-app.use(express.static(path.join(__dirname)));
-
-// Página principal
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+app.get("/", (req, res) => {
+    res.send("Node.js + FFmpeg server is running!");
 });
 
-// Test FFmpeg
-app.get('/ffmpeg-test', (req, res) => {
+app.get("/ffmpeg-test", (req, res) => {
     ffmpeg.getAvailableCodecs((err, codecs) => {
         if (err) {
-            console.error('FFmpeg error:', err);
-
             return res.status(500).json({
                 success: false,
-                error: 'FFmpeg is not detected or failing.',
-                details: err.message
+                error: err.message
             });
         }
 
         res.json({
             success: true,
-            status: 'FFmpeg is fully operational!',
-            total_codecs_supported: Object.keys(codecs).length
+            message: "FFmpeg is working!",
+            codecs: Object.keys(codecs).length
         });
     });
 });
 
 app.listen(PORT, () => {
-    console.log(Server is successfully listening on port ${PORT});
+    console.log(Server running on port ${PORT});
 });
+{
+  "name": "node-ffmpeg-server",
+  "version": "1.0.0",
+  "description": "Node.js server with FFmpeg",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "fluent-ffmpeg": "^2.1.3"
+  }
+}
+

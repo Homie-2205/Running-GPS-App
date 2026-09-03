@@ -8,7 +8,90 @@
         /* ==========================================================================
            CSS STYLES
            ========================================================================== */
+{
+    margin: 0;
+    padding: 0;
+}
 
+/* Make the footer horizontal and full width */
+.site-footer {
+    width: 100%;
+    background-color: #333; /* Change to your preferred background color */
+    color: #fff;            /* Change to your preferred text color */
+    text-align: center;     /* Centers the text horizontally */
+    padding: 20px 0;        /* Adds vertical space inside the footer */
+    box-sizing: border-box; /* Prevents padding from breaking the 100% width */
+}
+
+.site-footer p {
+    margin: 0;              /* Removes default paragraph margins */
+}
+
+        /* Contenedor principal de la sección */
+        .contact-section {
+            width: 100%;
+            max-width: 1200px;
+            padding: 40px 20px;
+            margin: 0 auto; /* Centra la sección de contacto en la página */
+        }
+
+        /* Flexbox para alinear las dos columnas */
+        .contact-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 50px;
+            flex-wrap: wrap; /* Permite que sea responsive en móviles */
+        }
+
+        /* Estilos de la columna de texto */
+        .contact-textm {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .contact-textm h1 {
+            font-size: 3.5rem;
+            font-weight: 500;
+            line-height: 1.2;
+            color: #333;
+        }
+
+        /* Estilos de la columna del formulario */
+        .contact-form {
+            flex: 0 0 600px; 
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; 
+        }
+
+        /* 💡 Separates input fields 10px up and down with identical spacing */
+        .inputs-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Estilos de los campos de entrada */
+        .input-group input {
+            width: 100%;
+            padding: 25px 30px;
+            font-size: 1.1rem;
+            border: 2px solid #ffd700; /* 🟡 Solid gold/yellow border */
+            border-radius: 25px; 
+            background-color: #fcf9f5; 
+            color: #333333;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        /* Efecto visual al hacer clic en el input */
+        .input-group input:focus {
+            border-color: #ffcc00; /* 🟡 Deeper yellow when active */
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.5); /* Yellow glow */
+            background-color: #ffffff;
+        }
         /* Reset default browser styles */
         * {
             margin: 0;
@@ -17,33 +100,147 @@
             font-family: Arial, sans-serif;
         }
 
+ nav {
+      position: fixed; /* Mantiene el nav fijo arriba al hacer scroll */
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 40px;
+      box-sizing: border-box;
+      background-color: transparent; /* Totalmente transparente al inicio */
+      transition: background-color 0.4s ease, box-shadow 0.4s ease; /* Transición suave */
+      z-index: 1000; /* Asegura que el nav esté por encima del contenido */
+    }
+    
+    nav.scrolled {
+      background-color: #ffd480; /* Se convierte en amarillo */
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidad */
+    }
 
 
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ffd480;
-    padding: 1rem 2rem;
-    gap: 16px; /* Separates the flex items by 20px */
 
+
+
+
+/* Espacio opcional por si deseas meter el efecto azul sobre la 'o' */
+.contact-text .highlight {
+    position: relative;
+    display: inline-block;
 }
 
 
+/* Reset básico de estilos */
+
+
+/* Fondo principal oscuro */
+
+
+/* Contenedor principal de la sección */
+.contact-section {
+    width: 100%;
+    max-width: 1200px;
+    padding: 40px 20px;
+}
+
+/* Flexbox para alinear las dos columnas */
+.contact-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+    flex-wrap: wrap; /* Permite que sea responsive en móviles */
+}
+
+/* Estilos de la columna de texto */
+.contact-text {
+    flex: 1;
+    min-width: 300px;
+}
+
+.contact-text h1 {
+    font-size: 3.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+/* Espacio opcional por si deseas meter el efecto azul sobre la 'o' */
+.contact-text .highlight {
+    position: relative;
+    display: inline-block;
+}
+
+/* Estilos de la columna del formulario */
+.contact-form {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Estilos de los campos de entrada */
+
+
+
+.input-group input {
+    width: 100%;
+    padding: 25px 30px;
+    font-size: 1.1rem;
+    border: 2px solid #ffd700;
+    border-radius: 25px;
+    background-color: #fcf9f5;
+    color: #333333;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+/* 💻 Desktop */
+@media (min-width: 768px) {
+    .input-group input {
+        width: 600px;
+        max-width: 100%;
+    }
+}
+
+/* Efecto visual al hacer clic en el input */
+.input-group input:focus {
+    border-color: #ffcc00;
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+    background-color: #ffffff;
+}
+
+/* Reset default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+
+
+
+
 /* 2. Agrega esta regla para ocultar SOLO los dos enlaces (Santa Elena y Video Call) */
-@media (max-width: 490px) {
+@media (max-width: 450px) {
   .nav-links {
     display: none;
   }
 }
 
+
+
+
         .nav-links li {
-            margin-left: 1.5rem;
+            margin-right: 1.5rem;
         }
         .nav-links a {
             color: #fff;
             text-decoration: none;
             transition: color 0.3s;
+            margin-right: 1.5rem;
         }
         .nav-links a:hover {
             color: #00adb5;
@@ -51,7 +248,7 @@
 
         /* 2. Header */
         .hero-header {
-        background-image: url("elena.gif");
+        background-image: url("I.gif");
             text-align: center;
             padding: 4rem 2rem;
             border-bottom: 1px solid #ddd;
@@ -67,16 +264,16 @@
             color: #222;
         }
 
-        .lang-link {
+.lang-link {
   color: #334155;
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 500;
-  display: flex;
-  align-items: left;  /* Perfectly centers small icon with text */
-  gap: 0.3rem;        /* Tight spacing between icon and language text */
+  display: inline-flex; /* Mantiene el link compacto e interno */
+  align-items: center; /* Corrección: "center" alinea el icono con el texto */
+  gap: 0.3rem;
   padding: 0.3rem 0.6rem;
-  border-radius: 0.375rem; /* Smooth rounded edges for background hover */
+  border-radius: 0.375rem;
   transition: all 0.2s ease;
 }
 
@@ -149,119 +346,6 @@
 
 
 
-<style>
-/* Reset básico de estilos */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Fondo principal oscuro */
-
-
-/* Contenedor principal de la sección */
-.contact-section {
-    width: 100%;
-    max-width: 1200px;
-    padding: 40px 20px;
-}
-
-/* Flexbox para alinear las dos columnas */
-.contact-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 50px;
-    flex-wrap: wrap; /* Permite que sea responsive en móviles */
-}
-
-Espacio opcional por si deseas meter el efecto azul sobre la 'o' */
-.contact-text .highlight {
-    position: relative;
-    display: inline-block;
-}
-
-
-/* Reset básico de estilos */
-
-
-/* Fondo principal oscuro */
-
-
-/* Contenedor principal de la sección */
-.contact-section {
-    width: 100%;
-    max-width: 1200px;
-    padding: 40px 20px;
-}
-
-/* Flexbox para alinear las dos columnas */
-.contact-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 50px;
-    flex-wrap: wrap; /* Permite que sea responsive en móviles */
-}
-
-/* Estilos de la columna de texto */
-.contact-text {
-    flex: 1;
-    min-width: 300px;
-}
-
-.contact-text h1 {
-    font-size: 3.5rem;
-    font-weight: 500;
-    line-height: 1.2;
-}
-
-/* Espacio opcional por si deseas meter el efecto azul sobre la 'o' */
-.contact-text .highlight {
-    position: relative;
-    display: inline-block;
-}
-
-/* Estilos de la columna del formulario */
-.contact-form {
-    flex: 1;
-    min-width: 300px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-/* Estilos de los campos de entrada */
-.input-group input {
-    width: 100%;
-    padding: 25px 30px;
-    font-size: 1.1rem;
-    border: 2px solid #ffd700; /* 🟡 CHANGED: Added a solid gold/yellow border */
-    border-radius: 25px; 
-    background-color: #fcf9f5; 
-    color: #333333;
-    outline: none;
-    transition: all 0.3s ease;
-}
-
-/* Efecto visual al hacer clic en el input */
-.input-group input:focus {
-    border-color: #ffcc00; /* 🟡 CHANGED: Deeper yellow when active */
-    box-shadow: 0 0 10px rgba(255, 204, 0, 0.5); /* Yellow glow */
-    background-color: #ffffff;
-}
-
-
-/* Efecto visual al hacer clic en el input */
-.input-group input:focus {
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-    background-color: #ffffff;
-}
-/* Efecto visual al hacer clic en el input */
-
-
 
 
 
@@ -308,6 +392,11 @@ Espacio opcional por si deseas meter el efecto azul sobre la 'o' */
             margin-top: 3rem;
         }
     </style>
+        /* ==========================================================================
+           CSS STYLES
+           ========================================================================== */
+
+      
 </head>
 <body>
 
@@ -703,8 +792,8 @@ haces que la vida exista y la haces más fácil te amo ciencia y madre naturalez
         
         <!-- Left Side: Text heading -->
         <div class="contact-textm">
-            <h1>Contact<span class="highlight">o</span>s</h1>
-              <h1>3156545314<span class="highlight"></span></h1>
+            <h2>Contact<span class="highlight">o</span>s</h2>
+              <h2>3156545314<span class="highlight"></span></h2>
             
         </div>
          
@@ -789,7 +878,7 @@ form.addEventListener('submit', function(e) {
       
 <!-- Footer is now completely outside and at the bottom -->
 <footer class="site-footer">
-    <p>&copy; 2026 MyBrand. All rights reserved.</p>
+    <p>&copy; 2026 MyBrand. Cristian Mauricio  Arcos All rights reserved.</p>
 </footer>
 
 

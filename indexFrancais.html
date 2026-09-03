@@ -4,11 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Webpage</title>
-    <style>
+   
+</head>
+<body>
+<style>
         /* ==========================================================================
            CSS STYLES
            ========================================================================== */
+{
+    margin: 0;
+    padding: 0;
+}
 
+/* Make the footer horizontal and full width */
+.site-footer {
+    width: 100%;
+    background-color: #333; /* Change to your preferred background color */
+    color: #fff;            /* Change to your preferred text color */
+    text-align: center;     /* Centers the text horizontally */
+    padding: 20px 0;        /* Adds vertical space inside the footer */
+    box-sizing: border-box; /* Prevents padding from breaking the 100% width */
+}
+
+.site-footer p {
+    margin: 0;              /* Removes default paragraph margins */
+}
+
+        /* Contenedor principal de la sección */
+        .contact-section {
+            width: 100%;
+            max-width: 1200px;
+            padding: 40px 20px;
+            margin: 0 auto; /* Centra la sección de contacto en la página */
+        }
+
+        /* Flexbox para alinear las dos columnas */
+        .contact-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 50px;
+            flex-wrap: wrap; /* Permite que sea responsive en móviles */
+        }
+
+        /* Estilos de la columna de texto */
+        .contact-textm {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .contact-textm h1 {
+            font-size: 3.5rem;
+            font-weight: 500;
+            line-height: 1.2;
+            color: #333;
+        }
+
+        /* Estilos de la columna del formulario */
+        .contact-form {
+            flex: 0 0 600px; 
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; 
+        }
+
+        /* 💡 Separates input fields 10px up and down with identical spacing */
+        .inputs-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Estilos de los campos de entrada */
+        .input-group input {
+            width: 100%;
+            padding: 25px 30px;
+            font-size: 1.1rem;
+            border: 2px solid #ffd700; /* 🟡 Solid gold/yellow border */
+            border-radius: 25px; 
+            background-color: #fcf9f5; 
+            color: #333333;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        /* Efecto visual al hacer clic en el input */
+        .input-group input:focus {
+            border-color: #ffcc00; /* 🟡 Deeper yellow when active */
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.5); /* Yellow glow */
+            background-color: #ffffff;
+        }
         /* Reset default browser styles */
         * {
             margin: 0;
@@ -40,7 +126,10 @@
 
 
 
-Espacio opcional por si deseas meter el efecto azul sobre la 'o' */
+
+
+
+/* Espacio opcional por si deseas meter el efecto azul sobre la 'o' */
 .contact-text .highlight {
     position: relative;
     display: inline-block;
@@ -97,44 +186,55 @@ Espacio opcional por si deseas meter el efecto azul sobre la 'o' */
 }
 
 /* Estilos de los campos de entrada */
+
+
+
 .input-group input {
     width: 100%;
     padding: 25px 30px;
     font-size: 1.1rem;
-    border: 2px solid #ffd700; /* 🟡 CHANGED: Added a solid gold/yellow border */
-    border-radius: 25px; 
-    background-color: #fcf9f5; 
+    border: 2px solid #ffd700;
+    border-radius: 25px;
+    background-color: #fcf9f5;
     color: #333333;
     outline: none;
     transition: all 0.3s ease;
 }
 
+/* 💻 Desktop */
+@media (min-width: 768px) {
+    .input-group input {
+        width: 600px;
+        max-width: 100%;
+    }
+}
+
 /* Efecto visual al hacer clic en el input */
 .input-group input:focus {
-    border-color: #ffcc00; /* 🟡 CHANGED: Deeper yellow when active */
-    box-shadow: 0 0 10px rgba(255, 204, 0, 0.5); /* Yellow glow */
+    border-color: #ffcc00;
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
     background-color: #ffffff;
 }
 
-
-/* Efecto visual al hacer clic en el input */
-.input-group input:focus {
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-    background-color: #ffffff;
-}
-
-
-
+/* Reset default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 
 
 
 
 /* 2. Agrega esta regla para ocultar SOLO los dos enlaces (Santa Elena y Video Call) */
-@media (max-width: 490px) {
+@media (max-width: 450px) {
   .nav-links {
     display: none;
   }
 }
+
+
+
 
         .nav-links li {
             margin-right: 1.5rem;
@@ -295,9 +395,6 @@ Espacio opcional por si deseas meter el efecto azul sobre la 'o' */
             margin-top: 3rem;
         }
     </style>
-</head>
-<body>
-
     <!-- 1. Horizontal Navigation -->
 
 
@@ -509,8 +606,8 @@ function openExtensionPopup() {
         
         <!-- Left Side: Text heading -->
         <div class="contact-textm">
-            <h1>Contact<span class="highlight">o</span>s</h1>
-              <h1>3156545314<span class="highlight"></span></h1>
+            <h2>Contact<span class="highlight">o</span>s</h2>
+              <h2>3156545314<span class="highlight"></span></h2>
             
         </div>
          
@@ -611,7 +708,7 @@ form.addEventListener('submit', function(e) {
 </script>
 <!-- Footer is now completely outside and at the bottom -->
 <footer class="site-footer">
-    <p>&copy; 2026 MyBrand. All rights reserved.</p>
+    <p>&copy; 2026 MyBrand. Cristian Mauricio Arcos All rights reserved.</p>
 </footer>
 
 

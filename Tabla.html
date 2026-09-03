@@ -822,21 +822,8 @@ haces que la vida exista y la haces más fácil te amo ciencia y madre naturalez
     </div>   
 </section> 
             
-       <script>
-  // Selecciona tu etiqueta <nav> por su ID (asegúrate de que tu <nav id="navbar"> tenga este ID)
-  const navbar = document.getElementById('navbar');
-
-  window.addEventListener('scroll', () => {
-    // Si el usuario baja más de 50 píxeles, añade la clase de fondo amarillo
-    if (window.scrollY > 50) {
-      navbar.classList.add('scrolled');
-    } else {
-      // Si regresa al inicio de la página, vuelve a ser transparente
-      navbar.classList.remove('scrolled');
-    }
-  });
-</script>
-            Closed contact-section -->
+    
+         
 
      <div id="message"></div>
 
@@ -893,7 +880,20 @@ form.addEventListener('submit', function(e) {
 });
     </script>
 
+ <script>
+  // Selecciona tu etiqueta <nav> por su ID (asegúrate de que tu <nav id="navbar"> tenga este ID)
+  const navbar = document.getElementById('navbar');
 
+  window.addEventListener('scroll', () => {
+    // Si el usuario baja más de 50 píxeles, añade la clase de fondo amarillo
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      // Si regresa al inicio de la página, vuelve a ser transparente
+      navbar.classList.remove('scrolled');
+    }
+  });
+</script>
     
 <!-- Footer is now completely outside and at the bottom -->
 <footer class="site-footer">

@@ -183,42 +183,55 @@
 }
 
 /* Estilos de los campos de entrada */
+
+
+
 .input-group input {
     width: 100%;
     padding: 25px 30px;
     font-size: 1.1rem;
-    border: 2px solid #ffd700; /* 🟡 CHANGED: Added a solid gold/yellow border */
-    border-radius: 25px; 
-    background-color: #fcf9f5; 
+    border: 2px solid #ffd700;
+    border-radius: 25px;
+    background-color: #fcf9f5;
     color: #333333;
     outline: none;
     transition: all 0.3s ease;
 }
 
+/* 💻 Desktop */
+@media (min-width: 768px) {
+    .input-group input {
+        width: 600px;
+        max-width: 100%;
+    }
+}
+
 /* Efecto visual al hacer clic en el input */
 .input-group input:focus {
-    border-color: #ffcc00; /* 🟡 CHANGED: Deeper yellow when active */
-    box-shadow: 0 0 10px rgba(255, 204, 0, 0.5); /* Yellow glow */
+    border-color: #ffcc00;
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
     background-color: #ffffff;
 }
 
-
-/* Efecto visual al hacer clic en el input */
-.input-group input:focus {
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-    background-color: #ffffff;
-}
-
+/* Reset default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 
 
 
 
 /* 2. Agrega esta regla para ocultar SOLO los dos enlaces (Santa Elena y Video Call) */
-@media (max-width: 768px) {
+@media (max-width: 450px) {
   .nav-links {
     display: none;
   }
 }
+
+
+
 
         .nav-links li {
             margin-right: 1.5rem;
@@ -622,13 +635,15 @@ function openExtensionPopup() {
                 </div>
             </div> <!-- Closed inputs-container -->
         </div> <!-- Closed contact-form -->
-             <button  class="custom-button" type="submit" id="submitBtn">Submit Data</button> 
+        
+             <div><button  class="custom-button"  style="margin-top: 20px;" type="submit" id="submitBtn">Submit Data</button> </div>
       
     </form>
     
-    </div>   
+    </div>  
+   
 </section> <!-- Closed contact-section -->
-
+ 
      <div id="message"></div>
 
          <script>
@@ -686,7 +701,7 @@ form.addEventListener('submit', function(e) {
       
 <!-- Footer is now completely outside and at the bottom -->
 <footer class="site-footer">
-    <p>&copy; 2026 MyBrand. All rights reserved.</p>
+    <p>&copy; 2026 MyBrand. Cristian Mauricio Arcos All rights reserved.</p>
 </footer>
 
 

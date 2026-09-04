@@ -716,15 +716,31 @@ function openExtensionPopup(imageSrc) {
 
               <div class="container-section">
                <section class="photo-gallery">
-            <img src="florida.jpeg"  style="width: 300px; height: 250px;" alt="Hope" onclick="document.getElementById('audio2').play()">
+                    <img src="florida.jpeg" alt="Mapalma" onclick="openExtensionPopup('tuberia.png')" style="cursor: pointer; width: 300px; height: 250px; margin-bottom: 15px; margin-left: 20px;">
+            
   <audio id="audio2" src="gracias.mp3"></audio>
 
-             <img src="mantenimiento.jpeg"  style="width: 300px; height: 250px;" alt="Recipe" onclick="document.getElementById('audio5').play()">
+             
+                    <img src="mantenimiento.png" alt="Mapalma" onclick="openExtensionPopup('mantenimiento.png')" style="cursor: pointer; width: 300px; height: 250px; margin-bottom: 15px; margin-left: 20px;">
   <audio id="audio5" src="gracias.mp3"></audio>
              <!-- Image 4 plays its audio when clicked -->
-  <img src="pan.jpeg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="document.getElementById('audio4').play()">
+  
+                    <img src="pan.jpeg" alt="Mapalma" onclick="openExtensionPopup('tuberia.png')" style="cursor: pointer; width: 300px; height: 250px; margin-bottom: 15px; margin-left: 20px;">
   <audio id="audio4" src="gracias.mp3"></audio>
  </section>
+
+
+                  
+<script>
+// One single function to rule them all
+function openExtensionPopup(imageSrc) {
+    window.open(
+        imageSrc, 
+        '_blank', 
+        'width=700,height=600,resizable=yes,scrollbars=yes'
+    );
+}
+</script>
              </div>
 
 
@@ -733,12 +749,23 @@ function openExtensionPopup(imageSrc) {
             <img src="bombillos.gif"  style="width: 300px; height: 250px;" alt="Hope" onclick="document.getElementById('audio2').play()">
   <audio id="audio2" src="gracias.mp3"></audio>
 
-             <img src="quena.png"  style="width: 300px; height: 250px;" alt="Recipe" onclick="document.getElementById('audio5').play()">
+               <img src="quena.png" alt="Mapalma" onclick="openExtensionPopup('tuberia.png')" style="cursor: pointer; width: 300px; height: 250px; margin-bottom: 15px; margin-left: 20px;">
   <audio id="audio5" src="gracias.mp3"></audio>
              <!-- Image 4 plays its audio when clicked -->
   <img src="quena2.png" alt="Mapalma" style="width: 300px; height: 250px;" onclick="document.getElementById('audio4').play()">
   <audio id="audio4" src="gracias.mp3"></audio>
  </section>
+                  
+<script>
+// One single function to rule them all
+function openExtensionPopup(imageSrc) {
+    window.open(
+        imageSrc, 
+        '_blank', 
+        'width=700,height=600,resizable=yes,scrollbars=yes'
+    );
+}
+</script>
              </div>
 
 

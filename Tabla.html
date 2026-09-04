@@ -486,7 +486,57 @@ body {
 }
 </style>
 
+<style>
+.photo-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;            /* Espacio uniforme entre cada cuadro */
+  justify-content: center; /* Centra la galería en la pantalla */
+  padding: 20px;
+}
 
+.gallery-frame {
+  display: inline-block;
+  background-color: #fff;       /* Color del paspartú (borde blanco interno) */
+  padding: 15px;                 /* Grosor del paspartú */
+  border: 12px solid #2b1d0c;    /* Color y grosor del marco exterior de madera */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); /* Sombra realista */
+}
+
+.gallery-frame img {
+  display: block;                
+  width: 300px;                  /* Ancho fijo para que todas queden iguales */
+  height: 250px;                 /* Alto fijo */
+  object-fit: cover;             /* Evita que la imagen del Jaguar se deforme */
+  cursor: pointer;
+}
+
+  
+
+.photo-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;            /* Espacio uniforme entre cada cuadro */
+  justify-content: center; /* Centra la galería en la pantalla */
+  padding: 10px;
+}
+
+.gallery-frame {
+  display: inline-block;
+  line-height: 0;                /* Elimina cualquier espacio fantasma debajo de la imagen */
+  border: 12px solid #2b1d0c;    /* Marco café exterior */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); /* Sombra realista */
+}
+
+.gallery-frame img {
+  display: block;                
+  width: 300px;                  /* Ancho fijo */
+  height: 250px;                 /* Alto fijo */
+  object-fit: cover;             /* Evita que la imagen se deforme */
+  cursor: pointer;
+}
+
+    </style>
 
 
 
@@ -668,14 +718,23 @@ function openExtensionPopup() {
    
 
         <section class="photo-gallery">
+            <div class="gallery-frame">
             <img src="elena7.jpeg"  style="width: 300px; height: 250px;" alt="Hope" onclick="document.getElementById('audio2').play()">
   <audio id="audio2" src="gracias.mp3"></audio>
+            </div>
 
+
+            <div class="gallery-frame">
              <img src="elena8.jpeg"  style="width: 300px; height: 250px;" alt="Recipe" onclick="document.getElementById('audio5').play()">
   <audio id="audio5" src="gracias.mp3"></audio>
-             <!-- Image 4 plays its audio when clicked -->
+            </div>
+        
+            
+            <div class="gallery-frame"><!-- Image 4 plays its audio when clicked -->
   <img src="elena9.jpeg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="document.getElementById('audio4').play()">
   <audio id="audio4" src="gracias.mp3"></audio>
+
+            </div>
  </section>
 
                     </section>

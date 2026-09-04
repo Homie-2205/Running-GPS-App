@@ -487,59 +487,44 @@ body {
 </style>
 
 <style>
-.
-        /* 3. Main Div Container */
-        .main-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
 
-        /* 4. Photos Section */
-        .photo-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-        .photo-gallery img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .lang-list {
+
+
+ 
+
+  <!-- Image 1: Hope -->
+  <div class="gallery-frame">
+    <img src="Jaguar.png" alt="Hope" onclick="openExtensionPopup('construccion.png')">
+    <audio id="audio2" src="construccion.png"></audio>
+  </div>
+
+ 
+.photo-gallery {
   display: flex;
-  list-style: none;               
-  margin: 0 0 0 3rem; /* Added left margin to space it from the label */
-  padding: 0;
-  gap: 1rem;          /* Spacing between language choices */
+  flex-wrap: wrap;
+  gap: 20px;            /* Espacio uniforme entre cada cuadro */
+  justify-content: center; /* Centra la galería en la pantalla */
+  padding: 20px;
 }
-        .custom-button {
-  /* Layout & Sizing */
+
+.gallery-frame {
   display: inline-block;
-  padding: 12px 24px;
-
-  /* Typography */
-  font-family: 'Segoe UI', Roboto, sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  text-decoration: none;
-  text-align: center;
-
-  /* Colors & Borders */
-  color: #1a1100;
-  background-color: #ffd480;
-  border: none;
-  border-radius: 8px;
-
-  /* Interactivity & Performance */
-  cursor: pointer;
-  user-select: none;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  background-color: #fff;       /* Color del paspartú (borde blanco interno) */
+  padding: 15px;                 /* Grosor del paspartú */
+  border: 12px solid #2b1d0c;    /* Color y grosor del marco exterior de madera */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); /* Sombra realista */
 }
 
-    </style>
+.gallery-frame img {
+  display: block;                
+  width: 300px;                  /* Ancho fijo para que todas queden iguales */
+  height: 250px;                 /* Alto fijo */
+  object-fit: cover;             /* Evita que la imagen del Jaguar se deforme */
+  cursor: pointer;
+}
+</style>
+
+
 
 
 
@@ -722,7 +707,7 @@ document.addEventListener('click', () => {
 
         
 
-        </section>
+    
         <div class="container-section">
                <section class="content-text">
    
@@ -746,8 +731,7 @@ document.addEventListener('click', () => {
 
             </div>
  </section>
-
-                    </section>
+ </section>
         <div class="container-section">
                <section class="content-text">
    
@@ -766,6 +750,7 @@ document.addEventListener('click', () => {
   <!-- Image 3: Mapalma -->
   <img src="tuberia.png" alt="Mapalma" onclick="openExtensionPopup('tuberia.png')" style="cursor: pointer; width: 300px; height: 250px; ">
   <audio id="tubria" src="tuberia.png"></audio>
+
 </section>
 
 <script>
@@ -783,11 +768,12 @@ function openExtensionPopup(imageSrc) {
  </section>
                  
         
+         </div>
 
 
                   
                   
-        </div>
+      
  <div class="container-section">
          <section class="photo-gallery">
               <div class="deco-sunburst-frame">
@@ -805,6 +791,7 @@ function openExtensionPopup(imageSrc) {
 
   </div>
  </section>
+ </div>
              <div class="container-section">
          <section class="photo-gallery">
             <img src="bombillo.jpeg"  style="width: 300px; height: 250px;" alt="Hope" onclick="document.getElementById('audio2').play()">
@@ -997,7 +984,7 @@ haces que la vida exista y la haces más fácil te amo ciencia y madre naturalez
             </section>
               </div>   
         
-
+      </section>
 
          
      

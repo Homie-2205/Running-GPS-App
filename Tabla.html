@@ -392,6 +392,106 @@
             margin-top: 3rem;
         }
     </style>
+
+<style>
+
+    /* Global Box Sizing for Perfect Math */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #ffffff; /* Clean white background */
+  color: #222222; /* Dark text for readability */
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1400px; /* Expanded slightly to comfortably fit 3 images horizontally */
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Horizontal Row - Displays frames side-by-side (one by one horizontally) */
+.photo-gallery {
+  display: flex;
+  flex-direction: row; /* Forces horizontal arrangement */
+  flex-wrap: nowrap; /* Keeps them strictly in a single row */
+  justify-content: center; /* Centers the row of frames on the page */
+  gap: 3rem; /* Creates exact clean spacing between the side-by-side frames */
+  margin-bottom: 3rem;
+  overflow-x: auto; /* Adds a scrollbar on small screens so the boxes don't crush */
+  padding: 1rem;
+}
+
+/* The Art Deco Frame - Restored Gold Tones */
+.deco-sunburst-frame {
+  position: relative;
+  padding: 10px;
+  background: #fdfdfd; /* Light frame interior to look great on white */
+  border: 3px solid #dfba6b; /* Luxury gold primary frame border */
+  display: flex; 
+  flex-shrink: 0; /* Prevents frames from squishing horizontally */
+  width: max-content;
+}
+
+/* Pseudo-elements generate the intricate corner geometry */
+.deco-sunburst-frame::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  border: 1px solid #dfba6b; /* Gold interior geometric frame line */
+  pointer-events: none;
+}
+
+.deco-sunburst-frame::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  
+  /* Creates the diagonal multi-line corner accents in gold and deep brass tones */
+  background: 
+    /* Top Left Corner */
+    linear-gradient(135deg, #dfba6b 2px, transparent 2px) 0 0 / 35px 35px no-repeat,
+    linear-gradient(135deg, transparent 6px, #8a6f3e 6px, #8a6f3e 8px, transparent 8px) 0 0 / 35px 35px no-repeat,
+    /* Top Right Corner */
+    linear-gradient(225deg, #dfba6b 2px, transparent 2px) 100% 0 / 35px 35px no-repeat,
+    linear-gradient(225deg, transparent 6px, #8a6f3e 6px, #8a6f3e 8px, transparent 8px) 100% 0 / 35px 35px no-repeat,
+    /* Bottom Left Corner */
+    linear-gradient(45deg, #dfba6b 2px, transparent 2px) 0 100% / 35px 35px no-repeat,
+    linear-gradient(45deg, transparent 6px, #8a6f3e 6px, #8a6f3e 8px, transparent 8px) 0 100% / 35px 35px no-repeat,
+    /* Bottom Right Corner */
+    linear-gradient(315deg, #dfba6b 2px, transparent 2px) 100% 100% / 35px 35px no-repeat,
+    linear-gradient(315deg, transparent 6px, #8a6f3e 6px, #8a6f3e 8px, transparent 8px) 100% 100% / 35px 35px no-repeat;
+}
+
+/* Image Element Precision Styling */
+.deco-sunburst-frame img {
+  width: 250px;
+  height: 250px;
+  object-fit: cover; 
+  display: block;
+  outline: 2px solid #dfba6b; /* Gold inner image outline */
+  outline-offset: 6px;
+  cursor: pointer;
+}
+</style>
+
+
+
+
+
+
+    
 </head>
 <body>
 
@@ -621,17 +721,21 @@ function openExtensionPopup(imageSrc) {
         </div>
  <div class="container-section">
          <section class="photo-gallery">
+              <div class="deco-sunburst-frame">
             <img src="field.jpg"  style="width: 300px; height: 250px;" alt="Hope" onclick="document.getElementById('audio2').play()">
   <audio id="audio2" src="gracias.mp3"></audio>
-
+                  </div>
+ <div class="deco-sunburst-frame">
              <img src="elena11.jpeg"  style="width: 300px; height: 250px;" alt="Recipe" onclick="document.getElementById('audio5').play()">
   <audio id="audio5" src="gracias.mp3"></audio>
+ </div>
              <!-- Image 4 plays its audio when clicked -->
+      <div class="deco-sunburst-frame">
   <img src="elena10.jpeg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="document.getElementById('audio4').play()">
   <audio id="audio4" src="gracias.mp3"></audio>
- </section>
-  </div>
 
+  </div>
+ </section>
              <div class="container-section">
          <section class="photo-gallery">
             <img src="bombillo.jpeg"  style="width: 300px; height: 250px;" alt="Hope" onclick="document.getElementById('audio2').play()">

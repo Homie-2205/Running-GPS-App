@@ -492,11 +492,6 @@ body {
 
  
 
-  <!-- Image 1: Hope -->
-  <div class="gallery-frame">
-    <img src="Jaguar.png" alt="Hope" onclick="openExtensionPopup('construccion.png')">
-    <audio id="audio2" src="construccion.png"></audio>
-  </div>
 
  
 .photo-gallery {
@@ -504,7 +499,7 @@ body {
   flex-wrap: wrap;
   gap: 20px;            /* Espacio uniforme entre cada cuadro */
   justify-content: center; /* Centra la galería en la pantalla */
-  padding: 20px;
+  padding: 10px;
 }
 
 .gallery-frame {
@@ -517,7 +512,7 @@ body {
 
 .gallery-frame img {
   display: block;                
-  width: 300px;                  /* Ancho fijo para que todas queden iguales */
+  width: 250px;                  /* Ancho fijo para que todas queden iguales */
   height: 250px;                 /* Alto fijo */
   object-fit: cover;             /* Evita que la imagen del Jaguar se deforme */
   cursor: pointer;
@@ -739,17 +734,23 @@ document.addEventListener('click', () => {
         <section class="photo-gallery">
   
    <section class="photo-gallery">
+       <div class="gallery-frame">
   <!-- Image 1: Hope -->
   <img src="construccion.png" alt="Hope" onclick="openExtensionPopup('construccion.png')" style="cursor: pointer; width: 300px; height: 250px; ">
   <audio id="audio2" src="construccion.png"></audio>
+       </div>
 
-  <!-- Image 2: Recipe -->
+       
+       <div class="gallery-frame">
   <img src="plano.png" alt="Recipe" onclick="openExtensionPopup('plano.png')" style="cursor: pointer; width: 300px; height: 250px; ">
   <audio id="plano" src="plano.png"></audio>
+       </div>
 
   <!-- Image 3: Mapalma -->
+       <div class="gallery-frame">
   <img src="tuberia.png" alt="Mapalma" onclick="openExtensionPopup('tuberia.png')" style="cursor: pointer; width: 300px; height: 250px; ">
   <audio id="tubria" src="tuberia.png"></audio>
+       </div>
 
 </section>
 
@@ -794,13 +795,22 @@ function openExtensionPopup(imageSrc) {
  </div>
              <div class="container-section">
          <section class="photo-gallery">
+             <div class="deco-sunburst-frame">
             <img src="bombillo.jpeg"  style="width: 300px; height: 250px;" alt="Hope" onclick="document.getElementById('audio2').play()">
   <audio id="audio2" src="gracias.mp3"></audio>
+             </div>
 
+
+             <div class="deco-sunburst-frame">
              <img src="varilla.jpeg"  style="width: 300px; height: 250px;" alt="Recipe" onclick="document.getElementById('audio5').play()">
   <audio id="audio5" src="gracias.mp3"></audio>
+             </div>
              <!-- Image 4 plays its audio when clicked -->
+
+
+             <div class="deco-sunburst-frame">
   <img src="maestro.jpeg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="document.getElementById('audio4').play()">
+             </div>
   <audio id="audio4" src="gracias.mp3"></audio>
  </section>
   </div>
@@ -808,85 +818,134 @@ function openExtensionPopup(imageSrc) {
 
              <div class="container-section">
          <section class="photo-gallery">
+             <div class="deco-sunburst-frame">
             <img src="villa.png"  style="width: 300px; height: 250px;" alt="Hope" onclick="document.getElementById('audio2').play()">
+             </div>
   <audio id="audio2" src="gracias.mp3"></audio>
 
+
+             <div class="deco-sunburst-frame">
              <img src="resi.jpeg"  style="width: 300px; height: 250px;" alt="Recipe" onclick="document.getElementById('audio5').play()">
+             </div>
   <audio id="audio5" src="gracias.mp3"></audio>
              <!-- Image 4 plays its audio when clicked -->
+      <div class="deco-sunburst-frame">
   <img src="nivel.gif" alt="Mapalma" style="width: 300px; height: 250px;" onclick="document.getElementById('audio4').play()">
+      </div>
   <audio id="audio4" src="gracias.mp3"></audio>
  </section>
   </div>
 
             <div class="container-section">
          <section class="photo-gallery">
+             <div class="deco-sunburst-frame">
             <img src="camara.gif"  style="width: 300px; height: 250px;" alt="Hope" onclick="document.getElementById('audio2').play()">
+                 <div>
   <audio id="audio2" src="gracias.mp3"></audio>
-
+<div class="deco-sunburst-frame">
              <img src="panel.gif"  style="width: 300px; height: 250px;" alt="Recipe" onclick="document.getElementById('audio5').play()">
+</div>
   <audio id="audio5" src="gracias.mp3"></audio>
              <!-- Image 4 plays its audio when clicked -->
+
+                     <div class="deco-sunburst-frame">
   <img src="cafetera.gif" alt="Mapalma" style="width: 300px; height: 250px;" onclick="document.getElementById('audio4').play()">
   <audio id="audio4" src="gracias.mp3"></audio>
- </section>
+                     </div>
+                 </section>
   </div>
 
             <div class="container-section">
          <section class="photo-gallery">
+             <div class="deco-sunburst-frame">
             <img src="three.jpg"  style="width: 300px; height: 250px;" alt="Hope" onclick="document.getElementById('audio2').play()">
   <audio id="audio2" src="gracias.mp3"></audio>
+             </div>
 
+
+             <div class="deco-sunburst-frame">
              <img src="nsr10.jpeg"  style="width: 300px; height: 250px;" alt="Recipe" onclick="document.getElementById('audio5').play()">
   <audio id="audio5" src="gracias.mp3"></audio>
+                 <div>
              <!-- Image 4 plays its audio when clicked -->
+                     
+             <div class="deco-sunburst-frame">
   <img src="ubuntu.jpeg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="document.getElementById('audio4').play()">
   <audio id="audio4" src="gracias.mp3"></audio>
+             </div>
  </section>
   </div>
 
 
              <div class="container-section">
          <section class="photo-gallery">
+
+             
+             <div class="deco-sunburst-frame">
             <img src="celular.jpeg"  style="width: 300px; height: 250px;" alt="Hope" onclick="document.getElementById('audio2').play()">
   <audio id="audio2" src="gracias.mp3"></audio>
+                 </div>
 
+             <div class="deco-sunburst-frame">
              <img src="cuarto.jpeg"  style="width: 300px; height: 250px;" alt="Recipe" onclick="document.getElementById('audio5').play()">
   <audio id="audio5" src="gracias.mp3"></audio>
+                 </div>
              <!-- Image 4 plays its audio when clicked -->
+             
+             <div class="deco-sunburst-frame">
   <img src="ubuntu.jpeg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="document.getElementById('audio4').play()">
   <audio id="audio4" src="gracias.mp3"></audio>
+             </div>
  </section>
   </div>
 
 
              <div class="container-section">
                <section class="photo-gallery">
+                   
+             <div class="deco-sunburst-frame">
             <img src="elena7.jpeg"  style="width: 300px; height: 250px;" alt="Hope" onclick="document.getElementById('audio2').play()">
   <audio id="audio2" src="gracias.mp3"></audio>
 
+                 </div>
+
+                   
+             <div class="deco-sunburst-frame">
              <img src="elena8.jpeg"  style="width: 300px; height: 250px;" alt="Recipe" onclick="document.getElementById('audio5').play()">
   <audio id="audio5" src="gracias.mp3"></audio>
+             </div>
              <!-- Image 4 plays its audio when clicked -->
+
+                   
+             <div class="deco-sunburst-frame">
   <img src="elena9.jpeg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="document.getElementById('audio4').play()">
   <audio id="audio4" src="gracias.mp3"></audio>
+
+             </div>
  </section>
              </div>
 
 
               <div class="container-section">
                <section class="photo-gallery">
+                   
+             <div class="deco-sunburst-frame">
                     <img src="florida.jpeg" alt="Mapalma" onclick="openExtensionPopup('florida.jpeg')" style="cursor: pointer; width: 300px; height: 250px; margin-bottom: 15px; margin-left: 20px;">
             
   <audio id="audio2" src="gracias.mp3"></audio>
-
+             </div>
              
+             <div class="deco-sunburst-frame">
                     <img src="mantenimiento.jpeg" alt="Mapalma" onclick="openExtensionPopup('mantenimiento.jpeg')" style="cursor: pointer; width: 300px; height: 250px; margin-bottom: 15px; margin-left: 20px;">
   <audio id="audio5" src="gracias.mp3"></audio>
+             </div>
              <!-- Image 4 plays its audio when clicked -->
+              
+             <div class="deco-sunburst-frame">
   
                     <img src="pan.jpeg" alt="Mapalma" onclick="openExtensionPopup('pan.jpeg')" style="cursor: pointer; width: 300px; height: 250px; margin-bottom: 15px; margin-left: 20px;">
   <audio id="audio4" src="gracias.mp3"></audio>
+             </div>
  </section>
 </div>
 
@@ -906,14 +965,22 @@ function openExtensionPopup(imageSrc) {
 
               <div class="container-section">
                <section class="photo-gallery">
+                   
+             <div class="deco-sunburst-frame">
             <img src="bombillos.gif"  style="width: 300px; height: 250px;" alt="Hope" onclick="document.getElementById('audio2').play()">
   <audio id="audio2" src="gracias.mp3"></audio>
+             </div>
 
+                   
+             <div class="deco-sunburst-frame">
                <img src="quena.png" alt="Mapalma" onclick="openExtensionPopup('quena.mp4')" style="cursor: pointer; width: 300px; height: 250px; margin-bottom: 15px; margin-left: 20px;">
   <audio id="audio5" src="gracias.mp3"></audio>
+                 
+             <div class="deco-sunburst-frame">
              <!-- Image 4 plays its audio when clicked -->
   <img src="quena2.png" alt="Mapalma" style="width: 300px; height: 250px;" onclick="document.getElementById('audio4').play()">
   <audio id="audio4" src="gracias.mp3"></audio>
+             </div>
  </section>
                   </div>
                   

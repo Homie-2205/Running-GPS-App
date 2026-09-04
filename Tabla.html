@@ -487,53 +487,56 @@ body {
 </style>
 
 <style>
-.photo-gallery {
+.
+        /* 3. Main Div Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* 4. Photos Section */
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .photo-gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .lang-list {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;            /* Espacio uniforme entre cada cuadro */
-  justify-content: center; /* Centra la galería en la pantalla */
-  padding: 20px;
+  list-style: none;               
+  margin: 0 0 0 3rem; /* Added left margin to space it from the label */
+  padding: 0;
+  gap: 1rem;          /* Spacing between language choices */
 }
-
-.gallery-frame {
+        .custom-button {
+  /* Layout & Sizing */
   display: inline-block;
-  background-color: #fff;       /* Color del paspartú (borde blanco interno) */
-  padding: 15px;                 /* Grosor del paspartú */
-  border: 12px solid #2b1d0c;    /* Color y grosor del marco exterior de madera */
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); /* Sombra realista */
-}
+  padding: 12px 24px;
 
-.gallery-frame img {
-  display: block;                
-  width: 300px;                  /* Ancho fijo para que todas queden iguales */
-  height: 250px;                 /* Alto fijo */
-  object-fit: cover;             /* Evita que la imagen del Jaguar se deforme */
+  /* Typography */
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+
+  /* Colors & Borders */
+  color: #1a1100;
+  background-color: #ffd480;
+  border: none;
+  border-radius: 8px;
+
+  /* Interactivity & Performance */
   cursor: pointer;
-}
-
-  
-
-.photo-gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;            /* Espacio uniforme entre cada cuadro */
-  justify-content: center; /* Centra la galería en la pantalla */
-  padding: 10px;
-}
-
-.gallery-frame {
-  display: inline-block;
-  line-height: 0;                /* Elimina cualquier espacio fantasma debajo de la imagen */
-  border: 12px solid #2b1d0c;    /* Marco café exterior */
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); /* Sombra realista */
-}
-
-.gallery-frame img {
-  display: block;                
-  width: 300px;                  /* Ancho fijo */
-  height: 250px;                 /* Alto fijo */
-  object-fit: cover;             /* Evita que la imagen se deforme */
-  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
     </style>
@@ -684,33 +687,40 @@ document.addEventListener('click', () => {
 
 
 
+   <section class="photo-gallery">
+            <div class="gallery-frame">
+            <img src="elena4.jpeg"  style="width: 300px; height: 250px;" alt="Hope" onclick="document.getElementById('audio2').play()">
+  <audio id="audio2" src="gracias.mp3"></audio>
+            </div>
+
+
+            <div class="gallery-frame">
+             <img src="elena2.jpeg"  style="width: 300px; height: 250px;" alt="Recipe" onclick="document.getElementById('audio5').play()">
+  <audio id="audio5" src="gracias.mp3"></audio>
+            </div>
+        
+            
+            <div class="gallery-frame"><!-- Image 4 plays its audio when clicked -->
+  <img src="imderme.jpg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="document.getElementById('audio4').play()">
+  <audio id="audio4" src="gracias.mp3"></audio>
+
+            </div>
+ </section>
 
 
 
 
-        <div class="container-section">
-             <section class="content-text">
-       
-<section class="photo-gallery">
-
-  <img src="elena4.jpeg" alt="Open Extension" width="200" style="cursor: pointer;" onclick="openExtensionPopup()">
-
-<script>
-function openExtensionPopup() {
-    // This opens page.html in a new browser tab
-    window.open('input.html', '_blank');
-
-    // OR: If you want it to open in the SAME tab instead, use this line:
-    // window.location.href = 'page.html';
-}
-</script>
-            <img src="elena5.jpeg" alt="Open Extension" width="200" style="cursor: pointer;" 
-     onclick="openExtensionPopup()">
 
 
-            <img src="elena2.jpeg">
-</section>
-        </div>
+
+
+
+
+            
+
+
+
+        
 
         </section>
         <div class="container-section">
@@ -891,7 +901,7 @@ function openExtensionPopup(imageSrc) {
                     <img src="pan.jpeg" alt="Mapalma" onclick="openExtensionPopup('pan.jpeg')" style="cursor: pointer; width: 300px; height: 250px; margin-bottom: 15px; margin-left: 20px;">
   <audio id="audio4" src="gracias.mp3"></audio>
  </section>
-
+</div>
 
                   
 <script>
@@ -918,6 +928,7 @@ function openExtensionPopup(imageSrc) {
   <img src="quena2.png" alt="Mapalma" style="width: 300px; height: 250px;" onclick="document.getElementById('audio4').play()">
   <audio id="audio4" src="gracias.mp3"></audio>
  </section>
+                  </div>
                   
 <script>
 // One single function to rule them all
@@ -929,7 +940,7 @@ function openExtensionPopup(imageSrc) {
     );
 }
 </script>
-             </div>
+             
 
 
              <div class="container-section">
@@ -979,12 +990,12 @@ haces que la vida exista y la haces más fácil te amo ciencia y madre naturalez
 
             <p>Basado en las escrituras. Un día, el rey Abimélec miró por una ventana y vio a Isaac acariciando (o jugando con) a Rebeca, lo que dejó en evidencia que eran esposos y no hermanos.(Génesis 26:8)</p>
 
-            </section>
-             </div>
 
         
 
-            </div>
+        
+            </section>
+              </div>   
         
 
 

@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Convertidor AVI a MP4</title>
-    <!-- Loaded FFmpeg and its utilities correctly from UNPKG CDN -->
-    <script src="https://unpkg.com"></script>
+    <title>Convertidor AVI a MP4 (Servidor)</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -16,7 +14,6 @@
             height: 100vh;
             margin: 0;
         }
-
         .converter-container {
             background: white;
             padding: 30px;
@@ -26,10 +23,8 @@
             max-width: 450px;
             width: 100%;
         }
-
         h2 { color: #333; margin-bottom: 5px; }
         p { color: #666; font-size: 14px; margin-bottom: 25px; }
-
         .drop-zone {
             border: 2px dashed #007bff;
             padding: 30px;
@@ -39,12 +34,10 @@
             margin-bottom: 20px;
             transition: background 0.3s;
         }
-
         .drop-zone:hover { background: #eef4ff; }
         .file-label { color: #007bff; font-weight: bold; cursor: pointer; }
         .file-name { margin-top: 10px; font-size: 13px; color: #444; font-weight: 500; }
-
-        button, .download-link {
+        button {
             width: 100%;
             padding: 12px;
             border: none;
@@ -52,23 +45,12 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
+            background-color: #007bff;
+            color: white;
             transition: background 0.3s;
         }
-
-        button { background-color: #007bff; color: white; }
         button:disabled { background-color: #cccccc; cursor: not-allowed; }
         button:not(:disabled):hover { background-color: #0056b3; }
-
-        .download-link {
-            background-color: #28a745;
-            color: white;
-            text-decoration: none;
-            display: none; /* Hidden by default until video is processed */
-            box-sizing: border-box;
-            margin-top: 15px;
-        }
-        .download-link:hover { background-color: #218838; }
-
         .progress-container { margin-top: 20px; text-align: left; display: none; }
         .status { font-size: 14px; color: #555; margin-bottom: 5px; }
     </style>
@@ -77,7 +59,7 @@
 
     <div class="converter-container">
         <h2>Convertidor AVI a MP4</h2>
-        <p>Convierte tus videos localmente sin subirlos a internet.</p>
+        <p>Sube tu archivo AVI para procesarlo en el servidor.</p>
         
         <div class="drop-zone" id="dropZone">
             <label class="file-label" for="fileInput">Selecciona o arrastra tu archivo AVI</label>
@@ -85,19 +67,16 @@
             <div class="file-name" id="fileName">Ningún archivo seleccionado</div>
         </div>
 
-        <button id="convertBtn" disabled>Convertir a MP4</button>
+        <button id="convertBtn" disabled>Convertir en Servidor</button>
 
         <div class="progress-container" id="progressContainer">
-            <div class="status" id="statusMessage">Cargando dependencias de FFmpeg...</div>
+            <div class="status" id="statusMessage">Subiendo y convirtiendo archivo... Por favor espera.</div>
         </div>
-
-        <a id="downloadLink" class="download-link" href="#" download="video.mp4">Descargar MP4</a>
     </div>
 
     <script>
-        const { createFFmpeg, fetchFile } = FFmpeg;
-        // Setting up core options to log rendering updates
-        const ffmpeg = createFFmpeg({ log: true });
+        // CHANGE THIS to your actual live Render URL!
+        const SERVER_URL = 'http://localhost:3000/convert'; 
 
         const fileInput = document.getElementById('fileInput');
         const dropZone = document.getElementById('dropZone');
@@ -105,32 +84,17 @@
         const convertBtn = document.getElementById('convertBtn');
         const progressContainer = document.getElementById('progressContainer');
         const statusMessage = document.getElementById('statusMessage');
-        const downloadLink = document.getElementById('downloadLink');
 
         let selectedFile = null;
 
-        // Handle File Drag and Drop / Selection
         dropZone.addEventListener('click', () => fileInput.click());
-        
-        fileInput.addEventListener('change', (e) => {
-            handleFileSelection(e.target.files[0]);
-        });
-
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.style.background = '#eef4ff';
-        });
-
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.style.background = '#f8faff';
-        });
-
+        fileInput.addEventListener('change', (e) => handleFileSelection(e.target.files[0]));
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.background = '#eef4ff'; });
+        dropZone.addEventListener('dragleave', () => dropZone.style.background = '#f8faff');
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault();
             dropZone.style.background = '#f8faff';
-            if (e.dataTransfer.files.length > 0) {
-                handleFileSelection(e.dataTransfer.files[0]);
-            }
+            if (e.dataTransfer.files.length > 0) handleFileSelection(e.dataTransfer.files[0]);
         });
 
         function handleFileSelection(file) {
@@ -138,52 +102,46 @@
                 selectedFile = file;
                 fileNameDisplay.textContent = file.name;
                 convertBtn.disabled = false;
-                downloadLink.style.display = 'none'; // Reset download link on new file selection
             } else {
-                alert('Por favor selecciona un archivo de extensión .avi válido.');
+                alert('Por favor selecciona un archivo .avi válido.');
             }
         }
 
-        // Processing / Conversion logic
         convertBtn.addEventListener('click', async () => {
             if (!selectedFile) return;
 
             convertBtn.disabled = true;
             progressContainer.style.display = 'block';
-            statusMessage.textContent = 'Inicializando motor FFmpeg...';
+            statusMessage.textContent = 'Subiendo video al servidor y procesando...';
+
+            const formData = new FormData();
+            formData.append('video', selectedFile);
 
             try {
-                // Load FFmpeg WebAssembly framework if not ready
-                if (!ffmpeg.isLoaded()) {
-                    await ffmpeg.load();
-                }
+                const response = await fetch(SERVER_URL, {
+                    method: 'POST',
+                    body: formData
+                });
 
-                statusMessage.textContent = 'Procesando y leyendo archivo de video...';
+                if (!response.ok) throw new Error('Error en la conversión del servidor.');
+
+                // Capture the binary blob returned by the server
+                const blob = await response.blob();
+                const downloadUrl = URL.createObjectURL(blob);
                 
-                // Write the file payload system into FFmpeg virtual memory
-                ffmpeg.FS('writeFile', 'input.avi', await fetchFile(selectedFile));
+                // Programmatically trigger a direct browser file download
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = selectedFile.name.replace('.avi', '.mp4');
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
 
-                statusMessage.textContent = 'Convirtiendo formato (AVI -> MP4)... Esto puede tomar unos minutos.';
-                
-                // Execute standard conversion commands mapping structural audio/video channels
-                await ffmpeg.run('-i', 'input.avi', '-c:v', 'libx264', '-c:a', 'aac', 'output.mp4');
-
-                statusMessage.textContent = 'Conversión completada con éxito!';
-
-                // Read output binary array representation out of virtual memory
-                const data = ffmpeg.FS('readFile', 'output.mp4');
-
-                // Generate valid local system download anchor pointer URL mapping the binary array payload
-                const mp4Blob = new Blob([data.buffer], { type: 'video/mp4' });
-                const url = URL.createObjectURL(mp4Blob);
-
-                downloadLink.href = url;
-                downloadLink.download = selectedFile.name.replace('.avi', '.mp4');
-                downloadLink.style.display = 'inline-block';
-
+                statusMessage.textContent = '¡Conversión y descarga completadas!';
             } catch (error) {
                 console.error(error);
-                statusMessage.textContent = 'Ocurrió un error inesperado al procesar el archivo.';
+                statusMessage.textContent = 'Error: No se pudo completar la conversión.';
+            } finally {
                 convertBtn.disabled = false;
             }
         });

@@ -1,25 +1,16 @@
 const express = require('express');
+const path = require('path');
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(express.json());
+// 1. Serve other static assets (CSS, JS, Images) if they are in the root
+app.use(express.static(path.join(__dirname, '.')));
 
-// Example route
+// 2. Serve index.html when a user visits the root URL '/'
 app.get('/', (req, res) => {
-  res.send('Node + FFmpeg server is running');
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Import and use other files
-const someModule = require('./someModule');
-
-// Example endpoint using another file
-app.get('/process', (req, res) => {
-  const result = someModule.doSomething();
-  res.json({ result });
-});
-
-// Start server on Render port
-const port = process.env.PORT || 10000;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });

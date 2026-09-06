@@ -839,9 +839,23 @@ function openExtensionPopup(imageSrc) {
   <audio id="audio2" src="gracias.mp3"></audio>
                   </div>
  <div class="deco-sunburst-frame">
+
+     <img src="simson.jpeg" alt="Mapalma" onclick="openExtensionPopup('new andeanjazz.mp3')" style="cursor: pointer; width: 250px; height: 250px; ">
+  <audio id="audio5" src="gracias.mp3"></audio>
              <img src="simson.jpeg"  style="width: 250px; height: 250px;" alt="Recipe" onclick="document.getElementById('audio5').play()">
   <audio id="audio5" src="gracias.mp3"></audio>
  </div>
+
+          <script>
+// One single function to rule them all
+function openExtensionPopup(imageSrc) {
+    window.open(
+        imageSrc, 
+        '_blank', 
+        'width=700,height=600,resizable=yes,scrollbars=yes'
+    );
+}
+</script>
              <!-- Image 4 plays its audio when clicked -->
       <div class="deco-sunburst-frame">
   <img src="matera.jpeg" alt="Mapalma" style="width: 250px; height: 250px;" onclick="document.getElementById('audio4').play()">

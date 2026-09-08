@@ -392,6 +392,75 @@
             margin-top: 3rem;
         }
     </style>
+    <style>
+
+
+
+    /* Outermost frame bounding structural lines */
+    .outer-geometric-frame {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      padding: 9px;
+      box-sizing: border-box;
+      
+      /* Generates the primary outer parallel golden outlines */
+      border: 3px double #d4af37; 
+      outline: 1px solid #f3e5ab;
+      outline-offset: -8px;
+      
+      /* Simulates metallic reflection */
+      box-shadow: 
+        inset 0 0 15px rgba(212, 175, 55, 0.3),
+        0 0 20px rgba(0, 0, 0, 0.7);
+        
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Recreates the secondary inner nested lines and geometric offsets */
+    .mid-geometric-lines {
+      width: 100%;
+      height: 100%;
+      padding: 19px;
+      box-sizing: border-box;
+      border: 1px solid #aa7c11;
+      
+      /* Layered double lines using inset box shadows to match the image structure */
+      box-shadow: 
+        inset 0 0 0 2px #d4af37,
+        inset 0 0 0 6px #ffffff,
+        inset 0 0 0 8px #f3e5ab,
+        inset 0 0 0 10px #aa7c11;
+        
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Core inner frame line sitting directly against your image */
+    .inner-sharp-border {
+      width: 100%;
+      height: 100%;
+      border: 4px double #d4af37;
+      box-shadow: 0 0 0 4px #ffffff;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #ffffff;
+    }
+
+    /* The nested display content placeholder */
+    .inner-sharp-border img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+        
+    </style>
 </head>
 <body>
 
@@ -527,13 +596,50 @@ document.addEventListener('click', () => {
 </script>
 
                    <div class="container-section">
+                    
             <section class="photo-gallery">
+
+
+
+
+                 <div class="outer-geometric-frame">
+    <div class="mid-geometric-lines">
+      <div class="inner-sharp-border">
+                
             <a href="https://homie-2205.github.io/Database/gps.html"> <img src="imderme.jpg"  style="width: 300px; height: 250px;" ></a>
-            
-            <img src="fotoabril3.jpeg"  style="width: 300px; height: 250px;"  >
-             
+</div>
+              </div>
+                  </div>
+           </div>
+        
+
+
+
+
+
+          
+
+           <div class="outer-geometric-frame">
+    <div class="mid-geometric-lines">
+      <div class="inner-sharp-border">
+             <img src="fotoabril3.jpeg"  style="width: 300px; height: 250px;"  >
+ </div>
+              </div>
+                  </div>
+           </div>
+        
+
+
+
+
+           <div class="outer-geometric-frame">
+    <div class="mid-geometric-lines">
+      <div class="inner-sharp-border">
          
             <img src="prueba.jpg"   style="width: 300px; height: 250px;"   >
+   </div>
+              </div>
+                  </div>
            </div>
         
 
@@ -555,8 +661,16 @@ document.addEventListener('click', () => {
              <section class="content-text">
         <h2>Extension que funciona sobre computadores de mesa.</h2>
 <section class="photo-gallery">
+      <div class="outer-geometric-frame">
+    <div class="mid-geometric-lines">
+      <div class="inner-sharp-border">
 
   <img src="jaguarscreem.png" alt="Open Extension" width="200" style="cursor: pointer;" onclick="openExtensionPopup()">
+    
+      </div>
+           </div>
+             </div>
+      
 
 <script>
 function openExtensionPopup() {
@@ -567,19 +681,30 @@ function openExtensionPopup() {
     // window.location.href = 'page.html';
 }
 </script>
+
+            <div class="outer-geometric-frame">
+    <div class="mid-geometric-lines">
+      <div class="inner-sharp-border">
             <img src="jaguar3.png" alt="Open Extension" width="200" style="cursor: pointer;" 
      onclick="openExtensionPopup()">
 
 
+      </div>
+           </div>
+             </div>
             
     
-    
+      <div class="outer-geometric-frame">
+    <div class="mid-geometric-lines">
+      <div class="inner-sharp-border">
 
                <img src="jaguar5.png" alt="Mapalma" onclick="openExtensionPopup('Efrain1.mp4')" style="cursor: pointer; ">
 
 
 
-
+      </div>
+           </div>
+             </div>
 
 
 
@@ -613,14 +738,36 @@ function openExtensionPopup(imageSrc) {
         <h2>Alma De Atleta</h2>
 
         <section class="photo-gallery">
+              <div class="outer-geometric-frame">
+    <div class="mid-geometric-lines">
+      <div class="inner-sharp-border">
             <img src="base.png"  style="width: 300px; height: 250px;" alt="Hope" onclick="document.getElementById('audio2').play()">
   <audio id="audio2" src="gracias.mp3"></audio>
+
+</div>
+          </div>
+                  </div>
+
+            <div class="outer-geometric-frame">
+    <div class="mid-geometric-lines">
+      <div class="inner-sharp-border">
 
              <img src="alma2.png"  style="width: 300px; height: 250px;" alt="Recipe" onclick="document.getElementById('audio5').play()">
   <audio id="audio5" src="gracias.mp3"></audio>
              <!-- Image 4 plays its audio when clicked -->
+</div>
+          </div>
+                  </div>
+
+            <div class="outer-geometric-frame">
+    <div class="mid-geometric-lines">
+      <div class="inner-sharp-border">
   <img src="gpsalma.png" alt="Mapalma" style="width: 300px; height: 250px;" onclick="document.getElementById('audio4').play()">
   <audio id="audio4" src="gracias.mp3"></audio>
+
+      </div>
+          </div>
+                  </div>
  </section>
                       </section>
         </div>

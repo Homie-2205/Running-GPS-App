@@ -401,7 +401,7 @@
             margin: 50px auto;
             
             /* Tiles the tiny lamp.jpg image over and over again */
-            background-image: url('B.png');
+            background-image: url('redpequeño.jpg.');
             background-repeat: repeat;
             
             /* This controls the width/thickness of your frame */
@@ -414,6 +414,37 @@
 
         /* 2. The inner main content image */
         .inner-photo {
+            display: block;
+            width: 100%;
+            height: auto;
+            
+            /* Gives a sharp clean edge separating it from the background texture */
+            outline: 2px solid #ffffff; 
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+    
+</style>
+<style>
+
+ /* 1. The outer frame container holds the repeating background */
+        .frame-containerb {
+            width: 320px;
+            margin: 50px auto;
+            
+            /* Tiles the tiny lamp.jpg image over and over again */
+            background-image: url('goldenpequeño.png');
+            background-repeat: repeat;
+            
+            /* This controls the width/thickness of your frame */
+            padding: 13px; 
+            
+            /* Visual styling for the frame edges */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+
+        /* 2. The inner main content image */
+        .inner-photob {
             display: block;
             width: 100%;
             height: auto;
@@ -650,22 +681,28 @@ function openExtensionPopup(imageSrc) {
       
 
   
-        <div class="container-section">
-               <section class="content-text">
-        <h2>Alma De Atleta</h2>
-
         <section class="photo-gallery">
-            <img src="base.png"  style="width: 300px; height: 250px;" alt="Hope" onclick="document.getElementById('audio2').play()">
+             <div class="frame-container">
+            <img src="base.png"  style="width: 250px; height: 250px;" alt="Hope" onclick="document.getElementById('audio2').play()">
   <audio id="audio2" src="gracias.mp3"></audio>
+             </div>
 
-             <img src="alma2.png"  style="width: 300px; height: 250px;" alt="Recipe" onclick="document.getElementById('audio5').play()">
+             <div class="frame-container">
+             <img src="alma2.png"  style="width: 250px; height: 250px;" alt="Recipe" onclick="document.getElementById('audio5').play()">
   <audio id="audio5" src="gracias.mp3"></audio>
+             </div>
              <!-- Image 4 plays its audio when clicked -->
-  <img src="gpsalma.png" alt="Mapalma" style="width: 300px; height: 250px;" onclick="document.getElementById('audio4').play()">
+
+             <div class="frame-container">
+  <img src="gpsalma.png" alt="Mapalma" style="width: 250px; height: 250px;" onclick="document.getElementById('audio4').play()">
   <audio id="audio4" src="gracias.mp3"></audio>
+
+             </div>
  </section>
                       </section>
         </div>
+
+       
   <a href="Tabla.html" class="custom-button">Santa Elena</a>
 
             <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Widget</a> is loading comments...</div>

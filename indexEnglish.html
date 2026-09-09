@@ -393,6 +393,37 @@
             margin-top: 3rem;
         }
     </style>       
+<style>
+
+ /* 1. The outer frame container holds the repeating background */
+        .frame-container {
+            width: 320px;
+            margin: 50px auto;
+            
+            /* Tiles the tiny lamp.jpg image over and over again */
+            background-image: url('B.png');
+            background-repeat: repeat;
+            
+            /* This controls the width/thickness of your frame */
+            padding: 13px; 
+            
+            /* Visual styling for the frame edges */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+
+        /* 2. The inner main content image */
+        .inner-photo {
+            display: block;
+            width: 100%;
+            height: auto;
+            
+            /* Gives a sharp clean edge separating it from the background texture */
+            outline: 2px solid #ffffff; 
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+    
+</style>
 
 
 </head>
@@ -558,6 +589,9 @@ document.addEventListener('click', () => {
         <h2>Extension Works on Desktop Computers</h2>
 <section class="photo-gallery">
 
+
+     <div class="frame-container">
+
   <img src="jaguarscreem.png" alt="Open Extension" width="200" style="cursor: pointer;" onclick="openExtensionPopup()">
 
 <script>
@@ -569,15 +603,22 @@ function openExtensionPopup() {
     // window.location.href = 'page.html';
 }
 </script>
+
+     </div>
+
+     <div class="frame-container">
             <img src="jaguar3.png" alt="Open Extension" width="200" style="cursor: pointer;" 
      onclick="openExtensionPopup()">
 
-
+     </div>
+            
+ <div class="frame-container">
 
                <img src="jaguar5.png" alt="Mapalma" onclick="openExtensionPopup('Efrain1.mp4')" style="cursor: pointer; ">
 
 
 
+ </div>
 
 
 
@@ -586,7 +627,8 @@ function openExtensionPopup() {
 
 
 
-
+</section>
+        </div>
 <script>
 // One single function to rule them all
 function openExtensionPopup(imageSrc) {
@@ -597,13 +639,17 @@ function openExtensionPopup(imageSrc) {
     );
 }
 </script>
+        </section>
 
+
+
+  </div>
 
     
 </section>
-        </div>
+      
 
-        </section>
+  
         <div class="container-section">
                <section class="content-text">
         <h2>Alma De Atleta</h2>

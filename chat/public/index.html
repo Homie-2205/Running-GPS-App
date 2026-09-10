@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chat P2P</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#101114;color:#fff;min-height:100vh}
+.container{max-width:600px;margin:auto;padding:20px}
+h1{text-align:center}
+.card{background:#1b1d22;border-radius:18px;padding:18px;margin-top:15px}
+input,button{width:100%;padding:14px;border-radius:12px;border:0;font-size:16px;margin-top:10px}
+input{background:#292c33;color:#fff}
+button{background:#ffd400;color:#111;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.5}
+#status{text-align:center;margin:15px 0;color:#ffd400}
+#messages{height:400px;overflow-y:auto;background:#0b0c0f;border-radius:14px;padding:12px}
+.msg{padding:9px 12px;margin:7px 0;border-radius:12px;max-width:80%;background:#292c33;word-wrap:break-word}
+.me{margin-left:auto;background:#ffd400;color:#111}
+.system{text-align:center;color:#aaa;font-size:13px}
+.row{display:flex;gap:8px}
+.row input{flex:1}
+.row button{width:110px}
+.small{text-align:center;color:#aaa;font-size:13px}
+#chat{display:none}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>💬 Chat P2P</h1>
+
+  <div id="login" class="card">
+    <p>Escribe un código de sala. Las dos personas deben usar el mismo.</p>
+    <input id="room" maxlength="40" placeholder="Ejemplo: CRISTIAN123">
+    <button id="join">Entrar al chat</button>
+    <p class="small">Máximo 2 personas por sala.</p>
+  </div>
+
+  <div id="chat" class="card">
+    <div id="status">Conectando...</div>
+    <div id="messages"></div>
+
+    <div class="row">
+      <input id="text" placeholder="Escribe un mensaje..." autocomplete="off">
+      <button id="send">Enviar</button>
+    </div>
+    <button id="leave">Salir</button>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+const socket = io();
+
+let roomId = "";
+let pc = null;
+let channel = null;
+let isInitiator = false;
+let joined = false;
+
+const $ = id => document.getElementById(id);
+const status = $("status");
+
+function addMessage(text, mine=false, system=false){
+  const div=document.createElement("div");
+  div.className = system ? "system" : "msg"+(mine ? " me" : "");
+  div.textContent=text;
+  $("messages").appendChild(div);
+  $("messages").scrollTop=$("messages").scrollHeight;
+}
+
+function sendSignal(data){
+  socket.emit("signal", {roomId, data});
+}
+
+function createPeer(initiator){
+  if(pc) pc.close();
+
+  isInitiator=initiator;
+
+  pc=new RTCPeerConnection({
+    iceServers:[
+      {urls:"stun:stun.l.google.com:19302"},
+      {urls:"stun:stun1.l.google.com:19302"}
+    ]
+  });
+
+  pc.onicecandidate = e => {
+    if(e.candidate) sendSignal({type:"candidate", candidate:e.candidate});
+  };
+
+  pc.onconnectionstatechange = () => {
+    status.textContent = "Estado: " + pc.connectionState;
+    if(pc.connectionState==="connected"){
+      status.textContent="🟢 Conectados P2P";
+    }
+  };
+
+  pc.ondatachannel = e => {
+    channel=e.channel;
+    setupChannel();
+  };
+
+  if(initiator){
+    channel=pc.createDataChannel("chat");
+    setupChannel();
+
+    pc.createOffer().then(offer=>{
+      return pc.setLocalDescription(offer);
+    }).then(()=>{
+      sendSignal({type:"offer", offer:pc.localDescription});
+    });
+  }
+}
+
+function setupChannel(){
+  channel.onopen=()=>{
+    status.textContent="🟢 Chat P2P conectado";
+  };
+
+  channel.onclose=()=>{
+    status.textContent="🔴 Chat desconectado";
+  };
+
+  channel.onmessage=e=>{
+    addMessage(e.data,false);
+  };
+}
+
+socket.on("signal", async data=>{
+  try{
+    if(!pc) createPeer(false);
+
+    if(data.type==="offer"){
+      await pc.setRemoteDescription(data.offer);
+      const answer=await pc.createAnswer();
+      await pc.setLocalDescription(answer);
+      sendSignal({type:"answer", answer:pc.localDescription});
+    }
+
+    if(data.type==="answer"){
+      await pc.setRemoteDescription(data.answer);
+    }
+
+    if(data.type==="candidate"){
+      await pc.addIceCandidate(data.candidate);
+    }
+  }catch(err){
+    console.error(err);
+  }
+});
+
+socket.on("peer-joined",()=>{
+  addMessage("La segunda persona entró. Conectando...",false,true);
+
+  // La primera persona inicia la conexión WebRTC.
+  if(!pc) createPeer(true);
+});
+
+socket.on("peer-left",()=>{
+  addMessage("La otra persona salió del chat.",false,true);
+  status.textContent="🟡 Esperando a la otra persona...";
+  if(pc){pc.close();pc=null;}
+  channel=null;
+});
+
+socket.on("room-users",n=>{
+  if(n===1) status.textContent="🟡 Esperando a la segunda persona...";
+  if(n===2) status.textContent="🔄 Conectando P2P...";
+});
+
+$("join").onclick=()=>{
+  const value=$("room").value.trim();
+
+  if(!value){
+    alert("Escribe un código de sala.");
+    return;
+  }
+
+  roomId=value;
+  socket.emit("join-room",roomId,result=>{
+    if(!result.ok){
+      alert(result.error);
+      return;
+    }
+
+    joined=true;
+    $("login").style.display="none";
+    $("chat").style.display="block";
+    addMessage("Sala: "+roomId,false,true);
+  });
+};
+
+function sendMessage(){
+  const input=$("text");
+  const text=input.value.trim();
+
+  if(!text) return;
+
+  if(!channel || channel.readyState!=="open"){
+    alert("Todavía no hay conexión P2P.");
+    return;
+  }
+
+  channel.send(text);
+  addMessage(text,true);
+  input.value="";
+  input.focus();
+}
+
+$("send").onclick=sendMessage;
+
+$("text").addEventListener("keydown",e=>{
+  if(e.key==="Enter") sendMessage();
+});
+
+$("leave").onclick=()=>{
+  location.reload();
+};
+</script>
+</body>
+</html>

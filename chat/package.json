@@ -1,0 +1,14 @@
+{
+  "name": "chat-p2p-render",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Chat P2P de dos personas con WebRTC y Socket.IO",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  }
+}

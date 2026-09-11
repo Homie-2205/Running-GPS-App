@@ -1,60 +1,62 @@
-const express = require('express');
-const http = require('http');
-const { Server } = require('socket.io');
-const path = require('path');
+const express = require("express");
+const http = require("http");
+const { Server } = require("socket.io");
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-const PORT = process.env.PORT || 3000;
+app.use(express.static("public"));
 
-// Servir los archivos estáticos (guarda tu HTML como index.html en una carpeta llamada 'public')
-app.use(express.static(path.join(__dirname, 'public')));
+const rooms = new Map();
 
-io.on('connection', (socket) => {
-  let currentRoom = null;
+io.on("connection", (socket) => {
+  socket.on("join-room", (roomId, callback) => {
+    roomId = String(roomId || "").trim();
 
-  // 1. Gestión de ingreso a la sala
-  socket.on('join-room', (roomId, callback) => {
-    const room = io.sockets.adapter.rooms.get(roomId);
-    const numClients = room ? room.size : 0;
-
-    // Límite estricto de 2 personas por sala
-    if (numClients >= 2) {
-      return callback({ ok: false, error: "La sala está llena (Máximo 2 personas)." });
+    if (!/^[A-Za-z0-9_-]{4,40}$/.test(roomId)) {
+      return callback?.({ ok: false, error: "Código de sala inválido." });
     }
 
-    currentRoom = roomId;
+    const room = rooms.get(roomId) || new Set();
+
+    if (room.size >= 2) {
+      return callback?.({ ok: false, error: "La sala ya tiene 2 personas." });
+    }
+
     socket.join(roomId);
+    socket.data.roomId = roomId;
+    room.add(socket.id);
+    rooms.set(roomId, room);
 
-    // Confirmar éxito al cliente actual
-    callback({ ok: true });
+    callback?.({ ok: true, users: room.size });
 
-    // Notificar al cliente existente (si hay uno) para que inicie WebRTC
-    socket.to(roomId).emit('peer-joined');
-
-    // Enviar el conteo actualizado de usuarios en la sala
-    io.to(roomId).emit('room-users', numClients + 1);
+    socket.to(roomId).emit("peer-joined");
+    io.to(roomId).emit("room-users", room.size);
   });
 
-  // 2. Retransmisión de señales WebRTC (ofertas, respuestas e ICE candidates)
-  socket.on('signal', ({ roomId, data }) => {
-    socket.to(roomId).emit('signal', data);
-  });
-
-  // 3. Control de salida manual o desconexión abrupta
-  socket.on('disconnect', () => {
-    if (currentRoom) {
-      socket.to(currentRoom).emit('peer-left');
-      
-      const room = io.sockets.adapter.rooms.get(currentRoom);
-      const remainingUsers = room ? room.size : 0;
-      io.to(currentRoom).emit('room-users', remainingUsers);
+  socket.on("signal", ({ roomId, data }) => {
+    if (socket.data.roomId === roomId) {
+      socket.to(roomId).emit("signal", data);
     }
+  });
+
+  socket.on("disconnect", () => {
+    const roomId = socket.data.roomId;
+    if (!roomId) return;
+
+    const room = rooms.get(roomId);
+    if (!room) return;
+
+    room.delete(socket.id);
+    if (room.size === 0) rooms.delete(roomId);
+    else io.to(roomId).emit("peer-left");
+
+    if (room) io.to(roomId).emit("room-users", room.size);
   });
 });
 
-server.listen(PORT, () => {
-  console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`Servidor escuchando en puerto ${PORT}`);
 });

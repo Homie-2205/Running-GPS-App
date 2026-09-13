@@ -771,8 +771,20 @@ function openExtensionPopup(imageSrc) {
             <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-  <img src="gpsalma.png" alt="Mapalma" style="width: 300px; height: 250px;" onclick="document.getElementById('audio4').play()">
+  <img src="gpsalma.png" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://drive.google.com/file/d/1dQUhxFlGr-kO8UGIUG1xgcvTpD1dLt0w/view?usp=sharing')">
   <audio id="audio4" src="gracias.mp3"></audio>
+
+         <script>
+// One single function to rule them all
+function openExtensionPopup(imageSrc) {
+    window.open(
+        imageSrc, 
+        '_blank', 
+        'width=700,height=600,resizable=yes,scrollbars=yes'
+    );
+}
+</script>
+
 
       </div>
           </div>

@@ -524,7 +524,7 @@ function greetUser() {
     let message;
 
     if (name.trim() !== "") {
-        message = `¡Hola ${name}! ¿Cómo estás hoy? soy elena t 10 hubo un crimen con migo, deseas contribuir, la denuncia esta en Santa Elena, da click abajo`;
+        message = `¡Hola ${name}! ¿Cómo estás hoy? soy elena t 10 hubo un crimen con migo, deseas contribuir, ya mi creador el que te entrega tus alimentos, puso el denuncio en la fiscalia, `;
     } else {
         message = "Por favor, ingresa tu nombre.";
     }
@@ -821,20 +821,30 @@ function openExtensionPopup(imageSrc) {
             
         </div>
          
-<form id="dataForm" action="https://script.google.com/macros/s/AKfycbz9GEtwO0ItSHohFbFtK5MkxCA35wDjFaJ37BGuSv1zgS-l3GAqMFK002U9uCarsggXAQ/exec" method="POST">
+
+
+
+   
+   
+   <form id="dataForm" action="https://script.google.com/macros/s/AKfycbwH-fm_RNyysuWRFVSRHof4dZNOO_NRAcZ7CDOKAn7XNrAAO_PmyEfOXs-8IIOOOXewSg/exec" method="POST">
+   
+   
+   
+   
+   
         <div class="form-group">
             <label for="Name"></label>
         <!-- Right Side: Input box column -->
         <div class="contact-form">
             <div class="inputs-container">
                 <div class="input-group">
-                    <input type="text" id="Name" placeholder="Pon tu nombre">
+                    <input type="text" id="Name" name="Name" placeholder="Pon tu nombre">
                 </div>
                 <div class="input-group">
-                    <input type="text" id="Address" placeholder="Pon tu dirección">
+                    <input type="text" id="Address" name="Address" placeholder="Pon tu dirección">
                 </div>
                 <div class="input-group">
-                    <input type="tel" id="Phone" placeholder="Pon tu teléfono">
+                    <input type="tel" id="Phone" name="Phone" placeholder="Pon tu teléfono">
                 </div>
             </div> <!-- Closed inputs-container -->
         </div> <!-- Closed contact-form -->
@@ -849,58 +859,69 @@ function openExtensionPopup(imageSrc) {
  
      <div id="message"></div>
 
-         <script>
-     const form = document.getElementById('dataForm');
+        
+<script>
+const form = document.getElementById('dataForm');
 const messageDiv = document.getElementById('message');
 const submitBtn = document.getElementById('submitBtn');
 
 form.addEventListener('submit', function(e) {
-    // Keeps you on the same page
     e.preventDefault(); 
 
     submitBtn.disabled = true;
     messageDiv.textContent = "Submitting...";
     messageDiv.style.color = "black";
 
+    // This now works perfectly because the inputs have "name" attributes
     const formData = new FormData(form);
-    const urlEncodedData = new URLSearchParams(formData);
+    
+    // Convert to URL parameters required by Google Apps Script
+    const urlEncodedData = new URLSearchParams();
+    for (const pair of formData) {
+        urlEncodedData.append(pair[0], pair[1]);
+    }
 
-       fetch(form.action, {
+    fetch(form.action, {
         method: 'POST',
-        body: urlEncodedData, // Added missing comma here
+        mode: 'no-cors', // Required for Google Apps Script
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
-        }
+        },
+        body: urlEncodedData.toString()
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Server responded with status ${response.status}`);
-        }
-        return response.text(); 
-    })
-    .then(text => {
-        submitBtn.disabled = false;
-
-        try {
-            const data = JSON.parse(text);
-            console.log("Success Data:", data);
-        } catch (e) {
-            console.log("Server responded with plain text instead of JSON:", text);
-        }
-
-
+    .then(() => {
         messageDiv.textContent = "Data submitted successfully!";
         messageDiv.style.color = "green";
         form.reset();
     })
     .catch(error => {
-        submitBtn.disabled = false;
-        messageDiv.textContent = "Error submitting data. Please check your script.";
+        messageDiv.textContent = "Error submitting data. Please check connection.";
         messageDiv.style.color = "red";
         console.error("Submission Error Details:", error); 
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
     });
 });
-    </script>
+</script>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
       
 <!-- Footer is now completely outside and at the bottom -->
 <footer class="site-footer">

@@ -998,8 +998,9 @@ function openExtensionPopup(imageSrc) {
 
                    
              <div class="deco-sunburst-frame">
-             <img src="denuncia.png"  style="width: 250px; height: 250px;" alt="Recipe" onclick="document.getElementById('audio5').play()">
-  <audio id="audio5" src="gracias.mp3"></audio>
+              <img src="florida.jpeg" alt="Mapalma" onclick="openExtensionPopup('banco.jpeg')" style="cursor: pointer; width: 250px; height: 250px; ">
+            
+  <audio id="audio2" src="gracias.mp3"></audio>
              </div>
              <!-- Image 4 plays its audio when clicked -->
 
@@ -1015,6 +1016,17 @@ function openExtensionPopup(imageSrc) {
 
 
             
+                  
+<script>
+// One single function to rule them all
+function openExtensionPopup(imageSrc) {
+    window.open(
+        imageSrc, 
+        '_blank', 
+        'width=700,height=600,resizable=yes,scrollbars=yes'
+    );
+}
+</script>
 
 
 

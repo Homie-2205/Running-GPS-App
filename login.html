@@ -641,25 +641,28 @@
         <p>No hay nada imposible para aquel que intenta.
 </p>
     </header>
-    <div class="containercris">
-<input id="idInput" type="text" id="userName" placeholder="Pon tu nombre">
-<button  class="custom-button" onclick="greetUser()">Saludame</button>
+  
+<div class="container">
+    <!-- Changed id="idInput" to just id="userName" -->
+    <input type="text" id="userName" placeholder="Pon tu nombre">
+    <button class="custom-button" onclick="greetUser()">Saludame</button>
 </div>
-<p id="greetingText"></p>
 
-<div class="containercris">
-    <h1></h1>
-    <div class="subtitle"></div>
+<!-- DATA LOOKUP PORTAL (Now works perfectly) -->
+<div class="container">
+    <h1>Data Lookup Portal</h1>
+    <div class="subtitle">Enter an Identification ID to extract user row records</div>
     
-    <div class="status" id="statusMessage">Cargando base de datos</div>
+    <div class="status" id="statusMessage">Loading spreadsheet database...</div>
 
     <div class="search-box">
+        <!-- This input will now correctly enable once the database loads -->
         <input type="text" id="idInput" placeholder="Enter Identification ID..." disabled>
-        <button class="custom-button" disabled>Buscar</button>
+        <button id="searchBtn" disabled>Search</button>
     </div>
 
-    <div class="result-card" id="resultCard">
-        <h3></h3>
+    <div class="result-card" id="resultCard" style="display: none;">
+        <h3>Result Found:</h3>
         <div class="greeting-text" id="greetingOutput"></div>
     </div>
 </div>
@@ -708,24 +711,21 @@ window.speechSynthesis.onvoiceschanged = () => {
    
 
 
-<script>
-    // Live link provided
+
+  <script>
     const CSV_URL = "https://docs.google.com/spreadsheets/d/1gooHyk3zbH-G_5RXgT9MTMQfgpW-LqIL05ZQjn6_Qrg/export?format=csv";
     
-    let sheetData = []; // Global store for rows
+    let sheetData = []; 
 
-    // UI Elements
     const statusMessage = document.getElementById('statusMessage');
     const idInput = document.getElementById('idInput');
     const searchBtn = document.getElementById('searchBtn');
     const resultCard = document.getElementById('resultCard');
     const greetingOutput = document.getElementById('greetingOutput');
 
-    // Fetch data immediately when the page loads
     window.addEventListener('DOMContentLoaded', loadDatabase);
     searchBtn.addEventListener('click', performSearch);
     
-    // Allow pressing "Enter" key to search
     idInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') performSearch();
     });
@@ -737,11 +737,9 @@ window.speechSynthesis.onvoiceschanged = () => {
             
             const csvText = await response.text();
             
-            // Parse text lines cleanly into row arrays
             const lines = csvText.split('\n');
             sheetData = lines.map(line => parseCSVRow(line));
 
-            // Activation
             statusMessage.style.color = "#2ecc71";
             statusMessage.innerText = "Database ready for search!";
             idInput.disabled = false;
@@ -764,27 +762,22 @@ window.speechSynthesis.onvoiceschanged = () => {
             return;
         }
 
-        // Loop through data (skipping index 0 if it contains headers)
         let matchFound = false;
         
         for (let i = 1; i < sheetData.length; i++) {
             const columns = sheetData[i];
             
-            // Verify data exists across the row arrays 
             if (columns.length < 3) continue;
 
-            const idInSheet = columns[1] ? columns[1].trim() : "";   // Column B (Index 1)
-            const nameInSheet = columns[2] ? columns[2].trim() : ""; // Column C (Index 2)
+            const idInSheet = columns[1] ? columns[1].trim() : "";   
+            const nameInSheet = columns[2] ? columns[2].trim() : ""; 
 
-            // Dynamic comparison matches ID column criteria
             if (idInSheet.toLowerCase() === searchId.toLowerCase()) {
                 matchFound = true;
                 
-                // Pick a greeting word randomly: Hi, Hello, or Welcome
                 const greetingWords = ["Hi", "Hello", "Welcome"];
                 const randomGreeting = greetingWords[Math.floor(Math.random() * greetingWords.length)];
 
-                // Format string output: "[Greeting] [ID] [Name]"
                 greetingOutput.innerText = `${randomGreeting} ${idInSheet} ${nameInSheet}`;
                 resultCard.style.display = "block";
                 break;
@@ -796,13 +789,22 @@ window.speechSynthesis.onvoiceschanged = () => {
         }
     }
 
-    // Safe helper function to parse strings with internal quotes or formatting commas
+    // Optional: Added the missing greetUser function placeholder for your first button
+    function greetUser() {
+        const name = document.getElementById('userName').value;
+        if(name) {
+            alert(`¡Hola ${name}!`);
+        } else {
+            alert("Por favor pon tu nombre");
+        }
+    }
+
     function parseCSVRow(text) {
         let p = '', c = text.split(','), r = [];
         for (let i = 0; i < c.length; i++) {
-            if (c[i].lastIndexOf('"') <= 0 && c[i].indexOf('"') === 0) {
+            if (c[i] && c[i].lastIndexOf('"') <= 0 && c[i].indexOf('"') === 0) {
                 p = c[i];
-                while (c[++i].lastIndexOf('"') < 0) { p += ',' + c[i]; }
+                while (c[++i] && c[i].lastIndexOf('"') < 0) { p += ',' + c[i]; }
                 r.push(p + ',' + c[i]);
             } else {
                 r.push(c[i]);
@@ -811,6 +813,7 @@ window.speechSynthesis.onvoiceschanged = () => {
         return r;
     }
 </script>
+
 
 
 

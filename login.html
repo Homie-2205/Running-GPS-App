@@ -246,9 +246,32 @@
             color: #00adb5;
         }
 
+
+.container {
+    max-width: 600px;
+    margin: 0 auto 0 0; /* Aligns the container to the left */
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+ input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus {
+            border-color: #3498db;
+        }
+
         /* 2. Header */
         .hero-header {
-        background-image: url("I.gif");
+        background-image: url("banano.png");
             text-align: center;
             padding: 4rem 2rem;
             border-bottom: 1px solid #ddd;
@@ -461,138 +484,6 @@
     }
         
     </style>
-    
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 40px;
-            background-color: #f4f6f9;
-            color: #333;
-        }
-       .container {
-    max-width: 400px;
-    margin: 0 0 0 auto; /* Sets top/bottom/right to 0, and pushes from the left */
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    position: sticky;
-  top: 0;
-}
-
- .containercris {
-    max-width: 700px;
-    margin: 0 auto 0 0; /* Sets top/bottom/left to 0, and pushes from the right */
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    position: sticky;
-    top: 0;
-}
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 5px;
-            font-size: 24px;
-        }
-        .subtitle {
-            color: #7f8c8d;
-            margin-bottom: 25px;
-            font-size: 14px;
-        }
-        .search-box {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        input[type="text"] {
-            flex: 1;
-            padding: 12px;
-            font-size: 16px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        input[type="text"]:focus {
-            border-color: #3498db;
-        }
-        
-           .custom-button {
-  /* Layout & Sizing */
-  display: inline-block;
-  padding: 12px 24px;
-
-  /* Typography */
-  font-family: 'Segoe UI', Roboto, sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  text-decoration: none;
-  text-align: center;
-
-  /* Colors & Borders */
-  color: #1a1100;
-  background-color: #ffd480;
-  border: none;
-  border-radius: 8px;
-
-  /* Interactivity & Performance */
-  cursor: pointer;
-  user-select: none;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-/* Hover State: When the mouse pointer sits over the button */
-.custom-button:hover {
-  background-color: #005ce6;
-}
-
-/* Active State: When the button is being clicked */
-.custom-button:active {
-  transform: scale(0.98);
-}
-
-/* Focus State: When navigating via keyboard for web accessibility */
-.custom-button:focus-visible {
-  outline: 3px solid #80bfff;
-  outline-offset: 2px;
-}
-
-
-        
-        
-        
-        
-        
-  
-        
-        
-        
-        
-        
-        .status {
-            font-style: italic;
-            color: #95a5a6;
-            margin-bottom: 15px;
-        }
-        .result-card {
-            margin-top: 25px;
-            padding: 20px;
-            background-color: #ebf5fb;
-            border-left: 5px solid #3498db;
-            border-radius: 4px;
-            display: none;
-        }
-        .result-card h3 {
-            margin: 0 0 10px 0;
-            color: #2980b9;
-        }
-        .greeting-text {
-            font-size: 18px;
-            font-weight: 500;
-            color: #2c3e50;
-        }
-    </style>
 </head>
 <body>
 
@@ -627,7 +518,7 @@
         
 
           <a href="cookies2.html">Rappi Cookies</a>
-            <a href="Ubicación.html">Ubicación</a>
+            <a href="login.html">Sesion</a>
 
             <a href="Tabla.html">Santa Elena</a>
 
@@ -641,15 +532,11 @@
         <p>No hay nada imposible para aquel que intenta.
 </p>
     </header>
-  
-<div class="container">
-    <!-- Changed id="idInput" to just id="userName" -->
-    <input type="text" id="userName" placeholder="Pon tu nombre">
-    <button class="custom-button" onclick="greetUser()">Saludame</button>
-</div>
 
-<!-- DATA LOOKUP PORTAL (Now works perfectly) -->
-<div class="container">
+
+
+
+ <div class="container">
     <h1>Data Lookup Portal</h1>
     <div class="subtitle">Enter an Identification ID to extract user row records</div>
     
@@ -668,51 +555,7 @@
 </div>
 
 
-   <script>
-function greetUser() {
-    const name = document.getElementById("userName").value;
-    const display = document.getElementById("greetingText");
-
-    let message;
-
-    if (name.trim() !== "") {
-        message = `¡Hola ${name}! ¿Cómo estás hoy? soy elena t 10 hubo un crimen con migo, deseas contribuir, ya mi creador el que te entrega tus alimentos, puso el denuncio en la fiscalia, `;
-    } else {
-        message = "Por favor, ingresa tu nombre.";
-    }
-
-    display.textContent = message;
-
-    // Speak the message
-    const speech = new SpeechSynthesisUtterance(message);
-    speech.lang = "es-ES";      // Cambiado a "es-ES" para español
-    speech.rate = 1;            // Velocidad (0.1 a 10)
-    speech.pitch = 1;           // Tono de voz
-    speech.volume = 1;          // Volumen (0 a 1)
-
-    // Select a Spanish AI voice if available
-    const voices = window.speechSynthesis.getVoices();
-    const spanishVoice = voices.find(v => v.lang.startsWith("es"));
-    if (spanishVoice) {
-        speech.voice = spanishVoice;
-    }
-
-    window.speechSynthesis.cancel(); // Detener cualquier voz anterior
-    window.speechSynthesis.speak(speech);
-}
-
-// Load voices when they become available
-window.speechSynthesis.onvoiceschanged = () => {
-    window.speechSynthesis.getVoices();
-};
-</script>
-
-
-   
-
-
-
-  <script>
+<script>
     const CSV_URL = "https://docs.google.com/spreadsheets/d/1gooHyk3zbH-G_5RXgT9MTMQfgpW-LqIL05ZQjn6_Qrg/export?format=csv";
     
     let sheetData = []; 
@@ -813,6 +656,53 @@ window.speechSynthesis.onvoiceschanged = () => {
         return r;
     }
 </script>
+
+      
+          
+
+
+
+   <script>
+function greetUser() {
+    const name = document.getElementById("userName").value;
+    const display = document.getElementById("greetingText");
+
+    let message;
+
+    if (name.trim() !== "") {
+        message = `¡Hola ${name}! ¿Cómo estás hoy? soy elena t 10 hubo un crimen con migo, deseas contribuir, ya mi creador el que te entrega tus alimentos, puso el denuncio en la fiscalia, `;
+    } else {
+        message = "Por favor, ingresa tu nombre.";
+    }
+
+    display.textContent = message;
+
+    // Speak the message
+    const speech = new SpeechSynthesisUtterance(message);
+    speech.lang = "es-ES";      // Cambiado a "es-ES" para español
+    speech.rate = 1;            // Velocidad (0.1 a 10)
+    speech.pitch = 1;           // Tono de voz
+    speech.volume = 1;          // Volumen (0 a 1)
+
+    // Select a Spanish AI voice if available
+    const voices = window.speechSynthesis.getVoices();
+    const spanishVoice = voices.find(v => v.lang.startsWith("es"));
+    if (spanishVoice) {
+        speech.voice = spanishVoice;
+    }
+
+    window.speechSynthesis.cancel(); // Detener cualquier voz anterior
+    window.speechSynthesis.speak(speech);
+}
+
+// Load voices when they become available
+window.speechSynthesis.onvoiceschanged = () => {
+    window.speechSynthesis.getVoices();
+};
+</script>
+
+
+
 
 
 

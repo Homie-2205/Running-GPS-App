@@ -798,9 +798,26 @@ function openExtensionPopup(imageSrc) {
          
          <a href="Tabla.html" class="custom-button">Santa Elena</a>
                <a href="https://checkout.wompi.co/l/VPOS_UtSYLy" class="custom-button">Contribuir</a>
+               <button class="custom-button" id="add-note-btn" onclick="openExtensionPopup()" style="cursor: pointer; width: 500px; margin-bottom: 15px; margin-left: 20px;">Registrarse </button>
 
+<script>
+function openExtensionPopup() {
+    // 80x90 px is usually too small for browsers; 300x400 px is standard for extensions
+    const width = 500; 
+    const height = 700;
+    
+    // Position the window in the top-right corner of the screen
+    const left = window.screen.width - width;
+    const top = 0; 
+    
+    // 'popup=1' removes toolbars, address bar, and status bars in modern browsers
+    const features = `width=${width},height=${height},left=${left},top=${top},popup=1,resizable=no,scrollbars=yes`;
+    
+    window.open('registro.html', 'extensionPopup', features);
+}
+</script>
 
-
+            
 
             <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Widget</a> is loading comments...</div>
  <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />

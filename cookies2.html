@@ -1070,10 +1070,22 @@ function openExtensionPopup(imageSrc) {
 
              <img src="fruits/espinaca.png"  style="width: 300px; height: 250px;" alt="Recipe" onclick="document.getElementById('audio5').play()">
   <audio id="audio5" src="gracias.mp3"></audio>
+
+           <img src="fruits/espinaca.png" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('espinaca.html')">
              <!-- Image 4 plays its audio when clicked -->
 </div>
           </div>
                   </div>
+            <script>
+// One single function to rule them all
+function openExtensionPopup(imageSrc) {
+    window.open(
+        imageSrc, 
+        '_blank', 
+        'width=700,height=600,resizable=yes,scrollbars=yes'
+    );
+}
+</script>
 
             <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">

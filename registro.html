@@ -640,10 +640,7 @@ function openExtensionPopup() {
       
     </form>
     
-    </div>  
    
-</section> <!-- Closed contact-section -->
- 
      <div id="message"></div>
 
         
@@ -701,25 +698,25 @@ form.addEventListener('submit', function(e) {
 
  <h2>Registro</h2>
     <form id="dataForm" action="https://script.google.com/macros/s/AKfycbyn5rsmSdzGWg6IvoPaEt_Yu6WTBG3gnhZWxbSZvO9BOUzHrtYLPN-1CnVn897rwlTK/exec" method="POST">
-     <div class="input-group">
-            <label for="cedula"></label>
-            <input type="text" id="cedula" name="cedula" placeholder="Cédula" required>
-        </div>
+   <div class="input-group">
+                    <input type="tel" id="Phone" name="Phone" placeholder="Cedula">
+                </div>
+        
    <div class="input-group">
             <label for="username"></label>
-            <input type="text" id="username" name="username" placeholder="Nombre de usuario" required>
+            <input type="text" id="username" name="username" placeholder="Nombre de usuario" >
         </div>
     <div class="input-group">
             <label for="cellphone"></label>
-            <input type="tel" id="cellphone" name="cellphone" placeholder="Celular" required>
+            <input type="tel" id="cellphone" name="cellphone" placeholder="Celular" >
         </div>
         <div class="input-group">
             <label for="address"></label>
-            <input type="text" id="address" name="address" placeholder="dirección" required>
+            <input type="text" id="address" name="address" placeholder="dirección" >
         </div>
     <div class="input-group">
             <label for="neighborhood"></label>
-            <input type="text" id="neighborhood" name="neighborhood" placeholder="Barrio" required>
+            <input type="text" id="neighborhood" name="neighborhood" placeholder="Barrio" >
         </div>
         
         <button type="submit" id="submitBtn" class="btn">Registrarse</button>
@@ -727,6 +724,12 @@ form.addEventListener('submit', function(e) {
 </div>
 </div>
          </div>
+
+
+         </div>  
+   
+</section> <!-- Closed contact-section -->
+ 
   
 <div id="message"></div>
 

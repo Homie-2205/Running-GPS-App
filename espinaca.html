@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra de Manzanas - Colombia</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                        url('https://unsplash.com') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            max-width: 380px;
+            width: 100%;
+        }
+
+        h2 {
+            color: #b71c1c;
+            text-align: center;
+            margin-top: 0;
+            font-size: 1.7em;
+            border-bottom: 2px solid #ffcdd2;
+            padding-bottom: 12px;
+        }
+
+        .precio-fijo {
+            text-align: center;
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #b71c1c;
+            font-size: 0.95em;
+        }
+
+        input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 1.05em;
+            color: #333;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"] {
+            text-align: center;
+        }
+
+        input:focus {
+            border-color: #e53935;
+        }
+
+        .total-box {
+            background-color: #ffebee;
+            border: 2px dashed #ef9a9a;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #b71c1c;
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        button:hover {
+            background-color: #b71c1c;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .link-admin {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #555;
+            font-size: 0.9em;
+            text-decoration: none;
+        }
+        .link-admin:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+
+<div class="form-container" style="max-width: 400px; margin: 0 auto; font-family: Arial, sans-serif; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+    
+    <!-- Audio Element for the image click -->
+    <audio id="audio2" src="your-audio-file.mp3"></audio>
+
+    <!-- 1. Your Interactive Banana Image -->
+    <div style="text-align: center; margin-bottom: 20px;">
+        <img src="fruits/espinaca.png" style="width: 300px; height: 250px; cursor: pointer; border-radius: 8px; object-fit: cover;" alt="Hope" onclick="document.getElementById('audio2').play()">
+        <h2 style="margin-top: 10px; color: #333;">Tu Pedido de Bananos</h2>
+    </div>
+
+    <!-- 2. Hidden Iframe Form (Guarantees same-page Google Sheets submission) -->
+    <form id="dataForm" 
+          action="https://google.com" 
+          method="POST" 
+          target="hidden_iframe" 
+          onsubmit="showSuccessMessage()">
+        
+        <div class="form-group" style="margin-bottom: 15px;"> 
+            <label for="Name" style="display: block; font-weight: bold; margin-bottom: 5px;">Tu Nombre:</label> 
+            <input type="text" id="Name" name="Name" placeholder="Ej. Juan Pérez" required style="width: 100%; padding: 8px; box-sizing: border-box;"> 
+        </div> 
+        
+        <div class="form-group" style="margin-bottom: 15px;"> 
+            <label for="Address" style="display: block; font-weight: bold; margin-bottom: 5px;">Dirección:</label> 
+            <input type="text" id="Address" name="Address" placeholder="Ej. Calle 10 #2-3" required style="width: 100%; padding: 8px; box-sizing: border-box;"> 
+        </div> 
+        
+        <div class="form-group" style="margin-bottom: 15px;"> 
+            <label for="Phone" style="display: block; font-weight: bold; margin-bottom: 5px;">Teléfono:</label> 
+            <input type="text" id="Phone" name="Phone" placeholder="Ej. 3001234567" required style="width: 100%; padding: 8px; box-sizing: border-box;"> 
+        </div> 
+        
+        <div class="form-group" style="margin-bottom: 15px;"> 
+            <label for="peso" style="display: block; font-weight: bold; margin-bottom: 5px;">¿Cuántos kilos deseas?</label> 
+            <!-- Input listener runs recalculatePrice() instantly on change -->
+            <input type="number" id="peso" name="Peso" min="0.1" step="0.1" value="1.0" oninput="recalculatePrice()" style="width: 100%; padding: 8px; box-sizing: border-box;"> 
+        </div> 
+        
+        <!-- Live Total Price Display Box -->
+        <div class="total-box" style="margin: 15px 0; font-weight: bold; font-size: 1.2em; text-align: center;"> 
+            Total: $<span id="precio-total">4.500</span> COP 
+        </div> 
+        
+        <button type="submit" id="submitBtn" style="background-color: #25D366; color: white; border: none; padding: 12px 24px; font-weight: bold; border-radius: 5px; cursor: pointer; width: 100%;">
+            Enviar Pedido
+        </button>
+    </form>
+
+    <!-- Inline Success Message -->
+    <div id="message" style="margin-top: 15px; font-weight: bold; text-align: center; display: none;"></div>
+</div>
+
+<!-- Hidden targets to capture the backend responses -->
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+<script>
+// Script 1: Dynamic Live Price Calculator (Assuming 4,500 COP per Kilo)
+const PRICE_PER_KILO = 4500;
+
+function recalculatePrice() {
+    const pesoInput = document.getElementById('peso').value;
+    const precioTotalSpan = document.getElementById('precio-total');
+    
+    // Fallback to 0 if input gets deleted or remains empty
+    const currentWeight = parseFloat(pesoInput) || 0;
+    const finalPrice = currentWeight * PRICE_PER_KILO;
+    
+    // Formats numbers properly to Colombian currency style (e.g. 4.500 instead of 4500)
+    precioTotalSpan.textContent = finalPrice.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+}
+
+// Script 2: Handle Database Post Success States Without Page Reloads
+function showSuccessMessage() {
+    const messageDiv = document.getElementById('message');
+    const submitBtn = document.getElementById('submitBtn');
+    const form = document.getElementById('dataForm');
+
+    submitBtn.disabled = true;
+    messageDiv.style.display = "block";
+    messageDiv.textContent = "¡Pedido registrado con éxito en la base de datos!";
+    messageDiv.style.color = "green";
+
+    setTimeout(() => {
+        form.reset();
+        recalculatePrice(); // Resets total price text back to default 1.0 kg rate
+        submitBtn.disabled = false;
+        messageDiv.style.display = "none";
+    }, 2500);
+}
+</script>
+
+  </body>
+</html>

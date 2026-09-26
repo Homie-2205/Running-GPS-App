@@ -470,91 +470,8 @@
 
 
 
-<nav id="navbar">
-<div class="lang-list">
-    <li>
-      <a href="indexEnglish.html" class="lang-link">
-         <span class="custom-flag">🇺🇸</span>  En
 
-      </a>
-    </li>
-    <li>
-      <a href="index.html" class="lang-link">
-        <span class="custom-flag">🇨🇴</span> Es
-      </a>
-    </li>
-    <li>
-    <a href="indexFrancais.html" class="lang-link">
-     <span class="custom-flag">🇫🇷</span> Fr
-     </a>
-     </li>
   
-  </div>
-
-<div class="nav-links" align="right">
-        
-
-          <a href="cookies2.html">Rappi Cookies</a>
-            <a href="login.html">Sesion</a>
-
-            <a href="Tabla.html">Santa Elena</a>
-
-     
-        </div>
-    </nav>
-
-    <!-- 2. Header -->
-    <header class="hero-header">
-        <h1>Bienvenido</h1>
-        <p>No hay nada imposible para aquel que intenta.
-</p>
-    </header>
-<input type="text" id="userName" placeholder="Pon tu nombre">
-<button  class="custom-button" onclick="greetUser()">Saludame</button>
-
-<p id="greetingText"></p>
-
-
-
-   <script>
-function greetUser() {
-    const name = document.getElementById("userName").value;
-    const display = document.getElementById("greetingText");
-
-    let message;
-
-    if (name.trim() !== "") {
-        message = `¡Hola ${name}! ¿Cómo estás hoy? soy elena t 10 hubo un crimen con migo, deseas contribuir, ya mi creador el que te entrega tus alimentos, puso el denuncio en la fiscalia, `;
-    } else {
-        message = "Por favor, ingresa tu nombre.";
-    }
-
-    display.textContent = message;
-
-    // Speak the message
-    const speech = new SpeechSynthesisUtterance(message);
-    speech.lang = "es-ES";      // Cambiado a "es-ES" para español
-    speech.rate = 1;            // Velocidad (0.1 a 10)
-    speech.pitch = 1;           // Tono de voz
-    speech.volume = 1;          // Volumen (0 a 1)
-
-    // Select a Spanish AI voice if available
-    const voices = window.speechSynthesis.getVoices();
-    const spanishVoice = voices.find(v => v.lang.startsWith("es"));
-    if (spanishVoice) {
-        speech.voice = spanishVoice;
-    }
-
-    window.speechSynthesis.cancel(); // Detener cualquier voz anterior
-    window.speechSynthesis.speak(speech);
-}
-
-// Load voices when they become available
-window.speechSynthesis.onvoiceschanged = () => {
-    window.speechSynthesis.getVoices();
-};
-</script>
-
 
 
 
@@ -923,9 +840,93 @@ form.addEventListener('submit', function(e) {
     });
 });
 </script>
+
+
+     <div class="form-group">
+            <label for="Name"></label>
+        <!-- Right Side: Input box column -->
+        <div class="contact-form">
+            <div class="inputs-container">
       
 
+ <h2>Registro</h2>
+    <form id="dataForm" action="https://script.google.com/macros/s/AKfycbyn5rsmSdzGWg6IvoPaEt_Yu6WTBG3gnhZWxbSZvO9BOUzHrtYLPN-1CnVn897rwlTK/exec" method="POST">
+        <div class="input-group">
+            <label for="cedula"></label>
+            <input type="text" id="cedula" name="cedula" placeholder="Cédula" required>
+        </div>
+        <div class="input-group">
+            <label for="username"></label>
+            <input type="text" id="username" name="username" placeholder="Nombre de usuario" required>
+        </div>
+        <div class="input-group">
+            <label for="cellphone"></label>
+            <input type="tel" id="cellphone" name="cellphone" placeholder="Celular" required>
+        </div>
+        <div class="input-group">
+            <label for="address"></label>
+            <input type="text" id="address" name="address" placeholder="dirección" required>
+        </div>
+        <div class="input-group">
+            <label for="neighborhood"></label>
+            <input type="text" id="neighborhood" name="neighborhood" placeholder="Barrio" required>
+        </div>
+        
+        <button type="submit" id="submitBtn" class="btn">Registrarse</button>
+    </form>
+</div>
+</div>
+         </div>
+    </div>
+<div id="message"></div>
 
+
+
+<script>
+const form = document.getElementById('dataForm');
+const messageDiv = document.getElementById('message');
+const submitBtn = document.getElementById('submitBtn');
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault(); 
+
+    submitBtn.disabled = true;
+    messageDiv.textContent = "Submitting...";
+    messageDiv.style.color = "black";
+
+    // This now works perfectly because the inputs have "name" attributes
+    const formData = new FormData(form);
+    
+    // Convert to URL parameters required by Google Apps Script
+    const urlEncodedData = new URLSearchParams();
+    for (const pair of formData) {
+        urlEncodedData.append(pair[0], pair[1]);
+    }
+
+    fetch(form.action, {
+        method: 'POST',
+        mode: 'no-cors', // Required for Google Apps Script
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: urlEncodedData.toString()
+    })
+    .then(() => {
+        messageDiv.textContent = "Data submitted successfully!";
+        messageDiv.style.color = "green";
+        form.reset();
+    })
+    .catch(error => {
+        messageDiv.textContent = "Error submitting data. Please check connection.";
+        messageDiv.style.color = "red";
+        console.error("Submission Error Details:", error); 
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+    });
+});
+</script>
+      
 
 
 

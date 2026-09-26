@@ -515,12 +515,6 @@
 
     
 
-         
-         <a href="" class="custom-button" onclick="openExtensionPopup()" style="cursor: pointer; width: 120px; margin-bottom: 15px; margin-left: 20px;">Registrarse</a>
-               <a href="https://checkout.wompi.co/l/VPOS_UtSYLy" class="custom-button">Contribuir</a>
-
-
-               
 
 <script>
 function openExtensionPopup() {
@@ -550,13 +544,7 @@ function openExtensionPopup() {
   <section class="contact-section">
     <div class="contact-container">
         
-        <!-- Left Side: Text heading -->
-        <div class="content-text">
-            <h2>Contact<span class="highlight"></span></h2>
-              <h2>3156545314<span class="highlight"></span></h2>
-            
-        </div>
-         
+      
 
 
 
@@ -568,75 +556,9 @@ function openExtensionPopup() {
    
    
    
-        <div class="form-group">
-            <label for="Name"></label>
-        <!-- Right Side: Input box column -->
-        <div class="contact-form">
-            <div class="inputs-container">
-                <div class="input-group">
-                    <input type="text" id="Name" name="Name" placeholder="Pon tu nombre">
-                </div>
-                <div class="input-group">
-                    <input type="text" id="Address" name="Address" placeholder="Pon tu dirección">
-                </div>
-                <div class="input-group">
-                    <input type="tel" id="Phone" name="Phone" placeholder="Pon tu teléfono">
-                </div>
-            </div> <!-- Closed inputs-container -->
-        </div> <!-- Closed contact-form -->
-        
-             <div><button  class="custom-button"  style="margin-top: 20px;" type="submit" id="submitBtn">Submit Data</button> </div>
-      
-    </form>
     
    
-     <div id="message"></div>
-
-        
-<script>
-const form = document.getElementById('dataForm');
-const messageDiv = document.getElementById('message');
-const submitBtn = document.getElementById('submitBtn');
-
-form.addEventListener('submit', function(e) {
-    e.preventDefault(); 
-
-    submitBtn.disabled = true;
-    messageDiv.textContent = "Submitting...";
-    messageDiv.style.color = "black";
-
-    // This now works perfectly because the inputs have "name" attributes
-    const formData = new FormData(form);
-    
-    // Convert to URL parameters required by Google Apps Script
-    const urlEncodedData = new URLSearchParams();
-    for (const pair of formData) {
-        urlEncodedData.append(pair[0], pair[1]);
-    }
-
-    fetch(form.action, {
-        method: 'POST',
-        mode: 'no-cors', // Required for Google Apps Script
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: urlEncodedData.toString()
-    })
-    .then(() => {
-        messageDiv.textContent = "Data submitted successfully!";
-        messageDiv.style.color = "green";
-        form.reset();
-    })
-    .catch(error => {
-        messageDiv.textContent = "Error submitting data. Please check connection.";
-        messageDiv.style.color = "red";
-        console.error("Submission Error Details:", error); 
-    })
-    .finally(() => {
-        submitBtn.disabled = false;
-    });
-});
-</script>
+       
 
 
         <div class="form-group">

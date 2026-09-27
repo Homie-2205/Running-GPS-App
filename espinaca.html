@@ -111,6 +111,9 @@
         <!-- Audio Element for the image click -->
         <audio id="audio2" src="your-audio-file.mp3"></audio>
 
+<form id="dataForm" action="https://script.google.com/macros/s/AKfycbzsPo0wyEd0Ocj5CSc0pRS5pFrUUXvMwbWTPfFcGFnO6cJBL62ZFF0zcYNb73W5iXXi/exec" method="POST">
+
+        
         <!-- 1. Interactive Image Header -->
         <div class="image-header-container">
             <img src="fruits/espinaca.png" class="header-image" alt="Espinaca" onclick="document.getElementById('audio2').play()">
@@ -122,27 +125,32 @@
             
             <div class="form-group"> 
                 <label for="Name">Tu Nombre:</label> 
-                <input type="text" id="Name" name="Name" class="fancy-input" placeholder="Ej. Juan Pérez" required> 
+                <input type="text" id="username" name="username" class="fancy-input" placeholder="Nombre" required> 
             </div> 
             
             <div class="form-group"> 
                 <label for="Address">Dirección:</label> 
-                <input type="text" id="Address" name="Address" class="fancy-input" placeholder="Ej. Calle 10 #2-3" required> 
+                <input type="text" id="cellphone" name="cellphone" class="fancy-input" placeholder="Telefono" > 
             </div> 
             
             <div class="form-group"> 
                 <label for="Phone">Teléfono:</label> 
-                <input type="text" id="Phone" name="Phone" class="fancy-input" placeholder="Ej. 3001234567" required> 
+                <input type="text" id="address" name="address" class="fancy-input" placeholder="Dirección"> 
+            </div> 
+
+              <div class="form-group"> 
+                <label for="Phone">Teléfono:</label> 
+                <input type="text" id="neighborhood" name="neighborhood" class="fancy-input" placeholder="Barrio"> 
             </div> 
             
             <div class="form-group"> 
                 <label for="peso">¿Cuántos kilos deseas?</label> 
-                <input type="number" id="peso" name="Peso" class="fancy-input" min="0.1" step="0.1" value="1.0" oninput="recalculatePrice()"> 
+                <input type="number" id="weight" name="Peso" class="fancy-input" min="0.1" step="0.1" value="1.0" oninput="recalculatePrice()"> 
             </div> 
             
             <!-- Live Total Price Display Box -->
             <div class="total-box"> 
-                Total: $<span id="precio-total">4.500</span> COP 
+                Total: $<span id="totalPrice">4.500</span> COP 
             </div> 
             
             <button type="submit" id="submitBtn" class="submit-btn">
@@ -157,41 +165,50 @@
     <!-- Hidden targets to capture the backend responses -->
     <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
-    <script>
-        // Script 1: Dynamic Live Price Calculator (Assuming 4,500 COP per Kilo)
-        const PRICE_PER_KILO = 4500;
+<script>
+const form = document.getElementById('dataForm');
+const messageDiv = document.getElementById('message');
+const submitBtn = document.getElementById('submitBtn');
 
-        function recalculatePrice() {
-            const pesoInput = document.getElementById('peso').value;
-            const precioTotalSpan = document.getElementById('precio-total');
-            
-            // Fallback to 0 if input gets deleted or remains empty
-            const currentWeight = parseFloat(pesoInput) || 0;
-            const finalPrice = currentWeight * PRICE_PER_KILO;
-            
-            // Formats numbers properly to Colombian currency style (e.g. 4.500 instead of 4500)
-            precioTotalSpan.textContent = finalPrice.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-        }
+form.addEventListener('submit', function(e) {
+    e.preventDefault(); 
 
-        // Script 2: Handle Database Post Success States Without Page Reloads
-        function showSuccessMessage() {
-            const messageDiv = document.getElementById('message');
-            const submitBtn = document.getElementById('submitBtn');
-            const form = document.getElementById('dataForm');
+    submitBtn.disabled = true;
+    messageDiv.textContent = "Submitting...";
+    messageDiv.style.color = "black";
 
-            submitBtn.disabled = true;
-            messageDiv.style.display = "block";
-            messageDiv.textContent = "¡Pedido registrado con éxito en la base de datos!";
-            messageDiv.style.color = "green";
+    // This now works perfectly because the inputs have "name" attributes
+    const formData = new FormData(form);
+    
+    // Convert to URL parameters required by Google Apps Script
+    const urlEncodedData = new URLSearchParams();
+    for (const pair of formData) {
+        urlEncodedData.append(pair[0], pair[1]);
+    }
 
-            setTimeout(() => {
-                form.reset();
-                recalculatePrice(); // Resets total price text back to default 1.0 kg rate
-                submitBtn.disabled = false;
-                messageDiv.style.display = "none";
-            }, 2500);
-        }
-    </script>
+    fetch(form.action, {
+        method: 'POST',
+        mode: 'no-cors', // Required for Google Apps Script
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: urlEncodedData.toString()
+    })
+    .then(() => {
+        messageDiv.textContent = "Data submitted successfully!";
+        messageDiv.style.color = "green";
+        form.reset();
+    })
+    .catch(error => {
+        messageDiv.textContent = "Error submitting data. Please check connection.";
+        messageDiv.style.color = "red";
+        console.error("Submission Error Details:", error); 
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+    });
+});
+</script>
 
 </body>
 </html>

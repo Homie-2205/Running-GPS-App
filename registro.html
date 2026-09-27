@@ -5,111 +5,179 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Principal</title>
     <style>
-
-
-
         /* ==========================================================================
-   CSS STYLES
-   ========================================================================== */
-
-/* Reset default browser styles */
-* {
+           CSS STYLES
+           ========================================================================== */
+{
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
 }
 
 /* Make the footer horizontal and full width */
 .site-footer {
     width: 100%;
-    background-color: #ffd480;
-    color: #333;               
-    text-align: center;     
-    padding: 20px 0;        
-    box-sizing: border-box; 
+    background-color: #333; /* Change to your preferred background color */
+    color: #fff;            /* Change to your preferred text color */
+    text-align: center;     /* Centers the text horizontally */
+    padding: 20px 0;        /* Adds vertical space inside the footer */
+    box-sizing: border-box; /* Prevents padding from breaking the 100% width */
 }
 
 .site-footer p {
-    margin: 0;              
+    margin: 0;              /* Removes default paragraph margins */
 }
+
+        /* Contenedor principal de la sección */
+        .contact-section {
+            width: 100%;
+            max-width: 1200px;
+            padding: 40px 20px;
+            margin: 0 auto; /* Centra la sección de contacto en la página */
+        }
+
+        /* Flexbox para alinear las dos columnas */
+        .contact-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 50px;
+            flex-wrap: wrap; /* Permite que sea responsive en móviles */
+        }
+
+        /* Estilos de la columna de texto */
+        .contact-textm {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .contact-textm h1 {
+            font-size: 3.5rem;
+            font-weight: 500;
+            line-height: 1.2;
+            color: #333;
+        }
+
+        /* Estilos de la columna del formulario */
+        .contact-form {
+            flex: 0 0 600px; 
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; 
+        }
+
+        /* 💡 Separates input fields 10px up and down with identical spacing */
+        .inputs-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Estilos de los campos de entrada */
+        .input-group input {
+            width: 100%;
+            padding: 25px 30px;
+            font-size: 1.1rem;
+            border: 2px solid #ffd700; /* 🟡 Solid gold/yellow border */
+            border-radius: 25px; 
+            background-color: #fcf9f5; 
+            color: #333333;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        /* Efecto visual al hacer clic en el input */
+        .input-group input:focus {
+            border-color: #ffcc00; /* 🟡 Deeper yellow when active */
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.5); /* Yellow glow */
+            background-color: #ffffff;
+        }
+        /* Reset default browser styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+
+
+
+
+/* Espacio opcional por si deseas meter el efecto azul sobre la 'o' */
+.contact-text .highlight {
+    position: relative;
+    display: inline-block;
+}
+
+
+/* Reset básico de estilos */
+
+
+/* Fondo principal oscuro */
+
 
 /* Contenedor principal de la sección */
 .contact-section {
     width: 100%;
     max-width: 1200px;
     padding: 40px 20px;
-    margin: 0 auto; 
-    
-    /* Centering everything inside the contact section vertically & horizontally */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh; 
 }
 
 /* Flexbox para alinear las dos columnas */
 .contact-container {
     display: flex;
-    justify-content: center; 
+    justify-content: space-between;
     align-items: center;
     gap: 50px;
-    flex-wrap: wrap; 
-    width: 100%;
+    flex-wrap: wrap; /* Permite que sea responsive en móviles */
 }
 
 /* Estilos de la columna de texto */
-.contact-textm {
+.contact-text {
     flex: 1;
     min-width: 300px;
-    text-align: center;
 }
 
-.contact-textm h1 {
+.contact-text h1 {
     font-size: 3.5rem;
     font-weight: 500;
     line-height: 1.2;
-    color: #333;
+}
+
+/* Espacio opcional por si deseas meter el efecto azul sobre la 'o' */
+.contact-text .highlight {
+    position: relative;
+    display: inline-block;
 }
 
 /* Estilos de la columna del formulario */
 .contact-form {
-    flex: 0 0 600px; 
+    flex: 1;
     min-width: 300px;
     display: flex;
     flex-direction: column;
-    align-items: center; 
-    gap: 0; 
-}
-
-/* Separates input fields with identical spacing */
-.inputs-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px; 
-    width: 100%;
+    gap: 20px;
 }
 
 /* Estilos de los campos de entrada */
-.input-group {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
+
+
 
 .input-group input {
     width: 100%;
     padding: 25px 30px;
     font-size: 1.1rem;
-    border: 2px solid #ffd700; 
-    border-radius: 25px; 
-    background-color: #fcf9f5; 
+    border: 2px solid #ffd700;
+    border-radius: 25px;
+    background-color: #fcf9f5;
     color: #333333;
     outline: none;
     transition: all 0.3s ease;
 }
 
-/* 💻 Desktop width overrides */
+/* 💻 Desktop */
 @media (min-width: 1300px) {
     .input-group input {
         width: 800px;
@@ -119,135 +187,131 @@
 
 /* Efecto visual al hacer clic en el input */
 .input-group input:focus {
-    border-color: #ffcc00; 
-    box-shadow: 0 0 10px rgba(255, 204, 0, 0.5); 
+    border-color: #ffcc00;
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
     background-color: #ffffff;
 }
 
-.contact-text .highlight {
-    position: relative;
-    display: inline-block;
-}
+/* Reset default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 
-.contact-text {
-    flex: 1;
-    min-width: 300px;
-    text-align: center;
-}
 
-.contact-text h1 {
-    font-size: 3.5rem;
-    font-weight: 500;
-    line-height: 1.2;
-}
 
-/* Hide links on small viewports */
+
+/* 2. Agrega esta regla para ocultar SOLO los dos enlaces (Santa Elena y Video Call) */
 @media (max-width: 450px) {
-    .nav-links {
-        display: none;
-    }
+  .nav-links {
+    display: none;
+  }
 }
 
-.nav-links li {
-    margin-right: 1.5rem;
-}
 
-.nav-links a {
-    color: #fff;
-    text-decoration: none;
-    transition: color 0.3s;
-    margin-right: 1.5rem;
-}
 
-.nav-links a:hover {
-    color: #00adb5;
-}
 
-/* Header asset positioning */
-.hero-header {
-    background-image: url("I.gif");
-    text-align: center;
-    padding: 4rem 2rem;
-    border-bottom: 1px solid #ddd;
-    background-repeat: no-repeat;
+        .nav-links li {
+            margin-right: 1.5rem;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+            margin-right: 1.5rem;
+        }
+        .nav-links a:hover {
+            color: #00adb5;
+        }
+
+        /* 2. Header */
+        .hero-header {
+        background-image: url("I.gif");
+            text-align: center;
+            padding: 4rem 2rem;
+            border-bottom: 1px solid #ddd;
+             background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     margin: 0;
     height: 60vh;
-}
-
-.hero-header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-    color: #222;
-}
+        }
+        .hero-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #222;
+        }
 
 .lang-link {
-    color: #334155;
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    display: inline-flex; 
-    align-items: center; 
-    gap: 0.3rem;
-    padding: 0.3rem 0.6rem;
-    border-radius: 0.375rem;
-    transition: all 0.2s ease;
+  color: #334155;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: inline-flex; /* Mantiene el link compacto e interno */
+  align-items: center; /* Corrección: "center" alinea el icono con el texto */
+  gap: 0.3rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
 }
 
-/* Main Div Container */
-.main-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+        /* 3. Main Div Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+      
+        .lang-list {
+  display: flex;
+  list-style: none;               
+  margin: 0 0 0 3rem; /* Added left margin to space it from the label */
+  padding: 0;
+  gap: 1rem;          /* Spacing between language choices */
+}
+        .custom-button {
+  /* Layout & Sizing */
+  display: inline-block;
+  padding: 12px 24px;
+
+  /* Typography */
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+
+  /* Colors & Borders */
+  color: #1a1100;
+  background-color: #ffd480;
+  border: none;
+  border-radius: 8px;
+
+  /* Interactivity & Performance */
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-.lang-list {
-    display: flex;
-    list-style: none;               
-    margin: 0 0 0 3rem; 
-    padding: 0;
-    gap: 1rem;          
-}
-
-.custom-button {
-    display: inline-block;
-    padding: 12px 24px;
-    font-family: 'Segoe UI', Roboto, sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    text-decoration: none;
-    text-align: center;
-    color: #1a1100;
-    background-color: #ffd480;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    user-select: none;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-    
-    /* Pushes button exactly 28px away from the inputs above */
-    margin-top: 28px; 
-    width: 100%;
-    max-width: 300px; 
-}
-
-/* Hover State */
+/* Hover State: When the mouse pointer sits over the button */
 .custom-button:hover {
-    background-color: #005ce6;
-    color: #fff;
+  background-color: #005ce6;
 }
 
-/* Active State */
+/* Active State: When the button is being clicked */
 .custom-button:active {
-    transform: scale(0.98);
+  transform: scale(0.98);
 }
 
-/* Focus State */
+/* Focus State: When navigating via keyboard for web accessibility */
 .custom-button:focus-visible {
-    outline: 3px solid #80bfff;
-    outline-offset: 2px;
+  outline: 3px solid #80bfff;
+  outline-offset: 2px;
 }
+
+
 
 .content-text h2 {
     font-size: 2rem;
@@ -258,7 +322,6 @@
     font-weight: 180;
     text-align: center;
 }
-
 .content-text h3 {
     font-size: 1.3rem;
     color: #666;
@@ -267,7 +330,6 @@
     font-weight: 160;
     text-align: center;
 }
-
 .content-text p {
     font-size: 1.1rem;
     line-height: 1.6;
@@ -276,15 +338,29 @@
     text-align: center;
 }
 
+
+
 .container-section {
-    padding-top: 40px;
-    padding-bottom: 40px;
+  padding-top: 40px;
+     padding-bottom: 40px;
 }
 
 .content-text {
     text-align: center;
 }
 
+
+
+    
+
+        /* 7. Footer */
+        .site-footer {
+            background-color: #ffd480;
+            color: #fff;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
     </style>
  
 
@@ -353,7 +429,10 @@
             
 
        
-   
+    </form>
+  </div>
+ </section>
+    </div>
 
   <section class="contact-section">
     <div class="contact-container">
@@ -375,15 +454,7 @@
     <div class="contact-form">
         <div class="inputs-container">
             <div class="content-text">
-               
-               
-              
-   
-   
-       
- 
-
-  <h2>Registro</h2>
+                <h2>Registro</h2>
             </div>
 
             <!-- Ensure the URL matches your deployed Web App URL exactly -->
@@ -482,6 +553,10 @@ form.addEventListener('submit', function(e) {
    
 </section> 
  
+
+
+
+
 
 
 

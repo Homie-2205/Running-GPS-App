@@ -7,6 +7,101 @@
     <style>
       
 
+/* --- Form Container Layout --- */
+.form-container {
+    max-width: 400px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Header & Image Elements --- */
+.image-header-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header-image {
+    width: 300px;
+    height: 250px;
+    cursor: pointer;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.form-title {
+    margin-top: 10px;
+    color: #333;
+}
+
+/* --- Form Group & Labels --- */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* --- Fancy Inputs --- */
+.fancy-input {
+    width: 100%;
+    padding: 10px 5px;
+    box-sizing: border-box;
+    background-color: #ffffff; /* White background */
+    border: none;
+    border-bottom: 2px solid #25D366; /* Green underliner */
+    font-family: 'Georgia', serif; /* Georgia font */
+    letter-spacing: 5px; /* 5px letter separation */
+    font-size: 14px;
+    color: #333;
+    transition: border-bottom-color 0.3s ease, background-color 0.3s ease;
+    outline: none;
+}
+
+/* Focus effect when clicking the input */
+.fancy-input:focus {
+    border-bottom: 2px solid #128C7E; /* Darker green on focus */
+    background-color: #fbfbfb;
+}
+
+/* --- Price Display --- */
+.total-box {
+    margin: 15px 0;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+/* --- Submit Button --- */
+.submit-btn {
+    background-color: #25D366;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.submit-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* --- Feedback Message --- */
+.status-message {
+    margin-top: 15px;
+    font-weight: bold;
+    text-align: center;
+    display: none;
+}
 
 
 

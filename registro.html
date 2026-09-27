@@ -553,7 +553,7 @@
  <div class="content-text">
  <h2>Registro</h2>
  </div>
-    <form id="https://docs.google.com/spreadsheets/d/1gooHyk3zbH-G_5RXgT9MTMQfgpW-LqIL05ZQjn6_Qrg/export?format=csv">
+    <form id="https://script.google.com/macros/s/AKfycbwy_2bo-ErhI3YITM91caYRkfWOuitlqgd2qHJ9Y8a3pngONqjbqE8CgYVdHe0UA_E7/exec">
    <div class="input-group">
                     <input type="tel" id="Phone" name="Phone" placeholder="Cedula">
                 </div>
@@ -588,6 +588,54 @@
    
 </section> 
  
+
+
+<script>
+const form = document.getElementById('dataForm');
+const messageDiv = document.getElementById('message');
+const submitBtn = document.getElementById('submitBtn');
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault(); 
+
+    submitBtn.disabled = true;
+    messageDiv.textContent = "Submitting...";
+    messageDiv.style.color = "black";
+
+    // This now works perfectly because the inputs have "name" attributes
+    const formData = new FormData(form);
+    
+    // Convert to URL parameters required by Google Apps Script
+    const urlEncodedData = new URLSearchParams();
+    for (const pair of formData) {
+        urlEncodedData.append(pair[0], pair[1]);
+    }
+
+    fetch(form.action, {
+        method: 'POST',
+        mode: 'no-cors', // Required for Google Apps Script
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: urlEncodedData.toString()
+    })
+    .then(() => {
+        messageDiv.textContent = "Data submitted successfully!";
+        messageDiv.style.color = "green";
+        form.reset();
+    })
+    .catch(error => {
+        messageDiv.textContent = "Error submitting data. Please check connection.";
+        messageDiv.style.color = "red";
+        console.error("Submission Error Details:", error); 
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+    });
+});
+</script>
+      
+
 
 
 

@@ -516,22 +516,6 @@
     
 
 
-<script>
-function openExtensionPopup() {
-    // 80x90 px is usually too small for browsers; 300x400 px is standard for extensions
-    const width = 500; 
-    const height = 700;
-    
-    // Position the window in the top-right corner of the screen
-    const left = window.screen.width - width;
-    const top = 0; 
-    
-    // 'popup=1' removes toolbars, address bar, and status bars in modern browsers
-    const features = `width=${width},height=${height},left=${left},top=${top},popup=1,resizable=no,scrollbars=yes`;
-    
-    window.open('registro.html', 'extensionPopup', features);
-}
-</script>
 
             
 
@@ -569,7 +553,7 @@ function openExtensionPopup() {
  <div class="content-text">
  <h2>Registro</h2>
  </div>
-    <form id="dataForm" action="https://script.google.com/macros/s/AKfycbyn5rsmSdzGWg6IvoPaEt_Yu6WTBG3gnhZWxbSZvO9BOUzHrtYLPN-1CnVn897rwlTK/exec" method="POST">
+    <form id="dataForm" action="https://docs.google.com/spreadsheets/d/18Z8Ud-t1I25zriwZfil8msUPIY0x0nZPcuKlMrq2yTo/export?format=csv">
    <div class="input-group">
                     <input type="tel" id="Phone" name="Phone" placeholder="Cedula">
                 </div>

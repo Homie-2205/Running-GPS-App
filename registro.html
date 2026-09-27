@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Principal</title>
     <style>
-       /* ==========================================================================
-   CSS STYLESHEET
+
+
+
+        /* ==========================================================================
+   CSS STYLES
    ========================================================================== */
 
 /* Reset default browser styles */
@@ -20,10 +23,11 @@
 /* Make the footer horizontal and full width */
 .site-footer {
     width: 100%;
-    background-color: #ffd480; 
-    color: #fff;            
+    background-color: #ffd480;
+    color: #333;               
     text-align: center;     
     padding: 20px 0;        
+    box-sizing: border-box; 
 }
 
 .site-footer p {
@@ -36,39 +40,68 @@
     max-width: 1200px;
     padding: 40px 20px;
     margin: 0 auto; 
-    /* Centers everything dynamically on the page horizontal axis */
+    
+    /* Centering everything inside the contact section vertically & horizontally */
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 80vh; 
 }
 
-/* Centered form wrapper matching desktop limits */
-.contact-form {
+/* Flexbox para alinear las dos columnas */
+.contact-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    gap: 50px;
+    flex-wrap: wrap; 
     width: 100%;
-    max-width: 800px; 
+}
+
+/* Estilos de la columna de texto */
+.contact-textm {
+    flex: 1;
+    min-width: 300px;
+    text-align: center;
+}
+
+.contact-textm h1 {
+    font-size: 3.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #333;
+}
+
+/* Estilos de la columna del formulario */
+.contact-form {
+    flex: 0 0 600px; 
+    min-width: 300px;
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
+    align-items: center; 
+    gap: 0; 
 }
 
-/* 💡 5 Inputs perfectly centered with identical vertical distance */
+/* Separates input fields with identical spacing */
 .inputs-container {
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Equal custom padding gap between your 5 inputs */
+    gap: 20px; 
     width: 100%;
 }
 
 /* Estilos de los campos de entrada */
 .input-group {
     width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .input-group input {
     width: 100%;
     padding: 25px 30px;
     font-size: 1.1rem;
-    border: 2px solid #ffd700; /* 🟡 Solid gold/yellow border */
+    border: 2px solid #ffd700; 
     border-radius: 25px; 
     background-color: #fcf9f5; 
     color: #333333;
@@ -76,69 +109,39 @@
     transition: all 0.3s ease;
 }
 
-/* Efecto visual al hacer clic en el input */
-.input-group input:focus {
-    border-color: #ffcc00; /* 🟡 Deeper yellow when active */
-    box-shadow: 0 0 10px rgba(255, 204, 0, 0.5); /* Yellow glow */
-    background-color: #ffffff;
-}
-
-/* 🔘 Submit button placed with exactly 28px of distance from the inputs */
-.submit-wrapper {
-    margin-top: 28px;
-    display: flex;
-    justify-content: center; /* Keeps button centered inside form container */
-}
-
-.custom-button {
-    /* Layout & Sizing */
-    display: inline-block;
-    padding: 12px 24px;
-
-    /* Typography */
-    font-family: 'Segoe UI', Roboto, sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    text-decoration: none;
-    text-align: center;
-
-    /* Colors & Borders */
-    color: #1a1100;
-    background-color: #ffd480;
-    border: none;
-    border-radius: 8px;
-
-    /* Interactivity & Performance */
-    cursor: pointer;
-    user-select: none;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-/* Hover State */
-.custom-button:hover {
-    background-color: #005ce6;
-    color: #fff;
-}
-
-/* Active State */
-.custom-button:active {
-    transform: scale(0.98);
-}
-
-/* Focus State */
-.custom-button:focus-visible {
-    outline: 3px solid #80bfff;
-    outline-offset: 2px;
-}
-
-/* 💻 Desktop adjustments */
+/* 💻 Desktop width overrides */
 @media (min-width: 1300px) {
-    .contact-form {
+    .input-group input {
         width: 800px;
+        max-width: 100%;
     }
 }
 
-/* 📱 Responsive link cleanup hidden elements */
+/* Efecto visual al hacer clic en el input */
+.input-group input:focus {
+    border-color: #ffcc00; 
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.5); 
+    background-color: #ffffff;
+}
+
+.contact-text .highlight {
+    position: relative;
+    display: inline-block;
+}
+
+.contact-text {
+    flex: 1;
+    min-width: 300px;
+    text-align: center;
+}
+
+.contact-text h1 {
+    font-size: 3.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+/* Hide links on small viewports */
 @media (max-width: 450px) {
     .nav-links {
         display: none;
@@ -148,17 +151,19 @@
 .nav-links li {
     margin-right: 1.5rem;
 }
+
 .nav-links a {
     color: #fff;
     text-decoration: none;
     transition: color 0.3s;
     margin-right: 1.5rem;
 }
+
 .nav-links a:hover {
     color: #00adb5;
 }
 
-/* Header image background styling */
+/* Header asset positioning */
 .hero-header {
     background-image: url("I.gif");
     text-align: center;
@@ -170,6 +175,7 @@
     margin: 0;
     height: 60vh;
 }
+
 .hero-header h1 {
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
@@ -204,6 +210,45 @@
     gap: 1rem;          
 }
 
+.custom-button {
+    display: inline-block;
+    padding: 12px 24px;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    color: #1a1100;
+    background-color: #ffd480;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    
+    /* Pushes button exactly 28px away from the inputs above */
+    margin-top: 28px; 
+    width: 100%;
+    max-width: 300px; 
+}
+
+/* Hover State */
+.custom-button:hover {
+    background-color: #005ce6;
+    color: #fff;
+}
+
+/* Active State */
+.custom-button:active {
+    transform: scale(0.98);
+}
+
+/* Focus State */
+.custom-button:focus-visible {
+    outline: 3px solid #80bfff;
+    outline-offset: 2px;
+}
+
 .content-text h2 {
     font-size: 2rem;
     color: #333;
@@ -213,6 +258,7 @@
     font-weight: 180;
     text-align: center;
 }
+
 .content-text h3 {
     font-size: 1.3rem;
     color: #666;
@@ -221,6 +267,7 @@
     font-weight: 160;
     text-align: center;
 }
+
 .content-text p {
     font-size: 1.1rem;
     line-height: 1.6;
@@ -238,73 +285,270 @@
     text-align: center;
 }
 
-     
-      
-     
-          
-      
-
     </style>
+ 
+
+
+
+
+ 
+
+
 </head>
 <body>
 
-    <!-- NAVIGATION BAR -->
-    <nav>
-        <div class="logo">
-            <!-- Add Logo Here -->
-        </div>
-        <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Services</a></li>
-        </ul>
-    </nav>
+    <!-- 1. Horizontal Navigation -->
 
-    <!-- HERO HEADER -->
-    <header class="hero-header">
-        <h1>Welcome to Principal</h1>
-    </header>
 
-    <!-- MAIN CONTAINER -->
-    <main class="main-container">
-        <!-- Photo Gallery -->
-        <section class="photo-gallery">
-            <img src="https://placeholder.com" alt="Placeholder 1">
-            <img src="https://placeholder.com" alt="Placeholder 2">
-            <img src="https://placeholder.com" alt="Placeholder 3">
-        </section>
 
-        <!-- CENTERED INPUTS / CONTACT SECTION -->
-        <section class="contact-section">
-            <div class="contact-container">
-                <div class="contact-text">
-                    <h1>Get in <span class="highlight">Touch</span></h1>
-                </div>
-                
-                <form class="contact-form">
-                    <div class="inputs-container">
-                        <div class="input-group">
-                            <input type="text" placeholder="Your Name" required>
-                        </div>
-                        <div class="input-group">
-                            <input type="email" placeholder="Your Email" required>
-                        </div>
-                        <div class="input-group">
-                            <input type="text" placeholder="Subject" required>
-                        </div>
-                    </div>
-                    <div>
-                        <button type="submit" class="custom-button">Send Message</button>
-                    </div>
-                </form>
+
+
+
+  
+
+
+
+
+
+
+
+    <!-- 3. Main Div Container -->
+    <div class="main-container">
+
+        <!-- 4. Photos Section -->
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+
+
+
+    
+
+
+
+            
+
+       
+    </form>
+  </div>
+ </section>
+    </div>
+
+  <section class="contact-section">
+    <div class="contact-container">
+        
+      
+
+
+
+   
+   
+   
+   
+   
+   
+   
+   
+ <div class="form-group">
+    <!-- Right Side: Input box column -->
+    <div class="contact-form">
+        <div class="inputs-container">
+            <div class="content-text">
+                <h2>Registro</h2>
             </div>
-        </section>
-    </main>
 
-    <!-- FOOTER -->
-    <footer class="site-footer">
-        <p>&copy; 2026 Your Company. All rights reserved.</p>
-    </footer>
+            <!-- Ensure the URL matches your deployed Web App URL exactly -->
+            <form id="dataForm" action="https://script.google.com/macros/s/AKfycbzH1re9C9bUQbP_o2s3RCHHyd6nGKMyvyijAzSYSI6O4jxUMBiH8KbRPbKgzqpQ4KeR/exec" method="POST">
+                
+                <div class="input-group">
+                    <!-- FIXED: Added missing closing quote to type="text" and missing opening quote to id -->
+                    <input type="text" id="cedula" name="cedula" placeholder="Cedula">
+                </div>
+        
+                <div class="input-group">
+                    <!-- FIXED: Cleaned up inline style quotes -->
+                    <input style="margin-top: 20px;" type="text" id="username" name="username" placeholder="Nombre de usuario">
+                </div>
 
+                <div class="input-group">
+                    <!-- FIXED: Cleaned up inline style quotes -->
+                    <input style="margin-top: 20px;" type="tel" id="cellphone" name="cellphone" placeholder="Celular">
+                </div>
+
+                <div class="input-group">
+                    <!-- FIXED: Cleaned up inline style quotes -->
+                    <input style="margin-top: 20px;" type="text" id="address" name="address" placeholder="dirección">
+                </div>
+
+                <div class="input-group">
+                    <!-- FIXED: Cleaned up inline style quotes -->
+                    <input style="margin-top: 20px;" type="text" id="neighborhood" name="neighborhood" placeholder="Barrio">
+                </div>
+
+                <div> 
+                    <button type="submit" id="submitBtn" class="custom-button" style="cursor: pointer; width: 120px;">Registrarse</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+   
+   
+       
+ 
+
+<div id="message"></div>
+                
+<script>
+const form = document.getElementById('dataForm');
+const messageDiv = document.getElementById('message');
+const submitBtn = document.getElementById('submitBtn');
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault(); 
+
+    submitBtn.disabled = true;
+    messageDiv.textContent = "Submitting...";
+    messageDiv.style.color = "black";
+
+    // This now works perfectly because the inputs have "name" attributes
+    const formData = new FormData(form);
+    
+    // Convert to URL parameters required by Google Apps Script
+    const urlEncodedData = new URLSearchParams();
+    for (const pair of formData) {
+        urlEncodedData.append(pair[0], pair[1]);
+    }
+
+    fetch(form.action, {
+        method: 'POST',
+        mode: 'no-cors', // Required for Google Apps Script
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: urlEncodedData.toString()
+    })
+    .then(() => {
+        messageDiv.textContent = "Data submitted successfully!";
+        messageDiv.style.color = "green";
+        form.reset();
+    })
+    .catch(error => {
+        messageDiv.textContent = "Error submitting data. Please check connection.";
+        messageDiv.style.color = "red";
+        console.error("Submission Error Details:", error); 
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+    });
+});
+</script>
+      
+</div>
+</div>
+         </div>
+
+
+         </div>  
+   
+</section> 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      
+<!-- Footer is now completely outside and at the bottom -->
+<footer class="site-footer">
+    <p>&copy; 2026 MyBrand. Cristian Mauricio Arcos All rights reserved.</p>
+</footer>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+    
+
+     
+
+
+
+
+
+        
+
+
+
+       <script>
+  // Selecciona tu etiqueta <nav> por su ID (asegúrate de que tu <nav id="navbar"> tenga este ID)
+  const navbar = document.getElementById('navbar');
+
+  window.addEventListener('scroll', () => {
+    // Si el usuario baja más de 50 píxeles, añade la clase de fondo amarillo
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      // Si regresa al inicio de la página, vuelve a ser transparente
+      navbar.classList.remove('scrolled');
+    }
+  });
+</script>
+    </div>
+
+
+
+
+
+
+
+  
 </body>
 </html>

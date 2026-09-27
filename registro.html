@@ -5,250 +5,245 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Principal</title>
     <style>
-        /* ==========================================================================
-           1. RESET & GENERAL STYLES
-           ========================================================================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+       /* ==========================================================================
+   CSS STYLESHEET
+   ========================================================================== */
 
-        body {
-            background-color: #fcf9f5;
-            color: #333333;
-        }
+/* Reset default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
 
-        /* ==========================================================================
-           2. NAVIGATION BAR
-           ========================================================================== */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 70px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 40px;
-            background-color: transparent;
-            transition: background-color 0.4s ease, box-shadow 0.4s ease;
-            z-index: 1000;
-        }
-        
-        nav.scrolled {
-            background-color: #ffd480;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        }
+/* Make the footer horizontal and full width */
+.site-footer {
+    width: 100%;
+    background-color: #ffd480; 
+    color: #fff;            
+    text-align: center;     
+    padding: 20px 0;        
+}
 
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
+.site-footer p {
+    margin: 0;              
+}
 
-        .nav-links li {
-            margin-right: 1.5rem;
-        }
+/* Contenedor principal de la sección */
+.contact-section {
+    width: 100%;
+    max-width: 1200px;
+    padding: 40px 20px;
+    margin: 0 auto; 
+    /* Centers everything dynamically on the page horizontal axis */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            transition: color 0.3s;
-            margin-right: 1.5rem;
-        }
+/* Centered form wrapper matching desktop limits */
+.contact-form {
+    width: 100%;
+    max-width: 800px; 
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
 
-        .nav-links a:hover {
-            color: #00adb5;
-        }
+/* 💡 5 Inputs perfectly centered with identical vertical distance */
+.inputs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Equal custom padding gap between your 5 inputs */
+    width: 100%;
+}
 
-        .lang-list {
-            display: flex;
-            list-style: none;               
-            margin: 0 0 0 3rem;
-            padding: 0;
-            gap: 1rem;
-        }
+/* Estilos de los campos de entrada */
+.input-group {
+    width: 100%;
+}
 
-        .lang-link {
-            color: #334155;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            padding: 0.3rem 0.6rem;
-            border-radius: 0.375rem;
-            transition: all 0.2s ease;
-        }
+.input-group input {
+    width: 100%;
+    padding: 25px 30px;
+    font-size: 1.1rem;
+    border: 2px solid #ffd700; /* 🟡 Solid gold/yellow border */
+    border-radius: 25px; 
+    background-color: #fcf9f5; 
+    color: #333333;
+    outline: none;
+    transition: all 0.3s ease;
+}
 
-        /* ==========================================================================
-           3. HERO HEADER
-           ========================================================================== */
-        .hero-header {
-            background-image: url("I.gif");
-            text-align: center;
-            padding: 4rem 2rem;
-            border-bottom: 1px solid #ddd;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;
-            height: 60vh;
-        }
+/* Efecto visual al hacer clic en el input */
+.input-group input:focus {
+    border-color: #ffcc00; /* 🟡 Deeper yellow when active */
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.5); /* Yellow glow */
+    background-color: #ffffff;
+}
 
-        .hero-header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            color: #222;
-        }
+/* 🔘 Submit button placed with exactly 28px of distance from the inputs */
+.submit-wrapper {
+    margin-top: 28px;
+    display: flex;
+    justify-content: center; /* Keeps button centered inside form container */
+}
 
-        /* ==========================================================================
-           4. MAIN CONTENT & GALLERY
-           ========================================================================== */
-        .main-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
+.custom-button {
+    /* Layout & Sizing */
+    display: inline-block;
+    padding: 12px 24px;
 
-        .photo-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
+    /* Typography */
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
 
-        .photo-gallery img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
+    /* Colors & Borders */
+    color: #1a1100;
+    background-color: #ffd480;
+    border: none;
+    border-radius: 8px;
 
-        /* ==========================================================================
-           5. CENTERED CONTACT SECTION (INPUT FIELDS)
-           ========================================================================== */
-        .contact-section {
-            width: 100%;
-            max-width: 1200px;
-            padding: 60px 20px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;  /* Centers horizontally */
-            align-items: center;      /* Centers vertically */
-        }
+    /* Interactivity & Performance */
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
 
-        .contact-container {
-            width: 100%;
-            max-width: 700px;         /* Limits width so it stays tightly centered */
-            display: flex;
-            flex-direction: column;
-            align-items: center;      /* Centers all child items inside */
-            gap: 30px;
-            text-align: center;       /* Centers typography headings */
-        }
+/* Hover State */
+.custom-button:hover {
+    background-color: #005ce6;
+    color: #fff;
+}
 
-        .contact-text {
-            width: 100%;
-        }
+/* Active State */
+.custom-button:active {
+    transform: scale(0.98);
+}
 
-        .contact-text h1 {
-            font-size: 3.5rem;
-            font-weight: 500;
-            line-height: 1.2;
-            color: #333;
-        }
+/* Focus State */
+.custom-button:focus-visible {
+    outline: 3px solid #80bfff;
+    outline-offset: 2px;
+}
 
-        .contact-text .highlight {
-            position: relative;
-            display: inline-block;
-        }
+/* 💻 Desktop adjustments */
+@media (min-width: 1300px) {
+    .contact-form {
+        width: 800px;
+    }
+}
 
-        /* Form & Input Groups */
-        .contact-form {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+/* 📱 Responsive link cleanup hidden elements */
+@media (max-width: 450px) {
+    .nav-links {
+        display: none;
+    }
+}
 
-        .inputs-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;                /* Consistent spacing between row fields */
-            width: 100%;
-        }
+.nav-links li {
+    margin-right: 1.5rem;
+}
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+    margin-right: 1.5rem;
+}
+.nav-links a:hover {
+    color: #00adb5;
+}
 
-        .input-group {
-            width: 100%;
-        }
+/* Header image background styling */
+.hero-header {
+    background-image: url("I.gif");
+    text-align: center;
+    padding: 4rem 2rem;
+    border-bottom: 1px solid #ddd;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    margin: 0;
+    height: 60vh;
+}
+.hero-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: #222;
+}
 
-        .input-group input {
-            width: 100%;
-            padding: 20px 25px;
-            font-size: 1.1rem;
-            border: 2px solid #ffd700; 
-            border-radius: 25px; 
-            background-color: #fcf9f5; 
-            color: #333333;
-            outline: none;
-            transition: all 0.3s ease;
-        }
+.lang-link {
+    color: #334155;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-flex; 
+    align-items: center; 
+    gap: 0.3rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.375rem;
+    transition: all 0.2s ease;
+}
 
-        .input-group input:focus {
-            border-color: #ffcc00; 
-            box-shadow: 0 0 10px rgba(255, 204, 0, 0.5); 
-            background-color: #ffffff;
-        }
+/* Main Div Container */
+.main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
 
-        /* Buttons */
-        .custom-button {
-            display: inline-block;
-            padding: 12px 24px;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            font-size: 16px;
-            font-weight: 600;
-            text-decoration: none;
-            text-align: center;
-            color: #1a1100;
-            background-color: #ffd480;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            user-select: none;
-            transition: background-color 0.2s;
-        }
+.lang-list {
+    display: flex;
+    list-style: none;               
+    margin: 0 0 0 3rem; 
+    padding: 0;
+    gap: 1rem;          
+}
 
-        .custom-button:hover {
-            background-color: #ffc44d;
-        }
+.content-text h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-family: Georgia, Serif;
+    letter-spacing: 5px;
+    font-weight: 180;
+    text-align: center;
+}
+.content-text h3 {
+    font-size: 1.3rem;
+    color: #666;
+    margin-bottom: 1rem;
+    font-family: Georgia, Serif;
+    font-weight: 160;
+    text-align: center;
+}
+.content-text p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #444;
+    font-family: Georgia, Serif;
+    text-align: center;
+}
 
-        /* ==========================================================================
-           6. FOOTER
-           ========================================================================== */
-        .site-footer {
-            width: 100%;
-            background-color: #333; 
-            color: #fff;            
-            text-align: center;     
-            padding: 20px 0;        
-            box-sizing: border-box; 
-        }
+.container-section {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
 
-        .site-footer p {
-            margin: 0;              
-        }
+.content-text {
+    text-align: center;
+}
 
-        /* ==========================================================================
-           7. RESPONSIVE MEDIA QUERIES
-           ========================================================================== */
-        @media (max-width: 450px) {
-            .nav-links {
-                display: none;
-            }
-        }
+     
+      
+     
+          
+      
+
     </style>
 </head>
 <body>

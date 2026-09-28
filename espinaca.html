@@ -1,214 +1,132 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Espinaca</title>
-    <style>
-        /* --- Form Container Layout --- */
-        .form-container {
-            max-width: 400px;
-            margin: 0 auto;
-            font-family: Arial, sans-serif;
-            border: 1px solid #ddd;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+<div class="form-container" style="max-width: 400px; margin: 0 auto; font-family: Arial, sans-serif; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+    
+    <audio id="audio2" src="your-audio-file.mp3"></audio>
 
-        /* --- Header & Image Elements --- */
-        .image-header-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .header-image {
-            width: 300px;
-            height: 250px;
-            cursor: pointer;
-            border-radius: 8px;
-            object-fit: cover;
-        }
-
-        .form-title {
-            margin-top: 10px;
-            color: #333;
-        }
-
-        /* --- Form Group & Labels --- */
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        /* --- Fancy Inputs --- */
-        .fancy-input {
-            width: 100%;
-            padding: 10px 5px;
-            box-sizing: border-box;
-            background-color: #ffffff;
-            border: none;
-            border-bottom: 2px solid #25D366;
-            font-family: Arial, sans-serif; /* Cambiado a Arial para consistencia, puedes regresar a 'Georgia', serif si prefieres */
-            font-size: 14px;
-            color: #333;
-            transition: border-bottom-color 0.3s ease, background-color 0.3s ease;
-            outline: none;
-        }
-
-        .fancy-input:focus {
-            border-bottom: 2px solid #128C7E;
-            background-color: #fbfbfb;
-        }
-
-        /* --- Price Display --- */
-        .total-box {
-            margin: 15px 0;
-            font-weight: bold;
-            font-size: 1.2em;
-            text-align: center;
-        }
-
-        /* --- Submit Button --- */
-        .submit-btn {
-            background-color: #25D366;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            transition: background-color 0.2s ease;
-        }
-
-        .submit-btn:hover {
-            background-color: #1ea851;
-        }
-
-        .submit-btn:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-
-        /* --- Feedback Message --- */
-        .status-message {
-            margin-top: 15px;
-            font-weight: bold;
-            text-align: center;
-            display: none;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="form-container">
-        <!-- Audio Element for the image click -->
-        <audio id="audio2" src="your-audio-file.mp3"></audio>
-
-<form id="dataForm" action="https://script.google.com/macros/s/AKfycbzsPo0wyEd0Ocj5CSc0pRS5pFrUUXvMwbWTPfFcGFnO6cJBL62ZFF0zcYNb73W5iXXi/exec" method="POST">
-
-        
-        <!-- 1. Interactive Image Header -->
-        <div class="image-header-container">
-            <img src="fruits/espinaca.png" class="header-image" alt="Espinaca" onclick="document.getElementById('audio2').play()">
-            <h2 class="form-title">Tu Pedido de Espinaca</h2>
-        </div>
-
-        <!-- 2. Form (Guarantees same-page Google Sheets submission via hidden iframe) -->
-        <form id="dataForm" action="https://google.com" method="POST" target="hidden_iframe" onsubmit="showSuccessMessage()">
-            
-            <div class="form-group"> 
-                <label for="Name">Tu Nombre:</label> 
-                <input type="text" id="username" name="username" class="fancy-input" placeholder="Nombre" required> 
-            </div> 
-            
-            <div class="form-group"> 
-                <label for="Address">Dirección:</label> 
-                <input type="text" id="cellphone" name="cellphone" class="fancy-input" placeholder="Telefono" > 
-            </div> 
-            
-            <div class="form-group"> 
-                <label for="Phone">Teléfono:</label> 
-                <input type="text" id="address" name="address" class="fancy-input" placeholder="Dirección"> 
-            </div> 
-
-              <div class="form-group"> 
-                <label for="Phone">Teléfono:</label> 
-                <input type="text" id="neighborhood" name="neighborhood" class="fancy-input" placeholder="Barrio"> 
-            </div> 
-            
-            <div class="form-group"> 
-                <label for="peso">¿Cuántos kilos deseas?</label> 
-                <input type="number" id="weight" name="Peso" class="fancy-input" min="0.1" step="0.1" value="1.0" oninput="recalculatePrice()"> 
-            </div> 
-            
-            <!-- Live Total Price Display Box -->
-            <div class="total-box"> 
-                Total: $<span id="totalPrice">4.500</span> COP 
-            </div> 
-            
-            <button type="submit" id="submitBtn" class="submit-btn">
-                Enviar Pedido
-            </button>
-        </form>
-
-        <!-- Inline Success Message -->
-        <div id="message" class="status-message"></div>
+    <div style="text-align: center; margin-bottom: 20px;">
+        <img src="fruits/espinaca" style="width: 300px; height: 250px; cursor: pointer; border-radius: 8px; object-fit: cover;" alt="Hope" onclick="document.getElementById('audio2').play()">
     </div>
 
-    <!-- Hidden targets to capture the backend responses -->
-    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+    <!-- PASTE YOUR GOOGLE SCRIPT URL IN THE ACTION ATTRIBUTE BELOW -->
+    <form id="dataForm" action="https://script.google.com/macros/s/AKfycbzzsT61fbKuoUKTVQQJBVbtdMkupzRo6cJ8AOha_GG38qw1RYuib8owtBIRVc_V-RYn/exec" method="POST">
+        <h2 id="banano" style="margin-top: 10px; color: #333; text-align: center;">Tu Pedido de Bananos</h2>
+        
+        <div class="form-group" style="margin-bottom: 15px;"> 
+            <label for="username" style="display: block; font-weight: bold; margin-bottom: 5px;">Nombre:</label> 
+            <input type="text" id="username" name="username" placeholder="Ej. Juan Pérez" required style="width: 100%; padding: 8px; box-sizing: border-box;"> 
+        </div> 
+        
+        <div class="form-group" style="margin-bottom: 15px;"> 
+            <label for="address" style="display: block; font-weight: bold; margin-bottom: 5px;">Dirección:</label> 
+            <input type="text" id="address" name="address" placeholder="Ej. Calle 10 #2-3" required style="width: 100%; padding: 8px; box-sizing: border-box;"> 
+        </div> 
+        
+        <div class="form-group" style="margin-bottom: 15px;"> 
+            <label for="neighborhood" style="display: block; font-weight: bold; margin-bottom: 5px;">Barrio:</label> 
+            <input type="text" id="neighborhood" name="neighborhood" placeholder="Ej. San Fernando" required style="width: 100%; padding: 8px; box-sizing: border-box;"> 
+        </div> 
+        
+        <div class="form-group" style="margin-bottom: 15px;"> 
+            <label for="cellphone" style="display: block; font-weight: bold; margin-bottom: 5px;">Teléfono:</label> 
+            <input type="tel" id="cellphone" name="cellphone" placeholder="Ej. 3001234567" required style="width: 100%; padding: 8px; box-sizing: border-box;"> 
+        </div> 
+        
+        <div class="form-group" style="margin-bottom: 15px;"> 
+            <label for="weight" style="display: block; font-weight: bold; margin-bottom: 5px;">¿Cuántos kilos deseas?</label> 
+            <input type="number" id="weight" name="weight" min="0.1" step="0.1" value="1.0" oninput="recalculatePrice()" style="width: 100%; padding: 8px; box-sizing: border-box;"> 
+        </div> 
+        
+        <div class="total-box" style="margin: 15px 0; font-weight: bold; font-size: 1.2em; text-align: center;"> 
+            Total: $<span id="totalPrice">4.500</span> COP 
+        </div> 
+        
+         <div class="form-group" style="margin-bottom: 15px;"> 
+            <label for="text" style="display: block; font-weight: bold; margin-bottom: 5px;">Confirma la Fruta</label> 
+            <input type="text" id="text" name="text" placeholder="Escribe la fruta de nuevo" required style="width: 100%; padding: 8px; box-sizing: border-box;"> 
+        </div> 
+        
+         <div class="form-group" style="margin-bottom: 15px;"> 
+            <label for="price" style="display: block; font-weight: bold; margin-bottom: 5px;">Confirma el Precio</label> 
+            <input type="text" id="price" name="price" placeholder="Escribe de nuevo el precio" required style="width: 100%; padding: 8px; box-sizing: border-box;"> 
+        </div> 
+        
+        <button type="submit" id="submitBtn" style="background-color: #25D366; color: white; border: none; padding: 12px 24px; font-weight: bold; border-radius: 5px; cursor: pointer; width: 100%;">
+            Enviar Pedido
+        </button>
+    </form>
+
+    <div id="message" style="margin-top: 15px; font-weight: bold; text-align: center; display: none;"></div>
+</div>
 
 <script>
-const form = document.getElementById('dataForm');
-const messageDiv = document.getElementById('message');
-const submitBtn = document.getElementById('submitBtn');
+const PRICE_PER_KILO = 4500;
 
-form.addEventListener('submit', function(e) {
-    e.preventDefault(); 
-
-    submitBtn.disabled = true;
-    messageDiv.textContent = "Submitting...";
-    messageDiv.style.color = "black";
-
-    // This now works perfectly because the inputs have "name" attributes
-    const formData = new FormData(form);
+function recalculatePrice() {
+    const pesoInput = document.getElementById('weight').value;
+    const precioTotalSpan = document.getElementById('totalPrice');
     
-    // Convert to URL parameters required by Google Apps Script
-    const urlEncodedData = new URLSearchParams();
-    for (const pair of formData) {
-        urlEncodedData.append(pair[0], pair[1]);
-    }
-
-    fetch(form.action, {
-        method: 'POST',
-        mode: 'no-cors', // Required for Google Apps Script
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: urlEncodedData.toString()
-    })
-    .then(() => {
-        messageDiv.textContent = "Data submitted successfully!";
-        messageDiv.style.color = "green";
-        form.reset();
-    })
-    .catch(error => {
-        messageDiv.textContent = "Error submitting data. Please check connection.";
-        messageDiv.style.color = "red";
-        console.error("Submission Error Details:", error); 
-    })
-    .finally(() => {
-        submitBtn.disabled = false;
-    });
-});
+    const currentWeight = parseFloat(pesoInput) || 0;
+    const finalPrice = currentWeight * PRICE_PER_KILO;
+    
+    precioTotalSpan.textContent = finalPrice.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+}
 </script>
 
-</body>
-</html>
+<script>
+(function() {
+    const form = document.getElementById('dataForm');
+    const messageDiv = document.getElementById('message');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault(); 
+
+        submitBtn.disabled = true;
+        messageDiv.style.display = "block";
+        messageDiv.textContent = "Enviando pedido...";
+        messageDiv.style.color = "black";
+
+        // Convert form data directly to a clean URL search string format for Google Apps script
+        const formData = new FormData(form);
+        const urlEncodedData = new URLSearchParams();
+        for (const pair of formData) {
+            urlEncodedData.append(pair[0].trim(), pair[1]);
+        }
+
+        // Sending with method POST to Google Web App script URL
+        fetch(form.action, {
+            method: 'POST',
+            mode: 'cors', // Enable standard cors handling for web app json response
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: urlEncodedData.toString()
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.result === 'success') {
+                messageDiv.textContent = "¡Pedido registrado con éxito!";
+                messageDiv.style.color = "green";
+                form.reset();
+                
+                if (typeof recalculatePrice === "function") {
+                    recalculatePrice();
+                }
+                
+                setTimeout(() => {
+                    messageDiv.style.display = "none";
+                }, 3500);
+            } else {
+                throw new Error(data.error || 'Unknown sheet writing issue.');
+            }
+        })
+        .catch(error => {
+            messageDiv.textContent = "Error al enviar. Por favor intente de nuevo.";
+            messageDiv.style.color = "red";
+            console.error("Submission Error Details:", error); 
+        })
+        .finally(() => {
+            submitBtn.disabled = false;
+        });
+    });
+})();
+</script>

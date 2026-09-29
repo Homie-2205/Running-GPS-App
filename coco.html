@@ -1,61 +1,425 @@
-<div class="form-container" style="max-width: 400px; margin: 0 auto; font-family: Arial, sans-serif; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Principal</title>
+   
+  <style>
+/* ==========================================================================
+   RESET & GLOBAL STYLES
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* ==========================================================================
+   CONTACT SECTION & CENTERED FORM
+   ========================================================================== */
+.contact-section {
+    width: 100%;
+    max-width: 1200px;
+    padding: 40px 20px;
+    margin: 0 auto; 
+}
+
+.contact-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    gap: 50px;
+    flex-wrap: wrap; 
+}
+
+.contact-textm, .contact-text {
+    flex: 1;
+    min-width: 300px;
+    text-align: center; 
+}
+
+.contact-textm h1, .contact-text h1 {
+    font-size: 3.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #333;
+}
+
+.contact-text .highlight {
+    position: relative;
+    display: inline-block;
+}
+
+.contact-form {
+    flex: 0 1 600px; 
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    gap: 20px; 
+    margin: 0 auto;
+}
+
+.inputs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%; 
+    align-items: center;
+}
+
+.input-group {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 25px 30px; 
+    font-size: 1.1rem;
+    border: 2px solid  #33cc33; 
+    border-radius: 25px; 
+    background-color: #e6ffcc; 
+    color: #333333;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #33cc33;
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.5); 
+    background-color: #e6ffcc;
+}
+
+/* Desktop Width Refinement */
+@media (min-width: 1300px) {
+    .input-group input, .custom-button {
+        width: 800px;
+        max-width: 100%;
+    }
+}
+
+/* ==========================================================================
+   NAVIGATION & HEADER
+   ========================================================================== */
+@media (max-width: 450px) {
+    .nav-links {
+        display: none;
+    }
+}
+
+.nav-links li {
+    margin-right: 1.5rem;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+    margin-right: 1.5rem;
+}
+
+.nav-links a:hover {
+    color: #00adb5;
+}
+
+.hero-header {
+    background-image: url("I.gif");
+    text-align: center;
+    padding: 4rem 2rem;
+    border-bottom: 1px solid #ddd;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    margin: 0;
+    height: 60vh;
+}
+
+.hero-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: #222;
+}
+
+/* ==========================================================================
+   COMPONENTS & UI ELEMENTS (SUBMIT BUTTON)
+   ========================================================================== */
+.lang-link {
+    color: #334155;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-flex; 
+    align-items: center; 
+    gap: 0.3rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.375rem;
+    transition: all 0.2s ease;
+}
+
+.main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.lang-list {
+    display: flex;
+    list-style: none;               
+    margin: 0 0 0 3rem; 
+    padding: 0;
+    gap: 1rem;          
+}
+
+.custom-button {
+    display: inline-block;
+    width: 100%; 
+    padding: 28px 24px; /* 28px top and bottom padding */
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    color: #1a1100;
+    background-color: #33cc33; 
+    border: none;
+    border-radius: 25px; 
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.custom-button:hover {
+    background-color: #005ce6;
+    color: #ffffff; 
+}
+
+.custom-button:active {
+    transform: scale(0.98);
+}
+
+.custom-button:focus-visible {
+    outline: 3px solid #80bfff;
+    outline-offset: 2px;
+}
+
+/* ==========================================================================
+   CONTENT TYPOGRAPHY
+   ========================================================================== */
+.content-text h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-family: Georgia, Serif;
+    letter-spacing: 5px;
+    font-weight: 180;
+    text-align: center;
+}
+
+.content-text h3 {
+    font-size: 1.3rem;
+    color: #666;
+    margin-bottom: 1rem;
+    font-family: Georgia, Serif;
+    font-weight: 160;
+    text-align: center;
+}
+
+.content-text p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #444;
+    font-family: Georgia, Serif;
+    text-align: center;
+}
+
+.container-section {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.content-text {
+    text-align: center;
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.site-footer {
+    width: 100%;
+    background-color:  #33cc33;  #ffd480;
+    color: #fff;
+    text-align: center;     
+    padding: 20px 0;        
+    box-sizing: border-box; 
+}
+
+.site-footer p {
+    margin: 0;              
+}
+
+
+    </style>
+ 
+ 
+</head>
+<body>
+
+    <!-- 1. Horizontal Navigation -->
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+    <!-- 3. Main Div Container -->
+    <div class="main-container">
+
+      
+   
+  <section class="contact-section">
+    <div class="contact-container">
+        
+      
+
+
+
+   
+   
+   
+   
+   
+   
+   
+   
+ <div class="form-group">
+    <!-- Right Side: Input box column -->
+    <div class="contact-form">
+        <div class="inputs-container">
+            <div class="content-text">
+                <h2>Registro</h2>
+            </div>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
-    <audio id="audio2" src="your-audio-file.mp3"></audio>
 
-    <div style="text-align: center; margin-bottom: 20px;">
-        <img src="fruits/espinaca.png" style="width: 300px; height: 250px; cursor: pointer; border-radius: 8px; object-fit: cover;" alt="Hope" onclick="document.getElementById('audio2').play()">
-    </div>
 
-    <!-- PASTE YOUR GOOGLE SCRIPT URL IN THE ACTION ATTRIBUTE BELOW -->
-    <form id="dataForm" action="https://script.google.com/macros/s/AKfycbzzsT61fbKuoUKTVQQJBVbtdMkupzRo6cJ8AOha_GG38qw1RYuib8owtBIRVc_V-RYn/exec" method="POST">
-        <h2 id="banano" style="margin-top: 10px; color: #333; text-align: center;">Coco</h2>
+
+
+
+
+
+
+
+
+    
+
+
+    
+
+
+
+    
+
+
+
+            
+
+  
+
+
+            
+              <form id="dataForm" action="https://script.google.com/macros/s/AKfycbzzsT61fbKuoUKTVQQJBVbtdMkupzRo6cJ8AOha_GG38qw1RYuib8owtBIRVc_V-RYn/exec" method="POST">
+       
         
-        <div class="form-group" style="margin-bottom: 15px;"> 
-            <label for="username" style="display: block; font-weight: bold; margin-bottom: 5px;">Nombre:</label> 
-            <input type="text" id="username" name="username" placeholder="Ej. Juan Pérez" required style="width: 100%; padding: 8px; box-sizing: border-box;"> 
+          <div class="input-group"  style="margin-bottom: 15px;"> 
+            <label for="username" style="display: block; font-weight: bold; margin-bottom: 5px;"></label> 
+            <input type="text" id="username" name="username" placeholder="Pon tu nombre" > 
         </div> 
         
-        <div class="form-group" style="margin-bottom: 15px;"> 
-            <label for="address" style="display: block; font-weight: bold; margin-bottom: 5px;">Dirección:</label> 
-            <input type="text" id="address" name="address" placeholder="Ej. Calle 10 #2-3" required style="width: 100%; padding: 8px; box-sizing: border-box;"> 
+       <div class="input-group" style="margin-bottom: 15px;"> 
+            <label for="address" style="display: block; font-weight: bold; margin-bottom: 5px;"></label> 
+            <input type="text" id="address" name="address" placeholder="Pon tu dirección" > 
         </div> 
         
-        <div class="form-group" style="margin-bottom: 15px;"> 
-            <label for="neighborhood" style="display: block; font-weight: bold; margin-bottom: 5px;">Barrio:</label> 
-            <input type="text" id="neighborhood" name="neighborhood" placeholder="Ej. San Fernando" required style="width: 100%; padding: 8px; box-sizing: border-box;"> 
+        <div class="input-group" style="margin-bottom: 15px;"> 
+            
+            <input type="text" id="neighborhood" name="neighborhood" placeholder="Pon tu barrio" > 
         </div> 
         
-        <div class="form-group" style="margin-bottom: 15px;"> 
-            <label for="cellphone" style="display: block; font-weight: bold; margin-bottom: 5px;">Teléfono:</label> 
-            <input type="tel" id="cellphone" name="cellphone" placeholder="Ej. 3001234567" required style="width: 100%; padding: 8px; box-sizing: border-box;"> 
+        <div class="input-group" style="margin-bottom: 15px;"> 
+         
+            <input type="tel" id="cellphone" name="cellphone" placeholder="Pon tu telefono"> 
         </div> 
         
-        <div class="form-group" style="margin-bottom: 15px;"> 
-            <label for="weight" style="display: block; font-weight: bold; margin-bottom: 5px;">¿Cuántos kilos deseas?</label> 
-            <input type="number" id="weight" name="weight" min="0.1" step="0.1" value="1.0" oninput="recalculatePrice()" style="width: 100%; padding: 8px; box-sizing: border-box;"> 
+      <div class="input-group"style="margin-bottom: 15px;"> 
+            
+            <input type="number" id="weight" name="weight" min="0.1" step="0.1" value="1.0" oninput="recalculatePrice()" style=""> 
         </div> 
         
         <div class="total-box" style="margin: 15px 0; font-weight: bold; font-size: 1.2em; text-align: center;"> 
             Total: $<span id="totalPrice">4.500</span> COP 
         </div> 
         
-         <div class="form-group" style="margin-bottom: 15px;"> 
-            <label for="text" style="display: block; font-weight: bold; margin-bottom: 5px;">Confirma la Fruta</label> 
-            <input type="text" id="text" name="text" placeholder="Escribe la fruta de nuevo" required style="width: 100%; padding: 8px; box-sizing: border-box;"> 
+       <div class="input-group" style="margin-bottom: 15px;"> 
+            <label for="text" style="display: block; font-weight: bold; margin-bottom: 5px;"></label> 
+            <input type="text" id="text" name="text" placeholder="Escribe la fruta de nuevo" > 
         </div> 
         
-         <div class="form-group" style="margin-bottom: 15px;"> 
-            <label for="price" style="display: block; font-weight: bold; margin-bottom: 5px;">Confirma el Precio</label> 
-            <input type="text" id="price" name="price" placeholder="Escribe de nuevo el precio" required style="width: 100%; padding: 8px; box-sizing: border-box;"> 
+        <div class="input-group"style="margin-bottom: 15px;"> 
+            <label for="price" style="display: block; font-weight: bold; margin-bottom: 5px;"></label> 
+            <input type="text" id="price" name="price" placeholder="Escribe de nuevo el precio" > 
         </div> 
         
-        <button type="submit" id="submitBtn" style="background-color: #25D366; color: white; border: none; padding: 12px 24px; font-weight: bold; border-radius: 5px; cursor: pointer; width: 100%;">
-            Enviar Pedido
+        <button type="submit" class="custom-button" id="submitBtn" style="cursor: pointer; width: 140px; margin-top: 28px;">
+            Enviar 
         </button>
     </form>
 
     <div id="message" style="margin-top: 15px; font-weight: bold; text-align: center; display: none;"></div>
-</div>
+    
+    
+    </div>
+     </div>
+      </div>
+        
+        
+        </div>
+          </section>
+        </div>
+        
+
 
 <script>
 const PRICE_PER_KILO = 4500;
@@ -130,3 +494,81 @@ function recalculatePrice() {
     });
 })();
 </script>
+
+                
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      
+<!-- Footer is now completely outside and at the bottom -->
+<footer class="site-footer">
+    <p>&copy; 2026 MyBrand. Cristian Mauricio Arcos All rights reserved.</p>
+</footer>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+    
+
+     
+
+
+
+
+
+        
+
+
+
+       <script>
+  // Selecciona tu etiqueta <nav> por su ID (asegúrate de que tu <nav id="navbar"> tenga este ID)
+  const navbar = document.getElementById('navbar');
+
+  window.addEventListener('scroll', () => {
+    // Si el usuario baja más de 50 píxeles, añade la clase de fondo amarillo
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      // Si regresa al inicio de la página, vuelve a ser transparente
+      navbar.classList.remove('scrolled');
+    }
+  });
+</script>
+   
+
+       
+
+
+
+
+
+  
+</body>
+</html>
+
+
+  

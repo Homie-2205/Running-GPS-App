@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Principal</title>
+    <!-- Hidden audio element for playing saxo.mp3 -->
+    <audio id="saxoAudio" src="saxo.mp3"></audio>
    
   <style>
 /* ==========================================================================
@@ -274,14 +276,13 @@
 
 
 
+ 
 
-
-  
-
-
+ 
 
 
 
+ 
 
 
     <!-- 3. Main Div Container -->
@@ -292,134 +293,135 @@
   <section class="contact-section">
     <div class="contact-container">
         
-      
+
+ 
+
+
+   
+   
+   
+   
+   
+   
+   
+   
+  <div class="form-group">
+     <!-- Right Side: Input box column -->
+     <div class="contact-form">
+         <div class="inputs-container">
+             <div class="content-text">
+                 <h2>Chontaduro</h2>
+             </div>
 
 
 
    
-   
-   
-   
-   
-   
-   
-   
- <div class="form-group">
-    <!-- Right Side: Input box column -->
-    <div class="contact-form">
-        <div class="inputs-container">
-            <div class="content-text">
-                <h2>Chontaduro</h2>
-            </div>
 
 
+
+ 
+
+
+ 
+
+
+ 
+
+
+ 
+
+
+ 
+
+
+ 
+
+
+ 
+
+     
+
+
+ 
+
+
+
+
+ 
+
+ 
+
+
+
+     
+
+
+
+             
 
   
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-    
-
-
-    
-
-
-
-    
-
-
-
-            
-
-  
-
-
-            
-              <form id="dataForm" action="https://script.google.com/macros/s/AKfycbzzsT61fbKuoUKTVQQJBVbtdMkupzRo6cJ8AOha_GG38qw1RYuib8owtBIRVc_V-RYn/exec" method="POST">
-       
+             
+               <form id="dataForm" action="https://script.google.com/macros/s/AKfycbzzsT61fbKuoUKTVQQJBVbtdMkupzRo6cJ8AOha_GG38qw1RYuib8owtBIRVc_V-RYn/exec" method="POST">
         
-          <div class="input-group"  style="margin-bottom: 15px;"> 
-            <label for="username" style="display: block; font-weight: bold; margin-bottom: 5px;"></label> 
-            <input type="text" id="username" name="username" placeholder="Pon tu nombre" > 
-        </div> 
-        
-       <div class="input-group" style="margin-bottom: 15px;"> 
-            <label for="address" style="display: block; font-weight: bold; margin-bottom: 5px;"></label> 
-            <input type="text" id="address" name="address" placeholder="Pon tu dirección" > 
-        </div> 
-        
-        <div class="input-group" style="margin-bottom: 15px;"> 
-            
-            <input type="text" id="neighborhood" name="neighborhood" placeholder="Pon tu barrio" > 
-        </div> 
-        
-        <div class="input-group" style="margin-bottom: 15px;"> 
          
-            <input type="tel" id="cellphone" name="cellphone" placeholder="Pon tu telefono"> 
-        </div> 
-        
-      <div class="input-group"style="margin-bottom: 15px;"> 
-            
-            <input type="number" id="weight" name="weight" min="0.1" step="0.1" value="1.0" oninput="recalculatePrice()" style=""> 
-        </div> 
-        
-        <div class="total-box" style="margin: 15px 0; font-weight: bold; font-size: 1.2em; text-align: center;"> 
-            Total: $<span id="totalPrice">4.500</span> COP 
-        </div> 
-        
-       <div class="input-group" style="margin-bottom: 15px;"> 
-            <label for="text" style="display: block; font-weight: bold; margin-bottom: 5px;"></label> 
-            <input type="text" id="text" name="text" placeholder="Escribe la fruta de nuevo" > 
-        </div> 
-        
-        <div class="input-group"style="margin-bottom: 15px;"> 
-            <label for="price" style="display: block; font-weight: bold; margin-bottom: 5px;"></label> 
-            <input type="text" id="price" name="price" placeholder="Escribe de nuevo el precio" > 
-        </div> 
-        
-        <button type="submit" class="custom-button" id="submitBtn" style="cursor: pointer; width: 140px; margin-top: 28px;">
-            Enviar 
-        </button>
-    </form>
+           <div class="input-group"  style="margin-bottom: 15px;"> 
+             <label for="username" style="display: block; font-weight: bold; margin-bottom: 5px;"></label> 
+             <input type="text" id="username" name="username" placeholder="Pon tu nombre" > 
+         </div> 
+         
+        <div class="input-group" style="margin-bottom: 15px;"> 
+             <label for="address" style="display: block; font-weight: bold; margin-bottom: 5px;"></label> 
+             <input type="text" id="address" name="address" placeholder="Pon tu dirección" > 
+         </div> 
+         
+         <div class="input-group" style="margin-bottom: 15px;"> 
+             
+             <input type="text" id="neighborhood" name="neighborhood" placeholder="Pon tu barrio" > 
+         </div> 
+         
+         <div class="input-group" style="margin-bottom: 15px;"> 
+          
+             <input type="tel" id="cellphone" name="cellphone" placeholder="Pon tu telefono"> 
+         </div> 
+         
+       <div class="input-group"style="margin-bottom: 15px;"> 
+             
+             <input type="number" id="weight" name="weight" min="0.1" step="0.1" value="1.0" oninput="recalculatePrice()" style=""> 
+         </div> 
+         
+         <div class="total-box" style="margin: 15px 0; font-weight: bold; font-size: 1.2em; text-align: center;"> 
+             Total: $<span id="totalPrice">4.500</span> COP 
+         </div> 
+         
+        <div class="input-group" style="margin-bottom: 15px;"> 
+             <label for="text" style="display: block; font-weight: bold; margin-bottom: 5px;"></label> 
+             <input type="text" id="text" name="text" placeholder="Escribe la fruta de nuevo" > 
+         </div> 
+         
+         <div class="input-group"style="margin-bottom: 15px;"> 
+             <label for="price" style="display: block; font-weight: bold; margin-bottom: 5px;"></label> 
+             <input type="text" id="price" name="price" placeholder="Escribe de nuevo el precio" > 
+         </div> 
+         
+         <button type="submit" class="custom-button" id="submitBtn" style="cursor: pointer; width: 140px; margin-top: 28px;">
+             Enviar 
+         </button>
+     </form>
 
-    <div id="message" style="margin-top: 15px; font-weight: bold; text-align: center; display: none;"></div>
-    
-    
-    </div>
+     <div id="message" style="margin-top: 15px; font-weight: bold; text-align: center; display: none;"></div>
+     
+     
      </div>
       </div>
-        
-        
-        </div>
-          </section>
-        </div>
-        
-
+       </div>
+         
+         
+         </div>
+           </section>
+         </div>
+         
 
 <script>
 const PRICE_PER_KILO = 4500;
@@ -440,6 +442,7 @@ function recalculatePrice() {
     const form = document.getElementById('dataForm');
     const messageDiv = document.getElementById('message');
     const submitBtn = document.getElementById('submitBtn');
+    const saxoAudio = document.getElementById('saxoAudio');
 
     form.addEventListener('submit', function(e) {
         e.preventDefault(); 
@@ -448,6 +451,9 @@ function recalculatePrice() {
         messageDiv.style.display = "block";
         messageDiv.textContent = "Enviando pedido...";
         messageDiv.style.color = "black";
+
+        // Play saxo.mp3 on submit
+        playAudio();
 
         // Convert form data directly to a clean URL search string format for Google Apps script
         const formData = new FormData(form);
@@ -492,6 +498,16 @@ function recalculatePrice() {
             submitBtn.disabled = false;
         });
     });
+
+    // Function to play audio
+    function playAudio() {
+        if (saxoAudio) {
+            saxoAudio.currentTime = 0; // Reset to start
+            saxoAudio.play().catch(error => {
+                console.log("Audio playback error:", error);
+            });
+        }
+    }
 })();
 </script>
 
@@ -501,17 +517,25 @@ function recalculatePrice() {
 
 
 
+ 
 
 
+ 
 
 
+ 
 
 
+ 
 
 
+ 
 
 
+ 
 
+
+ 
 
         
       
@@ -526,10 +550,13 @@ function recalculatePrice() {
 
 
 
+ 
 
 
+ 
 
 
+ 
 
 
     
@@ -539,10 +566,15 @@ function recalculatePrice() {
 
 
 
+ 
+
+
 
         
 
 
+
+        
 
        <script>
   // Selecciona tu etiqueta <nav> por su ID (asegúrate de que tu <nav id="navbar"> tenga este ID)
@@ -560,15 +592,12 @@ function recalculatePrice() {
 </script>
    
 
-       
+        
 
 
 
 
-
-  
+   
 </body>
 </html>
 
-
-  

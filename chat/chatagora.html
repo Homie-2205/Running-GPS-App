@@ -3,76 +3,270 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Agora RTM — Peer Chat Demo</title>
-  <!-- Agora RTM Web SDK -->
+  <title>Agora RTM Chat</title>
   <script src="https://cdn.agora.io/sdk/release/AgoraRTMSDK-1.5.0.js"></script>
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f3f6fb;margin:0}
-    .card{width:min(680px,96vw);background:#fff;border-radius:12px;padding:18px 20px;box-shadow:0 10px 30px rgba(2,6,23,.08)}
-    h2{color:#0b63d6;margin:0 0 12px}
-    .row{display:flex;gap:10px;margin-bottom:10px}
-    input,textarea,button{font:inherit}
-    input,textarea{padding:10px;border:1px solid #e6eef8;border-radius:8px;flex:1}
-    textarea{min-height:84px;resize:vertical}
-    button{background:#0b63d6;color:white;padding:10px 14px;border-radius:8px;border:0;cursor:pointer}
-    #log{background:#0b1122;color:#dbeafe;padding:10px;border-radius:8px;min-height:80px;max-height:200px;overflow:auto;font-family:monospace;font-size:13px}
-    .muted{color:#6b7280;font-size:13px}
-    .flex{display:flex;gap:8px}
-    label{font-weight:700;font-size:13px}
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --primary: #0b63d6;
+      --primary-dark: #084cab;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #e5edf8;
+      --mine: #dbeafe;
+      --other: #eef2f7;
+      --system: #eef6ff;
+      --danger: #ef4444;
+      --shadow: rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+    }
+
+    .app {
+      width: min(900px, 96vw);
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 16px 34px var(--shadow);
+      overflow: hidden;
+    }
+
+    .header {
+      padding: 18px 20px;
+      background: linear-gradient(135deg, #0b63d6, #0d7af9);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header h2 {
+      margin: 0;
+      font-size: 1.3rem;
+    }
+
+    .status {
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      min-height: 620px;
+    }
+
+    .sidebar {
+      border-right: 1px solid var(--border);
+      background: #f9fbff;
+      padding: 18px 16px;
+    }
+
+    .panel {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 7px;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+
+    input, textarea, button {
+      width: 100%;
+      font: inherit;
+      border-radius: 10px;
+    }
+
+    input, textarea {
+      border: 1px solid var(--border);
+      background: white;
+      padding: 10px 12px;
+      color: var(--text);
+      outline: none;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(11,99,214,0.12);
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      padding: 11px 12px;
+      font-weight: 700;
+      background: var(--primary);
+      color: white;
+      transition: 0.2s ease;
+    }
+
+    button:hover { background: var(--primary-dark); }
+
+    .danger { background: var(--danger); }
+    .danger:hover { background: #d12e2e; }
+
+    .chat-panel {
+      display: flex;
+      flex-direction: column;
+      background: white;
+      min-width: 0;
+    }
+
+    .chat-header {
+      padding: 18px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chat-header h3 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .chat-box {
+      flex: 1;
+      overflow-y: auto;
+      background: linear-gradient(180deg, #fbfdff 0%, #f5f8ff 100%);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .message {
+      max-width: 75%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      line-height: 1.45;
+      word-break: break-word;
+      font-size: 0.96rem;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.04);
+    }
+
+    .message.mine {
+      align-self: flex-end;
+      background: var(--mine);
+      border-bottom-right-radius: 4px;
+    }
+
+    .message.other {
+      align-self: flex-start;
+      background: var(--other);
+      border-bottom-left-radius: 4px;
+    }
+
+    .sender {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      opacity: 0.82;
+      margin-bottom: 4px;
+    }
+
+    .composer {
+      border-top: 1px solid var(--border);
+      padding: 16px 18px 18px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: end;
+      background: white;
+    }
+
+    textarea {
+      min-height: 84px;
+      resize: vertical;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-top: 8px;
+      display: block;
+    }
+
+    @media (max-width: 760px) {
+      .content {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h2>Agora RTM — Peer-to-Peer Chat Demo</h2>
+  <div class="app">
+    <div class="header">
+      <h2>Agora RTM Chat</h2>
+      <div id="status" class="status">Disconnected</div>
+    </div>
 
-    <p class="muted">This demo uses Agora RTM Web SDK. It logs in using the APP ID and token embedded below and sends peer-to-peer messages (use two browsers or devices, different user IDs).</p>
-
-    <div style="margin-top:12px">
-      <div class="row">
-        <div style="flex:1">
-          <label for="userId">Your User ID</label>
-          <input id="userId" placeholder="e.g. alice" />
+    <div class="content">
+      <aside class="sidebar">
+        <div class="panel">
+          <label for="userId">Your user ID</label>
+          <input id="userId" type="text" placeholder="Enter your name" />
+          <div style="margin-top:10px; display:flex; gap:8px;">
+            <button id="loginBtn">Connect</button>
+            <button id="logoutBtn" class="danger">Logout</button>
+          </div>
         </div>
-        <div style="width:180px">
-          <label>&nbsp;</label>
-          <button id="loginBtn">Connect</button>
+
+        <div class="panel">
+          <label for="recipientId">Chat with</label>
+          <input id="recipientId" type="text" placeholder="Other user ID" />
         </div>
-      </div>
 
-      <div id="status" class="muted">Status: disconnected</div>
-
-      <hr style="margin:14px 0" />
-
-      <div class="row">
-        <div style="flex:1">
-          <label for="recipientId">Recipient ID</label>
-          <input id="recipientId" placeholder="e.g. bob" />
+        <div class="panel">
+          <label>Quick test</label>
+          <div class="muted">Open the page twice, login with different user IDs, then send messages to each other.</div>
         </div>
-      </div>
+      </aside>
 
-      <div style="margin-top:8px">
-        <label for="messageText">Message</label>
-        <textarea id="messageText" placeholder="Type a message..."></textarea>
-      </div>
+      <main class="chat-panel">
+        <div class="chat-header">
+          <h3 id="chatTitle">Conversation</h3>
+          <span id="peerLabel" class="muted" style="margin:0; color: var(--primary); font-weight:700;">No peer selected</span>
+        </div>
 
-      <div style="display:flex;gap:8px;margin-top:10px">
-        <button id="sendBtn">Send to Peer</button>
-        <button id="logoutBtn" style="background:#ef4444">Logout</button>
-      </div>
+        <div id="chatBox" class="chat-box" aria-live="polite"></div>
 
-      <div style="margin-top:14px">
-        <div id="log">Logs will appear here...</div>
-      </div>
-
+        <div class="composer">
+          <textarea id="messageText" placeholder="Type a message..."></textarea>
+          <button id="sendBtn" style="height:84px; width:120px;">Send</button>
+        </div>
+      </main>
     </div>
   </div>
 
   <script>
-    // ----- CONFIG: Replace if you want different values -----
-    const AGORA_APP_ID = "e4fd483a899746719051a0cfe66641c5"; // last used in repo
-    const AGORA_API_URL = "6811d722de9f4ffe9665701d7adc8283"; // kept for reference (not used by RTM client)
-    const USER_TOKEN = "007eJxTYKif4uUp1L3S7F7j1iPbOGayT+VSaBGXl//rpuk9SUhjHasCQ6pJWoqJhXGihaWluYmZuaGlgalhokFyWqqZmZmJYbJpVsmhrIZARoYcb34WJgZGMATxeRhSUnPzdZMzEvPyUnMYGJjgMiwMhgYGhgDxSh96"; // last token string from file
-    // --------------------------------------------------------
+    // CONFIG
+    const AGORA_APP_ID = "e4fd483a899746719051a0cfe66641c5";
+    const USER_TOKEN = "007eJxTYKif4uUp1L3S7F7j1iPbOGayT+VSaBGXl//rpuk9SUhjHasCQ6pJWoqJhXGihaWluYmZuaGlgalhokFyWqqZmZmJYbJpVsmhrIZARoYcb34WJgZGMATxeRhSUnPzdZMzEvPyUnMYGJjgMiwMhgYGhgDxSh96";
 
     const loginBtn = document.getElementById('loginBtn');
     const logoutBtn = document.getElementById('logoutBtn');
@@ -80,95 +274,127 @@
     const userIdInput = document.getElementById('userId');
     const recipientIdInput = document.getElementById('recipientId');
     const messageTextInput = document.getElementById('messageText');
-    const logDiv = document.getElementById('log');
+    const chatBox = document.getElementById('chatBox');
     const statusDiv = document.getElementById('status');
+    const peerLabel = document.getElementById('peerLabel');
 
     let rtmClient = null;
-    let currentUser = null;
+    let currentUser = '';
 
-    function appendLog(msg) {
-      const time = new Date().toLocaleTimeString();
-      logDiv.innerHTML = `[${time}] ${msg}\n` + logDiv.innerHTML;
+    function setStatus(text, isError = false) {
+      statusDiv.textContent = text;
+      statusDiv.style.background = isError ? 'rgba(239,68,68,0.12)' : 'rgba(255,255,255,0.14)';
+      statusDiv.style.borderColor = isError ? 'rgba(239,68,68,0.3)' : 'rgba(255,255,255,0.2)';
     }
 
-    function setStatus(text) {
-      statusDiv.textContent = 'Status: ' + text;
+    function appendMessage(sender, text, mine = false) {
+      const item = document.createElement('div');
+      item.className = 'message ' + (mine ? 'mine' : 'other');
+
+      const label = document.createElement('span');
+      label.className = 'sender';
+      label.textContent = mine ? 'You' : sender;
+
+      const body = document.createElement('div');
+      body.textContent = text;
+
+      item.appendChild(label);
+      item.appendChild(body);
+      chatBox.appendChild(item);
+      chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    async function login() {
+    function updatePeerLabel() {
+      const peer = recipientIdInput.value.trim();
+      peerLabel.textContent = peer ? 'Chatting with ' + peer : 'No peer selected';
+    }
+
+    async function connect() {
       const user = userIdInput.value.trim();
-      if (!user) { alert('Enter your user ID'); return; }
-
-      appendLog('Initializing Agora RTM client...');
-      rtmClient = AgoraRTM.createInstance(AGORA_APP_ID);
-
-      rtmClient.on('ConnectionStateChanged', (newState, reason) => {
-        appendLog(`RTM connection state: ${newState} (${reason || 'no reason'})`);
-        if (newState === 'ABORTED' || newState === 'DISCONNECTED') setStatus('disconnected');
-      });
-
-      rtmClient.on('MessageFromPeer', (message, peerId) => {
-        // message: { text }
-        const text = message && message.text ? message.text : JSON.stringify(message);
-        appendLog(`Received from ${peerId}: ${text}`);
-      });
+      if (!user) {
+        alert('Please enter your user ID');
+        return;
+      }
 
       try {
-        appendLog(`Logging in as: ${user}`);
+        if (!rtmClient) {
+          rtmClient = AgoraRTM.createInstance(AGORA_APP_ID);
+          rtmClient.on('ConnectionStateChanged', (state, reason) => {
+            console.log('RTM state:', state, reason);
+          });
+
+          rtmClient.on('MessageFromPeer', (message, peerId) => {
+            const text = message && message.text ? message.text : JSON.stringify(message);
+            appendMessage(peerId, text, false);
+          });
+        }
+
         await rtmClient.login({ uid: user, token: USER_TOKEN });
         currentUser = user;
-        setStatus('connected as ' + user);
-        appendLog('Login successful. You can now send peer messages');
+        setStatus('Connected as ' + user);
+        appendMessage('System', 'Connected successfully. Start chatting.', true);
       } catch (err) {
-        appendLog('Login failed: ' + (err.message || err));
-        setStatus('login failed');
+        console.error(err);
+        setStatus('Connection failed', true);
+        alert('Connection failed. Check the user ID and token.');
       }
     }
 
-    async function logout() {
+    async function disconnect() {
       if (!rtmClient) return;
       try {
         await rtmClient.logout();
-        appendLog('Logged out');
       } catch (e) {
-        appendLog('Logout error: ' + (e.message || e));
+        console.error(e);
       }
       rtmClient = null;
-      currentUser = null;
-      setStatus('disconnected');
+      currentUser = '';
+      setStatus('Disconnected');
+      appendMessage('System', 'You are disconnected.', true);
     }
 
-    async function sendPeerMessage() {
-      if (!rtmClient || !currentUser) { alert('Please connect first'); return; }
+    async function sendMessage() {
       const to = recipientIdInput.value.trim();
       const text = messageTextInput.value.trim();
-      if (!to) { alert('Enter recipient ID'); return; }
-      if (!text) { alert('Enter a message'); return; }
+
+      if (!currentUser) {
+        alert('Please connect first');
+        return;
+      }
+
+      if (!to) {
+        alert('Please enter the recipient user ID');
+        return;
+      }
+
+      if (!text) {
+        alert('Please type a message');
+        return;
+      }
 
       try {
-        appendLog(`Sending to ${to}: ${text}`);
-        const res = await rtmClient.sendMessageToPeer({ text }, to);
-        // res has a 'hasPeerReceived' boolean in some SDK versions, but we treat as success
-        appendLog('Message sent');
+        await rtmClient.sendMessageToPeer({ text }, to);
+        appendMessage('You', text, true);
         messageTextInput.value = '';
-      } catch (e) {
-        appendLog('Failed to send: ' + (e.message || e));
+      } catch (err) {
+        console.error(err);
+        alert('Message failed. Check the recipient ID and Agora setup.');
       }
     }
 
-    loginBtn.addEventListener('click', login);
-    logoutBtn.addEventListener('click', logout);
-    sendBtn.addEventListener('click', sendPeerMessage);
+    loginBtn.addEventListener('click', connect);
+    logoutBtn.addEventListener('click', disconnect);
+    sendBtn.addEventListener('click', sendMessage);
+    recipientIdInput.addEventListener('input', updatePeerLabel);
 
-    // Support Enter to send
-    messageTextInput.addEventListener('keydown', (ev) => {
-      if (ev.key === 'Enter' && !ev.shiftKey) {
-        ev.preventDefault();
-        sendPeerMessage();
+    messageTextInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
       }
     });
 
-    appendLog('Page ready. Enter user ID and click Connect');
+    updatePeerLabel();
   </script>
 </body>
 </html>

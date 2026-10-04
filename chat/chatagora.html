@@ -1,161 +1,311 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agora Chat Application</title>
-  <!-- Load the official Agora Chat SDK from CDN -->
-  <script src="https://agora.io"></script>
-  <script src="https://agora.io"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple 2-User Chat</title>
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; background-color: #f5f7fb; }
-    .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
-    h2 { color: #096dd9; margin-top: 0; }
-    label { display: block; margin: 10px 0 5px; font-weight: bold; }
-    input, textarea { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #d9d9d9; border-radius: 4px; margin-bottom: 10px; }
-    button { background-color: #1890ff; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-size: 14px; width: 100%; }
-    button:hover { background-color: #40a9ff; }
-    #status { padding: 10px; border-radius: 4px; background: #e6f7ff; border: 1px solid #91d5ff; color: #1890ff; margin-bottom: 20px; font-weight: bold; }
-    #log { background: #1e1e1e; color: #a9b7c6; font-family: monospace; padding: 10px; border-radius: 4px; max-height: 150px; overflow-y: auto; font-size: 12px; }
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #dfe7f5;
+      --mine: #dbeafe;
+      --other: #f3f4f6;
+      --success: #16a34a;
+      --error: #dc2626;
+      --shadow: rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+    }
+
+    .app {
+      width: min(560px, 92vw);
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 18px 30px var(--shadow);
+      padding: 20px;
+    }
+
+    h2 {
+      margin: 0 0 18px;
+      color: var(--primary);
+      font-size: 1.4rem;
+      text-align: center;
+    }
+
+    .status {
+      background: #eef6ff;
+      color: #0f3d7a;
+      border: 1px solid #cfe5ff;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    input, textarea, button {
+      width: 100%;
+      border-radius: 10px;
+      font: inherit;
+    }
+
+    input, textarea {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      outline: none;
+      background: #fff;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      padding: 11px 12px;
+      font-weight: 700;
+      color: white;
+      background: var(--primary);
+      transition: 0.2s ease;
+    }
+
+    button:hover {
+      background: var(--primary-dark);
+    }
+
+    .secondary {
+      background: #111827;
+    }
+
+    .secondary:hover {
+      background: #1f2937;
+    }
+
+    .chat-box {
+      margin-top: 18px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #f9fbff;
+      min-height: 220px;
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .msg {
+      max-width: 80%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      line-height: 1.4;
+      word-break: break-word;
+      font-size: 0.95rem;
+    }
+
+    .msg.mine {
+      align-self: flex-end;
+      background: var(--mine);
+      border-bottom-right-radius: 4px;
+    }
+
+    .msg.other {
+      align-self: flex-start;
+      background: var(--other);
+      border-bottom-left-radius: 4px;
+    }
+
+    .meta {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      opacity: 0.8;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 6px;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
+  <div class="app">
+    <h2>Local 2-User Chat</h2>
 
-  <div class="card">
-    <h2>Agora Chat Credentials</h2>
-    <p>Using project app configuration strings.</p>
-    <div id="status">Status: Disconnected</div>
-  </div>
+    <div id="status" class="status">Status: Not connected</div>
 
-  <!-- Authentication Card -->
-  <div class="card" id="authSection">
-    <h3>Step 1: Authenticate Connection</h3>
-    <label for="userId">Your User ID</label>
-    <input type="text" id="userId" placeholder="Enter the exact User ID bound to your token" value="">
-    <button id="loginBtn">Connect to Agora Chat</button>
-  </div>
+    <div id="loginSection" class="grid">
+      <div>
+        <label for="userId">Your name</label>
+        <input id="userId" type="text" placeholder="Example: alice" />
+      </div>
+      <button id="joinBtn">Join Chat</button>
+    </div>
 
-  <!-- Messenger Card (Disabled until login success) -->
-  <div class="card" id="messagingSection" style="opacity: 0.5; pointer-events: none;">
-    <h3>Step 2: Send a Message</h3>
-    <label for="recipientId">Recipient User ID</label>
-    <input type="text" id="recipientId" placeholder="Target User ID">
-    
-    <label for="messageText">Message Body</label>
-    <textarea id="messageText" rows="3" placeholder="Type a chat message..."></textarea>
-    
-    <button id="sendBtn">Send Message</button>
-  </div>
+    <div id="chatSection" class="hidden">
+      <div class="grid" style="margin-top: 18px;">
+        <div>
+          <label for="recipientId">Send to</label>
+          <input id="recipientId" type="text" placeholder="Example: bob" />
+        </div>
+        <div>
+          <label for="messageText">Message</label>
+          <textarea id="messageText" placeholder="Type your message here..."></textarea>
+        </div>
+        <button id="sendBtn">Send Message</button>
+      </div>
 
-  <!-- Debug Console Logger -->
-  <div class="card">
-    <h3>System Logs</h3>
-    <div id="log">Console initialized...</div>
+      <div id="chatBox" class="chat-box" aria-live="polite"></div>
+    </div>
+
+    <div class="muted">Open this page in two browser tabs/windows and use two different names.</div>
   </div>
 
   <script>
-    // System Configurations
-    const AGORA_APP_ID = "e4fd483a899746719051a0cfe66641c5";
-    const AGORA_API_URL = "6811d722de9f4ffe9665701d7adc8283";
-    const USER_TOKEN = "007eJxTYKif4uUp1L3S7F7j1iPbOGayT+VSaBGXl//rpuk9SUhjHasCQ6pJWoqJhXGihaWluYmZuaGlgalhokFyWqqZmZmJYbJpVsmhrIZARoYcb34WJgZGMATxeRhSUnPzdZMzEvPyUnMYGJjgMiwMhgYGhgDxSh96";
+    const CHANNEL_NAME = 'simple_chat_demo_2_users';
+    const channel = new BroadcastChannel(CHANNEL_NAME);
 
-    // Setup UI Element References
-    const statusDiv = document.getElementById('status');
-    const logDiv = document.getElementById('log');
-    const loginBtn = document.getElementById('loginBtn');
+    const statusEl = document.getElementById('status');
+    const loginSection = document.getElementById('loginSection');
+    const chatSection = document.getElementById('chatSection');
+    const joinBtn = document.getElementById('joinBtn');
     const sendBtn = document.getElementById('sendBtn');
     const userIdInput = document.getElementById('userId');
     const recipientIdInput = document.getElementById('recipientId');
     const messageTextInput = document.getElementById('messageText');
-    const messagingSection = document.getElementById('messagingSection');
+    const chatBox = document.getElementById('chatBox');
 
-    // Helper Logger Function
-    function appendLog(text) {
-      logDiv.innerHTML += `<br/>[${new Date().toLocaleTimeString()}] ${text}`;
-      logDiv.scrollTop = logDiv.scrollHeight;
+    let currentUser = '';
+
+    function setStatus(text) {
+      statusEl.textContent = 'Status: ' + text;
     }
 
-    // Initialize Web SDK Client Instance
-    appendLog("Initializing Web SDK client configuration...");
-    const conn = new WebIM.connection({
-      appId: AGORA_APP_ID,
-      apiUrl: AGORA_API_URL
-    });
+    function addMessage(from, text, isMine) {
+      const row = document.createElement('div');
+      row.className = 'msg ' + (isMine ? 'mine' : 'other');
 
-    // Event Listener Registry
-    conn.addEventHandler("CONNECTION_EVENTS", {
-      onConnected: () => {
-        statusDiv.innerText = "Status: Connected successfully";
-        statusDiv.style.background = "#f6ffed";
-        statusDiv.style.borderColor = "#b7eb8f";
-        statusDiv.style.color = "#52c41a";
-        appendLog("WebSocket connected to Agora signaling servers.");
-        
-        // Unlock Message UI
-        messagingSection.style.opacity = "1";
-        messagingSection.style.pointer-events = "auto";
-      },
-      onDisconnected: () => {
-        statusDiv.innerText = "Status: Disconnected";
-        statusDiv.style.background = "#fff1f0";
-        statusDiv.style.borderColor = "#ffa39e";
-        statusDiv.style.color = "#f5222d";
-        appendLog("Disconnected from server environment.");
-      },
-      onTextMessage: (message) => {
-        appendLog(`Received message from ${message.from}: ${message.msg}`);
-      },
-      onError: (error) => {
-        appendLog(`SDK error event triggered: ${JSON.stringify(error)}`);
-      }
-    });
+      const meta = document.createElement('span');
+      meta.className = 'meta';
+      meta.textContent = isMine ? 'You' : from;
 
-    // Execute Login Routing
-    loginBtn.addEventListener('click', () => {
+      const body = document.createElement('div');
+      body.textContent = text;
+
+      row.appendChild(meta);
+      row.appendChild(body);
+      chatBox.appendChild(row);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function joinChat() {
       const user = userIdInput.value.trim();
       if (!user) {
-        alert("Please enter a User ID before connecting.");
+        alert('Please enter your name.');
         return;
       }
 
-      appendLog(`Attempting authentication sequence for user: ${user}`);
-      conn.open({
-        user: user,
-        accessToken: USER_TOKEN
-      });
-    });
+      currentUser = user;
+      loginSection.classList.add('hidden');
+      chatSection.classList.remove('hidden');
+      setStatus('Connected as ' + currentUser);
+      recipientIdInput.focus();
+    }
 
-    // Execute Sending Text
-    sendBtn.addEventListener('click', () => {
-      const targetUser = recipientIdInput.value.trim();
-      const textBody = messageTextInput.value.trim();
+    function sendMessage() {
+      if (!currentUser) return;
 
-      if (!targetUser || !textBody) {
-        alert("Please complete both recipient ID and message body.");
+      const recipient = recipientIdInput.value.trim();
+      const text = messageTextInput.value.trim();
+
+      if (!recipient) {
+        alert('Please enter the recipient name.');
         return;
       }
 
-      appendLog(`Packaging structural text data payload for destination: ${targetUser}`);
-      
-      let msgOptions = {
-        chatType: 'singleChat',
-        type: 'txt',
-        to: targetUser,
-        msg: textBody
+      if (!text) {
+        alert('Please type a message.');
+        return;
+      }
+
+      const message = {
+        type: 'chat-message',
+        from: currentUser,
+        to: recipient,
+        text: text
       };
 
-      let msg = WebIM.message.create(msgOptions);
+      channel.postMessage(message);
+      addMessage(currentUser, text, true);
+      messageTextInput.value = '';
+      messageTextInput.focus();
+    }
 
-      conn.send(msg)
-        .then(() => {
-          appendLog(`Dispatched message to ${targetUser} successfully.`);
-          messageTextInput.value = ''; // Reset message input layout
-        })
-        .catch((err) => {
-          appendLog(`Failed dispatch workflow structure: ${err.message || err}`);
-        });
+    joinBtn.addEventListener('click', joinChat);
+    sendBtn.addEventListener('click', sendMessage);
+
+    messageTextInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+      }
+    });
+
+    channel.onmessage = (event) => {
+      const message = event.data;
+      if (!message || message.type !== 'chat-message') return;
+      if (message.from === currentUser) return;
+      if (message.to && message.to !== currentUser && message.to !== 'all') return;
+
+      addMessage(message.from, message.text, false);
+      setStatus('Incoming message from ' + message.from);
+    };
+
+    window.addEventListener('beforeunload', () => {
+      channel.close();
     });
   </script>
 </body>
 </html>
-

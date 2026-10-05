@@ -1,13 +1,13 @@
 services:
   - type: web
-    name: video-processing-server
+    name: chat-p2p-service
     env: node
     plan: free
-    buildCommand: npm install && npm run build
+    rootDir: chat
+    buildCommand: npm install
     startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
-
-prebuildCommand: |
-  apt-get update && apt-get install -y ffmpeg
+      - key: PORT
+        value: 3000

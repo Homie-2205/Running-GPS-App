@@ -3,43 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agora Live 1-on-1 Chat</title>
+    <title>Agora Peer Chat</title>
+    <!-- 1. Import Agora Chat SDK Web Library -->
+    <script src="https://agora.io"></script>
     <style>
-        body { font-family: sans-serif; background: #f0f2f5; padding: 20px; display: flex; justify-content: center; }
-        .chat-container { width: 400px; background: white; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden; display: flex; flex-direction: column; }
-        .chat-header { background: #0088cc; color: white; padding: 15px; font-weight: bold; text-align: center; }
-        .panel { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
-        .chat-box { height: 300px; padding: 15px; overflow-y: auto; background: #f9f9f9; display: none; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
-        .message { margin-bottom: 10px; padding: 8px 12px; border-radius: 6px; width: fit-content; max-width: 80%; }
-        .message.sent { background: #e1f5fe; margin-left: auto; }
-        .message.received { background: #eeeeee; }
-        .message-form { padding: 10px; display: none; gap: 10px; }
-        .message-form input { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
-        .message-form button, .panel button { padding: 8px 12px; background: #0088cc; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        body { font-family: sans-serif; padding: 20px; max-width: 500px; }
+        .box { margin-bottom: 15px; border: 1px solid #ccc; padding: 15px; border-radius: 5px; }
+        #chat-log { height: 150px; overflow-y: scroll; background: #f4f4f4; padding: 10px; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="chat-container">
-        <div class="chat-header">🔒 Agora P2P Secure Chat</div>
-        
-        <div id="auth-panel" class="panel">
-            <input type="text" id="username-input" placeholder="Your User ID (e.g., Alice)">
-            <input type="text" id="peer-input" placeholder="Target Peer ID (e.g., Bob)">
-            <button id="login-btn">Connect & Login</button>
-        </div>
+    <h2>Agora P2P Chat</h2>
 
-        <div id="status" style="text-align:center; color:#666; font-size:0.9rem; padding: 5px;">Awaiting node server execution...</div>
-        <div id="chat-box" class="chat-box"></div>
-
-        <div id="message-form" class="message-form">
-            <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off">
-            <button id="send-btn">Send</button>
-        </div>
+    <!-- Login Section -->
+    <div class="box">
+        <h3>1. Login</h3>
+        <input type="text" id="username" placeholder="Your Username (e.g. alex)">
+        <button id="login-btn">Log In</button>
+        <p id="status">Status: Disconnected</p>
     </div>
 
-    <!-- Official Agora Web IM Client Engine Module Stack Bundle v1.1.1 -->
-    <script src="https://agora.io"></script>
-    <script src="chat.js"></script>
+    <!-- Chat Messaging Section -->
+    <div class="box">
+        <h3>2. Send Message</h3>
+        <input type="text" id="peer-id" placeholder="Receiver Username (e.g. sam)">
+        <input type="text" id="message-text" placeholder="Type a message...">
+        <button id="send-btn" disabled>Send</button>
+        
+        <h4>Chat Log:</h4>
+        <div id="chat-log"></div>
+    </div>
+
+    <!-- Link your custom logic script -->
+    <script src="main.js"></script>
 </body>
 </html>

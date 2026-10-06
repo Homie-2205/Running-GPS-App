@@ -264,12 +264,13 @@
   </div>
 
   <script>
-    // Secure configuration
-    // The app ID is public, but the RTM token must be created by your backend.
-    // Example: before this script loads, set window.AGORA_CONFIG = { appId: '...', tokenEndpoint: '/api/agora-token' }
-    const AGORA_CONFIG = window.AGORA_CONFIG || {};
-    const AGORA_APP_ID = (AGORA_CONFIG.appId || 'e4fd483a899746719051a0cfe66641c5').trim();
-    const TOKEN_ENDPOINT = (AGORA_CONFIG.tokenEndpoint || '/api/agora-token').trim();
+    const AGORA_CONFIG = {
+      appId: 'e4fd483a899746719051a0cfe66641c5',
+      tokenEndpoint: '/api/agora-token'
+    };
+
+    const AGORA_APP_ID = AGORA_CONFIG.appId;
+    const TOKEN_ENDPOINT = AGORA_CONFIG.tokenEndpoint;
 
     const loginBtn = document.getElementById('loginBtn');
     const logoutBtn = document.getElementById('logoutBtn');
@@ -313,10 +314,6 @@
     }
 
     async function requestAgoraToken(uid) {
-      if (!TOKEN_ENDPOINT) {
-        throw new Error('No token endpoint configured. Set window.AGORA_CONFIG.tokenEndpoint first.');
-      }
-
       const response = await fetch(TOKEN_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -341,7 +338,7 @@
       }
 
       if (!AGORA_APP_ID) {
-        alert('Agora App ID is missing. Add it to window.AGORA_CONFIG.appId or configure the app.');
+        alert('Agora App ID is missing.');
         return;
       }
 
@@ -366,7 +363,7 @@
       } catch (err) {
         console.error(err);
         setStatus('Connection failed', true);
-        alert('Connection failed. Make sure your secure token endpoint is running and returning a valid Agora token.');
+        alert('Connection failed. Make sure your Agora App ID and backend token endpoint are correct.\n\nError: ' + err.message);
       }
     }
 
@@ -408,7 +405,7 @@
         messageTextInput.value = '';
       } catch (err) {
         console.error(err);
-        alert('Message failed. Check the recipient ID and your Agora token setup.');
+        alert('Message failed. Check the recipient ID and your Agora token setup.\n\nError: ' + err.message);
       }
     }
 

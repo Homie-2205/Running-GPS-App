@@ -2,12 +2,14 @@
   "name": "chat-p2p-render",
   "version": "1.0.0",
   "private": true,
-  "description": "Chat P2P de dos personas con WebRTC y Socket.IO",
+  "description": "Chat P2P de dos personas con WebRTC y Socket.IO + Agora RTM",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
+    "agora-access-token": "^2.0.1",
+    "dotenv": "^16.4.5",
     "express": "^4.21.2",
     "socket.io": "^4.8.1"
   }

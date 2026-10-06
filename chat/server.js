@@ -1,26 +1,22 @@
 const express = require('express');
+const cors = require('cors'); 
 const { ChatTokenBuilder } = require('agora-token');
 
 const app = express();
 
-// 1. Enable Cross-Origin Resource Sharing (CORS) 
-// This allows your frontend (index.html) to safely communicate with this backend
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+// Enable Cross-Origin Resource Sharing (CORS) 
+app.use(cors()); 
 
-// 2. Fetch credentials safely from Render's Environment Variables
-const APP_ID = process.env.AGORA_APP_ID;
-const APP_CERTIFICATE = process.env.AGORA_APP_CERTIFICATE;
+// Your exact Agora App ID and Certificate placed natively in the right variables
+const APP_ID = "e4fd483a899746719051a0cfe66641c5";
+const APP_CERTIFICATE = "f19c4cf8a16a4799815ec2add961133d";
 
 // Health check endpoint to verify your Render server is up and running
 app.get('/', (req, res) => {
     res.send('Agora Token Server is online!');
 });
 
-// 3. The Token API Endpoint that your index.html will talk to
+// The Token API Endpoint that your index.html will talk to
 app.get('/api/chat-token', (req, res) => {
     const userId = req.query.userId;
     
@@ -30,7 +26,7 @@ app.get('/api/chat-token', (req, res) => {
     }
 
     if (!APP_ID || !APP_CERTIFICATE) {
-        return res.status(500).json({ error: 'Server configuration missing. Check environment variables.' });
+        return res.status(500).json({ error: 'Server configuration missing. Check backend credentials.' });
     }
 
     const expirationInSeconds = 86400; // Token valid for 24 hours
@@ -52,7 +48,7 @@ app.get('/api/chat-token', (req, res) => {
     }
 });
 
-// 4. CRUCIAL FOR RENDER: Bind to the dynamic port Render provides automatically
+// Bind to the dynamic port Render provides automatically
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`Server running securely on port ${PORT}`);

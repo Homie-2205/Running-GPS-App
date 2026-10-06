@@ -1,12 +1,12 @@
 // CONFIGURATION (Only keep your public App ID here!)
 const AGORA_APP_ID = "e4fd483a899746719051a0cfe66641c5"; 
-const RENDER_BACKEND_URL = " running-gps-app.onrender.com";
+const RENDER_BACKEND_URL = "https://running-gps-app.onrender.com";
 
 let chatClient;
 
 // HANDLE LOGIN
 document.getElementById('login-btn').addEventListener('click', async () => {
-    const userId = document.getElementById('username').value.trim();
+    const userId = document.getElementById('username-input').value.trim();
     if (!userId) return alert("Enter a username!");
 
     document.getElementById('status').innerText = "Fetching token from Render...";
@@ -37,6 +37,8 @@ document.getElementById('login-btn').addEventListener('click', async () => {
 
         document.getElementById('status').innerText = `Logged in as: ${userId}`;
         document.getElementById('send-btn').disabled = false;
+        document.getElementById('chat-box').style.display = 'block';
+        document.getElementById('message-form').style.display = 'flex';
 
     } catch (error) {
         document.getElementById('status').innerText = "Login failed.";
@@ -46,8 +48,8 @@ document.getElementById('login-btn').addEventListener('click', async () => {
 
 // HANDLE SENDING MESSAGES
 document.getElementById('send-btn').addEventListener('click', () => {
-    const targetPeer = document.getElementById('peer-id').value.trim();
-    const text = document.getElementById('message-text').value.trim();
+    const targetPeer = document.getElementById('peer-input').value.trim();
+    const text = document.getElementById('message-input').value.trim();
     
     if (!targetPeer || !text) return;
 
@@ -62,11 +64,11 @@ document.getElementById('send-btn').addEventListener('click', () => {
     // Send it through the Agora network
     chatClient.send(msg);
     appendMessage(`You: ${text}`);
-    document.getElementById('message-text').value = "";
+    document.getElementById('message-input').value = "";
 });
 
 function appendMessage(text) {
-    const log = document.getElementById('chat-log');
+    const log = document.getElementById('chat-box');
     log.innerHTML += `<div>${text}</div>`;
     log.scrollTop = log.scrollHeight;
 }

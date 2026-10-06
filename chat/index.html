@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agora Live 1-on-1 Chat</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f2f5; padding: 20px; display: flex; justify-content: center; }
+        .chat-container { width: 400px; background: white; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden; display: flex; flex-direction: column; }
+        .chat-header { background: #0088cc; color: white; padding: 15px; font-weight: bold; text-align: center; }
+        .panel { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .chat-box { height: 300px; padding: 15px; overflow-y: auto; background: #f9f9f9; display: none; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+        .message { margin-bottom: 10px; padding: 8px 12px; border-radius: 6px; width: fit-content; max-width: 80%; }
+        .message.sent { background: #e1f5fe; margin-left: auto; }
+        .message.received { background: #eeeeee; }
+        .message-form { padding: 10px; display: none; gap: 10px; }
+        .message-form input { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        .message-form button, .panel button { padding: 8px 12px; background: #0088cc; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <div class="chat-header">🔒 Agora P2P Secure Chat</div>
+        
+        <div id="auth-panel" class="panel">
+            <input type="text" id="username-input" placeholder="Your User ID (e.g., Alice)">
+            <input type="text" id="peer-input" placeholder="Target Peer ID (e.g., Bob)">
+            <button id="login-btn">Connect & Login</button>
+        </div>
+
+        <div id="status" style="text-align:center; color:#666; font-size:0.9rem; padding: 5px;">Awaiting node server execution...</div>
+        <div id="chat-box" class="chat-box"></div>
+
+        <div id="message-form" class="message-form">
+            <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+
+    <!-- Official Agora Web IM Client Engine Module Stack Bundle v1.1.1 -->
+    <script src="https://agora.io"></script>
+    <script src="chat.js"></script>
+</body>
+</html>

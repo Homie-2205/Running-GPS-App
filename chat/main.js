@@ -1,6 +1,6 @@
 // CONFIGURATION (Only keep your public App ID here!)
-const AGORA_APP_ID = "your_agora_app_id_here"; 
-const RENDER_BACKEND_URL = "https://onrender.com";
+const AGORA_APP_ID = "e4fd483a899746719051a0cfe66641c5"; 
+const RENDER_BACKEND_URL = " running-gps-app.onrender.com";
 
 let chatClient;
 

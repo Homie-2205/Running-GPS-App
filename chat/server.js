@@ -1,44 +1,59 @@
 const express = require('express');
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
-const { ChatTokenBuilder } = require('agora-token'); 
+const { ChatTokenBuilder } = require('agora-token');
 
 const app = express();
-const server = http.createServer(app);
 
-// Serve the frontend static assets inside public/
-app.use(express.static(path.join(__dirname, '../public')));
+// 1. Enable Cross-Origin Resource Sharing (CORS) 
+// This allows your frontend (index.html) to safely communicate with this backend
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
-// Read configurations securely from the backend environment layer
-const config = JSON.parse(fs.readFileSync(path.join(__dirname, 'config.json')));
+// 2. Fetch credentials safely from Render's Environment Variables
+const APP_ID = process.env.AGORA_APP_ID;
+const APP_CERTIFICATE = process.env.AGORA_APP_CERTIFICATE;
 
-// Secure endpoint to distribute credentials safely to the client side
-app.get('/api/get-chat-credentials', (req, res) => {
+// Health check endpoint to verify your Render server is up and running
+app.get('/', (req, res) => {
+    res.send('Agora Token Server is online!');
+});
+
+// 3. The Token API Endpoint that your index.html will talk to
+app.get('/api/chat-token', (req, res) => {
+    const userId = req.query.userId;
+    
+    // Validate that a username/userId was sent in the request
+    if (!userId) {
+        return res.status(400).json({ error: 'userId parameter is required' });
+    }
+
+    if (!APP_ID || !APP_CERTIFICATE) {
+        return res.status(500).json({ error: 'Server configuration missing. Check environment variables.' });
+    }
+
+    const expirationInSeconds = 86400; // Token valid for 24 hours
+
     try {
-        // If your App Certificate is active, generate a dynamic token. 
-        // Otherwise, fall back safely to your provided static token parameter.
-        let chatToken = config.STATIC_TOKEN;
-
-        if (config.APP_CERTIFICATE && config.APP_CERTIFICATE !== "YOUR_AGORA_APP_CERTIFICATE_SECRET") {
-            const expirationInSeconds = 86400; // Token valid for 24 Hours
-            chatToken = ChatTokenBuilder.buildAppToken(
-                config.APP_ID, 
-                config.APP_CERTIFICATE, 
-                expirationInSeconds
-            );
-        }
-
-        res.json({
-            appId: config.APP_ID,
-            token: chatToken,
-            apiKey: config.API_KEY
-        });
+        // Build the cryptographic token using Agora's core algorithm
+        const token = ChatTokenBuilder.buildUserToken(
+            APP_ID,
+            APP_CERTIFICATE,
+            userId,
+            expirationInSeconds
+        );
+        
+        // Return the token securely back to the frontend
+        return res.json({ token: token });
     } catch (error) {
-        console.error("Agora Token configuration fallback error:", error);
-        res.status(500).json({ error: "Failed to parse local communication parameters" });
+        console.error('Error generating token:', error);
+        return res.status(500).json({ error: 'Token generation failed' });
     }
 });
 
-const PORT = 3000;
-server.listen(PORT, () => console.log(`Agora node signaling backend listening on port ${PORT}`));
+// 4. CRUCIAL FOR RENDER: Bind to the dynamic port Render provides automatically
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+    console.log(`Server running securely on port ${PORT}`);
+});

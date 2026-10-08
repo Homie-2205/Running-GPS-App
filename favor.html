@@ -1,9 +1,14 @@
+
+ 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Principal</title>
+    <!-- Aquí puedes vincular tus estilos CSS si los tienes en un archivo externo -->
+</head>
+
     <style>
 /* ==========================================================================
    RESET & GLOBAL STYLES
@@ -262,283 +267,131 @@
 
 
     </style>
- 
-
-
-
-
- 
-
-
-</head>
 <body>
 
-    <!-- 1. Horizontal Navigation -->
+    <!-- 1. Navegación Principal -->
+    <!-- Asegúrate de agregar tu <nav id="navbar"> aquí si usas el script de scroll -->
 
-
-
-
-
-
-  
-
-
-
-
-
-
-
-    <!-- 3. Main Div Container -->
+    <!-- 2. Contenedor Principal de Fotos/Contenido -->
     <div class="main-container">
+        <!-- Tus fotos o contenido superior van aquí -->
+    </div>
 
-        <!-- 4. Photos Section -->
+    <!-- 3. Sección del Formulario de Orden -->
+    <section class="contact-section">
+        <div class="contact-container">
+            <div class="form-group">
+                <div class="contact-form">
+                    <div class="inputs-container">
+                        
+                        <div class="content-text">
+                            <h2>Orden</h2>
+                        </div>
 
+                        <!-- Formulario conectado a Google Apps Script -->
+                        <form id="dataForm" action="https://google.com" method="POST">
+                            
+                            <div class="input-group">
+                                <input type="text" id="cedula" name="cedula" placeholder="Pon la dirección de tu pedido y el nombre">
+                            </div>
+                    
+                            <div class="input-group">
+                                <input style="margin-top: 20px;" type="text" id="username" name="username" placeholder="Nombre de usuario">
+                            </div>
 
+                            <div class="input-group">
+                                <input style="margin-top: 20px;" type="tel" id="cellphone" name="cellphone" placeholder="Celular">
+                            </div>
 
+                            <div class="input-group">
+                                <input style="margin-top: 20px;" type="text" id="address" name="address" placeholder="Dirección">
+                            </div>
 
+                            <div class="input-group">
+                                <input style="margin-top: 20px;" type="text" id="neighborhood" name="neighborhood" placeholder="Barrio">
+                            </div>
 
+                            <div class="input-group">
+                                <input style="margin-top: 20px;" type="text" id="details" name="details" placeholder="Ponga su orden aquí y añada sustituciones">
+                            </div>
 
+                            <div> 
+                                <button type="submit" id="submitBtn" class="custom-button" style="cursor: pointer; width: 140px; margin-top: 28px;">Pedir</button>
+                                <div id="message" style="margin-top: 15px;"></div>
+                            </div>
 
+                        </form> <!-- Cierre correcto del Formulario -->
 
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-    
-
-
-    
-
-
-
-    
-
-
-
-      
-
-  <section class="contact-section">
-    <div class="contact-container">
-        
-      
-
-
-
-   
-   
-   
-   
-   
-   
-   
-   
- <div class="form-group">
-    <!-- Right Side: Input box column -->
-    <div class="contact-form">
-        <div class="inputs-container">
-            <div class="content-text">
-                <h2>Favor</h2>
-            </div>
-
-            <!-- Ensure the URL matches your deployed Web App URL exactly -->
-           <form id="dataForm" action="https://script.google.com/macros/s/AKfycbwQiGP78ELSaOQ_7ui0REAXMuKI5bkmZJGDDFLVCBgRo_WUPmLxU_LOl10O5hfN8FsFbg/exec" method="POST">
-                <div class="input-group">
-                    <!-- FIXED: Added missing closing quote to type="text" and missing opening quote to id -->
-                <input type="text" id="cedula" name="cedula" placeholder="Pon La direccion de tu pedido y el nombre">
+                    </div>
                 </div>
-        
-                <div class="input-group">
-                    <!-- FIXED: Cleaned up inline style quotes -->
-                    <input style="margin-top: 20px;" type="text" id="username" name="username" placeholder="Nombre de usuario">
-                </div>
-
-                <div class="input-group">
-                    <!-- FIXED: Cleaned up inline style quotes -->
-                    <input style="margin-top: 20px;" type="tel" id="cellphone" name="cellphone" placeholder="Celular">
-                </div>
-
-                <div class="input-group">
-                    <!-- FIXED: Cleaned up inline style quotes -->
-                    <input style="margin-top: 20px;" type="text" id="address" name="address" placeholder="dirección">
-                </div>
-
-                <div class="input-group">
-                    <!-- FIXED: Cleaned up inline style quotes -->
-                    <input style="margin-top: 20px;" type="text" id="neighborhood" name="neighborhood" placeholder="Barrio">
-                </div>
- <div class="input-group">
-                    <!-- FIXED: Cleaned up inline style quotes -->
-                    <input style="margin-top: 20px;" type="text" id="details" name="details" placeholder="Ponga su orden aqui y añada sustituciones">
-                </div>
-
-
-               
-                <div> 
-                   <button type="submit" id="submitBtn" class="custom-button" style="cursor: pointer; width: 140px; margin-top: 28px;">Pedir</button>
-
-
-<div id="message"></div>
-
-
-
-<script>
-const form = document.getElementById('dataForm');
-const messageDiv = document.getElementById('message');
-const submitBtn = document.getElementById('submitBtn');
-
-form.addEventListener('submit', function(e) {
-    e.preventDefault(); 
-
-    submitBtn.disabled = true;
-    messageDiv.textContent = "Submitting...";
-    messageDiv.style.color = "black";
-
-    // This now works perfectly because the inputs have "name" attributes
-    const formData = new FormData(form);
-    
-    // Convert to URL parameters required by Google Apps Script
-    const urlEncodedData = new URLSearchParams();
-    for (const pair of formData) {
-        urlEncodedData.append(pair[0], pair[1]);
-    }
-
-    fetch(form.action, {
-        method: 'POST',
-        mode: 'no-cors', // Required for Google Apps Script
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: urlEncodedData.toString()
-    })
-    .then(() => {
-        messageDiv.textContent = "Data submitted successfully!";
-        messageDiv.style.color = "green";
-        form.reset();
-    })
-    .catch(error => {
-        messageDiv.textContent = "Error submitting data. Please check connection.";
-        messageDiv.style.color = "red";
-        console.error("Submission Error Details:", error); 
-    })
-    .finally(() => {
-        submitBtn.disabled = false;
-    });
-});
-</script>
-      
-</div>
-</div>
-         </div>
-
-
-         </div>  
-   
-</section> 
- 
-
-
-
-
-                </div>
-            </form>
+            </div>   
         </div>
-    </div>
-</div>
-   
-   
-       
- 
+    </section> 
 
-                
+    <!-- 4. Pie de página (Footer) -->
+    <footer class="site-footer">
+        <p>&copy; 2026 MyBrand. Cristian Mauricio Arcos All rights reserved.</p>
+    </footer>
 
+    <!-- 5. Scripts de Funcionalidad (JavaScript) -->
+    <script>
+    const form = document.getElementById('dataForm');
+    const messageDiv = document.getElementById('message');
+    const submitBtn = document.getElementById('submitBtn');
 
+    form.addEventListener('submit', function(e) {
+        e.preventDefault(); 
 
+        submitBtn.disabled = true;
+        messageDiv.textContent = "Submitting...";
+        messageDiv.style.color = "black";
 
+        // Captura los datos del formulario correctamente
+        const formData = new FormData(form);
+        const urlEncodedData = new URLSearchParams();
+        for (const pair of formData) {
+            urlEncodedData.append(pair[0], pair[1]);
+        }
 
+        fetch(form.action, {
+            method: 'POST',
+            mode: 'no-cors', // Requerido para Google Apps Script
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: urlEncodedData.toString()
+        })
+        .then(() => {
+            messageDiv.textContent = "Data submitted successfully!";
+            messageDiv.style.color = "green";
+            form.reset();
+        })
+        .catch(error => {
+            messageDiv.textContent = "Error submitting data. Please check connection.";
+            messageDiv.style.color = "red";
+            console.error("Submission Error Details:", error); 
+        })
+        .finally(() => {
+            submitBtn.disabled = false;
+        });
+    });
 
-
-
-
-
-
-
-
-
-
-
-        
-      
-<!-- Footer is now completely outside and at the bottom -->
-<footer class="site-footer">
-    <p>&copy; 2026 MyBrand. Cristian Mauricio Arcos All rights reserved.</p>
-</footer>
-
-
-  
-
-
-
-
-
-
-
-
-
-
-    
-
-     
-
-
-
-
-
-        
-
-
-
-       <script>
-  // Selecciona tu etiqueta <nav> por su ID (asegúrate de que tu <nav id="navbar"> tenga este ID)
-  const navbar = document.getElementById('navbar');
-
-  window.addEventListener('scroll', () => {
-    // Si el usuario baja más de 50 píxeles, añade la clase de fondo amarillo
-    if (window.scrollY > 50) {
-      navbar.classList.add('scrolled');
-    } else {
-      // Si regresa al inicio de la página, vuelve a ser transparente
-      navbar.classList.remove('scrolled');
+    // Control de la barra de navegación al hacer scroll (Evita errores si el navbar no existe en el DOM)
+    const navbar = document.getElementById('navbar');
+    if (navbar) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
     }
-  });
-</script>
-    </div>
-
-
-
-
-
-
-
-  
+    </script>
 </body>
 </html>
 
 
-                    
 
 
-
-
-
-                    
+ 

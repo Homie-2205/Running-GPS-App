@@ -265,6 +265,98 @@
 }
 
 
+    <style>
+
+
+    /* 2. Entire Screen Background Fruits Container */
+    .screen-background-fruits {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1; /* Sits behind the button */
+      pointer-events: none; /* Keeps clicks from hitting the background fruits */
+    }
+
+    /* 3. Base Floating Fruit Styles (BRIGHTNESS ENHANCED) */
+    .fruit {
+      position: absolute;
+      bottom: -100px; /* Start below the visible screen */
+      opacity: 0;
+      user-select: none;
+      animation: floatUpFullScreen BRIGHT_AND_GLOWING 8s linear infinite;
+      animation-name: floatUpFullScreen;
+      
+      /* Vibrant Glow Upgrades */
+      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.6)) 
+              drop-shadow(0 0 30px currentColor); /* Creates an intense, saturated neon color glow */
+    }
+
+    /* Individual neon tint helper overrides for the drop-shadow glow */
+    .apple-glow { color: #ff3344; }
+    .banana-glow { color: #ffea00; }
+    .pineapple-glow { color: #ffa600; }
+
+    /* 4. Staggered screen positions, sizes, and delays across the screen width */
+    .apple-1      { left: 10%;  font-size: 3.2rem; animation-delay: 0s;   animation-duration: 9s; }
+    .banana-1     { left: 25%;  font-size: 3.7rem; animation-delay: 2s;   animation-duration: 7s; }
+    .pineapple-1  { left: 40%;  font-size: 4.2rem; animation-delay: 4s;   animation-duration: 10s; }
+    .apple-2      { left: 60%;  font-size: 3.0rem; animation-delay: 1s;   animation-duration: 8s; }
+    .banana-2     { left: 75%;  font-size: 4.0rem; animation-delay: 5s;   animation-duration: 11s; }
+    .pineapple-2  { left: 90%;  font-size: 4.7rem; animation-delay: 3s;   animation-duration: 9s; }
+
+    /* 5. Core Full-Screen Animation Logic (BRIGHTNESS ENHANCED) */
+    @keyframes floatUpFullScreen {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+      15% {
+        opacity: 1.0; /* Full, crisp 100% visibility for maximum brightness */
+      }
+      85% {
+        opacity: 1.0; /* Stays solid and neon bright while crossing the screen */
+      }
+      100% {
+        transform: translateY(-120vh) rotate(360deg); /* Float entirely past the top of the viewport */
+        opacity: 0;
+      }
+    }
+
+    /* 6. Clean, Eye-Catching Center Button */
+    .center-button {
+      position: relative;
+      z-index: 2; /* Ensures the button sits clearly in front of the glowing fruits */
+      padding: 18px 45px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      background: linear-gradient(45px, #ff416c, #ff4b2b);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 10px 40px rgba(255, 75, 43, 0.5);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    /* Button Interactivity */
+    .center-button:hover {
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 18px 45px rgba(255, 75, 43, 0.7);
+    }
+
+    .center-button:active {
+      transform: translateY(-1px) scale(1.01);
+    }
+  </style>
+
+    <style>
+
+
+        
     </style>
  
  
@@ -274,7 +366,14 @@
     <!-- 1. Horizontal Navigation -->
 
 
-
+<div class="screen-background-fruits">
+    <span class="fruit apple-1 apple-glow">🍎</span>
+    <span class="fruit banana-1 banana-glow">🍌</span>
+    <span class="fruit pineapple-1 pineapple-glow">🍍</span>
+    <span class="fruit apple-2 apple-glow">🍏</span>
+    <span class="fruit banana-2 banana-glow">🍌</span>
+    <span class="fruit pineapple-2 pineapple-glow">🍍</span>
+  </div>
 
  
 

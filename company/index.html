@@ -1,242 +1,86 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Compani Remote MP3</title>
-
-    <script src="/socket.io/socket.io.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Remote MP3</title>
 
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #101820;
-            color: white;
             text-align: center;
-            padding: 25px 15px;
-        }
-
-        .card {
-            max-width: 430px;
-            margin: 25px auto;
-            padding: 25px;
-            border-radius: 18px;
-            background: #1c2935;
+            background: #f1f3f4;
+            padding: 70px 15px;
         }
 
         button {
-            width: 100%;
-            padding: 16px;
-            margin-top: 14px;
+            padding: 20px 30px;
+            font-size: 20px;
+            color: white;
+            background: #188038;
             border: none;
-            border-radius: 10px;
-            font-size: 17px;
-            font-weight: bold;
+            border-radius: 12px;
             cursor: pointer;
         }
 
-        .owner {
-            background: #25c76b;
-            color: #06190d;
-        }
-
-        .visitor {
-            background: #ffbd36;
-            color: #201600;
-        }
-
-        input {
-            box-sizing: border-box;
-            width: 100%;
-            padding: 13px;
-            margin-top: 10px;
-            border-radius: 8px;
-            border: 1px solid #526271;
-            background: #101820;
-            color: white;
-            font-size: 16px;
-        }
-
         #status {
-            margin-top: 20px;
-            overflow-wrap: anywhere;
-        }
-
-        audio {
-            width: 100%;
-            margin-top: 15px;
+            margin-top: 25px;
         }
     </style>
 </head>
 
 <body>
+    <h2>Remote MP3</h2>
 
-    <h1>📱 Compani Remote MP3</h1>
-
-    <div class="card">
-        <h2>Owner — Your cellphone</h2>
-
-        <p>
-            Open this page on your Samsung phone.
-            Enter your private owner key and activate audio.
-        </p>
-
-        <input
-            type="password"
-            id="ownerKey"
-            placeholder="Owner key"
-            autocomplete="off"
-        >
-
-        <button class="owner" id="connectOwner">
-            CONNECT MY PHONE
-        </button>
-
-        <button class="owner" id="activateAudio">
-            ACTIVATE AUDIO
-        </button>
-
-        <p id="ownerStatus">Not connected.</p>
-
-        <audio id="player" controls preload="auto">
-            Your browser does not support audio playback.
-        </audio>
+    <div id="phoneControls" hidden>
+        <button onclick="connectPhone()">CONNECT MY PHONE</button>
     </div>
 
-    <div class="card">
-        <h2>Visitor — Send command</h2>
-
-        <p>
-            Enter the access key and send a playback command
-            to the registered owner's phone.
-        </p>
-
-        <input
-            type="password"
-            id="accessKey"
-            placeholder="Access key"
-            autocomplete="off"
-        >
-
-        <button class="visitor" id="sendCommand">
-            🔊 PLAY MP3 ON OWNER'S PHONE
-        </button>
-
-        <p id="visitorStatus">Ready.</p>
+    <div id="computerControls" hidden>
+        <button onclick="openOnPhone()">OPEN MP3 ON MY PHONE</button>
     </div>
 
-    <p id="status">Connecting to server...</p>
+    <p id="status">Connecting...</p>
+
+    <script src="/socket.io/socket.io.js"></script>
 
     <script>
-        const MP3_URL =
-            "https://drive.google.com/uc?export=download&id=1BrQhl2e-mM1DhMUv1hSpTULSD91ffMSz";
+        const socket = io();
 
-        const socket = io({
-            reconnection: true
-        });
+        const OWNER_KEY = "CHANGE_THIS_OWNER_KEY";
+        const ACCESS_KEY = "CHANGE_THIS_ACCESS_KEY";
+        const FILE_ID = "YOUR_GOOGLE_DRIVE_FILE_ID";
 
-        const player = document.getElementById("player");
+        const params = new URLSearchParams(location.search);
+        const isPhone = params.get("device") === "phone";
 
-        let isOwner = false;
-        let audioActivated = false;
+        document.getElementById("phoneControls").hidden = !isPhone;
+        document.getElementById("computerControls").hidden = isPhone;
 
-        player.src = MP3_URL;
+        function connectPhone() {
+            socket.emit("register-owner", OWNER_KEY);
+        }
+
+        function openOnPhone() {
+            socket.emit("open-mp3", ACCESS_KEY);
+        }
 
         socket.on("connect", () => {
             document.getElementById("status").textContent =
                 "Connected to server.";
         });
 
-        socket.on("disconnect", () => {
-            document.getElementById("status").textContent =
-                "Disconnected. Reconnecting...";
+        socket.on("status", (message) => {
+            document.getElementById("status").textContent = message;
         });
 
-        // Owner registers this phone.
-        document.getElementById("connectOwner").onclick = () => {
-            const key = document.getElementById("ownerKey").value;
+        socket.on("open-mp3-on-phone", () => {
+            const url =
+                "https://drive.google.com/file/d/" +
+                encodeURIComponent(FILE_ID) + "/view";
 
-            if (!key) {
-                alert("Enter your owner key.");
-                return;
-            }
-
-            socket.emit("register-owner", key);
-        };
-
-        socket.on("owner-ready", () => {
-            isOwner = true;
-
-            document.getElementById("ownerStatus").textContent =
-                "Your phone is connected and ready.";
-        });
-
-        socket.on("registration-error", (message) => {
-            document.getElementById("ownerStatus").textContent =
-                message;
-        });
-
-        // A user gesture attempts to enable audio playback.
-        document.getElementById("activateAudio").onclick = async () => {
-            try {
-                await player.play();
-                player.pause();
-                player.currentTime = 0;
-
-                audioActivated = true;
-
-                document.getElementById("ownerStatus").textContent =
-                    "Audio activated. Keep this page open.";
-            } catch (error) {
-                document.getElementById("ownerStatus").textContent =
-                    "Audio could not be activated. Check the MP3 URL.";
-            }
-        };
-
-        // Receive the command on the owner's phone.
-        socket.on("play-mp3", async () => {
-            if (!isOwner) return;
-
-            try {
-                player.currentTime = 0;
-                await player.play();
-
-                document.getElementById("ownerStatus").textContent =
-                    "The MP3 is playing.";
-            } catch (error) {
-                document.getElementById("ownerStatus").textContent =
-                    "Playback was blocked. Tap the audio player to start.";
-            }
-        });
-
-        // A visitor sends a remote command.
-        document.getElementById("sendCommand").onclick = () => {
-            const key = document.getElementById("accessKey").value;
-
-            if (!key) {
-                alert("Enter the access key.");
-                return;
-            }
-
-            if (!socket.connected) {
-                document.getElementById("visitorStatus").textContent =
-                    "Not connected to the server.";
-                return;
-            }
-
-            socket.emit("play-on-owner", key);
-
-            document.getElementById("visitorStatus").textContent =
-                "Command sent. Waiting for server...";
-        };
-
-        socket.on("command-result", (result) => {
-            document.getElementById("visitorStatus").textContent =
-                result.message;
+            window.location.href = url;
         });
     </script>
-
 </body>
 </html>

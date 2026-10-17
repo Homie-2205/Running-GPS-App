@@ -3,63 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remote MP3 Player</title>
-</head>
-<body>
-    <h2>Remote MP3 Player</h2>
 
-    <button onclick="openMP3()">
-        OPEN MP3 ON MY PHONE
+    <title>Remote Samsung MP3</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px 15px;
+            background: #f1f4f8;
+        }
+
+        h1 {
+            color: #222;
+        }
+
+        button {
+            padding: 16px 24px;
+            font-size: 18px;
+            background: #168447;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+        }
+
+        #status {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>My Samsung MP3</h1>
+
+    <p>Click to open your MP3 on your connected Samsung phone.</p>
+
+    <button id="openButton" onclick="openMP3()">
+        Open MP3 on My Samsung
     </button>
 
-    <p id="status">Waiting...</p>
+    <p id="status">Ready</p>
 
     <script>
         async function openMP3() {
+            const button = document.getElementById("openButton");
             const status = document.getElementById("status");
+
+            button.disabled = true;
+            status.textContent = "Sending command...";
 
             try {
                 const response = await fetch("/open-mp3", {
                     method: "POST"
                 });
 
-                const data = await response.json();
-                status.textContent = data.message;
+                const result = await response.json();
+
+                status.textContent = result.message;
+
             } catch (error) {
-                status.textContent = "Connection error.";
+                status.textContent = "Connection error. Please try again.";
+            } finally {
+                button.disabled = false;
             }
         }
     </script>
 
-    <hr>
-
-    <h3>Phone Receiver</h3>
-
-    <p>Open this page on your cellphone first.</p>
-
-    <button onclick="startReceiver()">
-        ACTIVATE PHONE RECEIVER
-    </button>
-
-    <script>
-        let receiver;
-
-        function startReceiver() {
-            if (receiver) return;
-
-            receiver = new EventSource("/events");
-
-            receiver.onmessage = function(event) {
-                if (event.data === "OPEN_MP3") {
-                    window.location.href = "https://drive.google.com/file/d/1BrQhl2e-mM1DhMUv1hSpTULSD91ffMSz/view?usp=sharing";
-                }
-            };
-
-            document.getElementById("status").textContent =
-                "Phone receiver connected.";
-        }
-    </script>
 </body>
 </html>
-
-

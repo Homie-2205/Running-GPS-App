@@ -479,7 +479,7 @@
         </div> 
         
         <div class="total-box" style="margin: 15px 0; font-weight: bold; font-size: 1.2em; text-align: center;"> 
-            Total: $<span id="totalPrice">4.500</span> COP 
+            Total: $<span id="totalPrice">2.890</span> COP 
         </div> 
         
        <div class="input-group" style="margin-bottom: 15px;"> 

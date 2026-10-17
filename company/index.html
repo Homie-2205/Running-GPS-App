@@ -1,51 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Company - Repartidor</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Botón de sonido remoto</title>
   <style>
-    body { margin:0; font-family:Arial, sans-serif; background:#f7f7f7; display:grid; place-items:center; min-height:100vh; }
-    .card { background:#fff; border-radius:12px; padding:28px; width:min(92vw,500px); box-shadow:0 8px 24px rgba(0,0,0,.12); text-align:center; }
-    h1 { margin:0 0 12px; color:#222; }
-    p { color:#555; margin:0 0 18px; }
-    .btn { display:inline-block; width:100%; padding:12px 16px; margin-top:10px; border-radius:10px; border:none; cursor:pointer; font-weight:700; }
-    .btn-primary { background:#ffd480; color:#1a1100; }
-    .btn-secondary { background:#fff1c1; color:#1a1100; }
+    * { box-sizing: border-box; }
+    body { margin:0; padding:24px 14px; min-height:100vh; display:flex; justify-content:center; align-items:center; background:#eef2f6; color:#17212b; font-family:Arial,sans-serif; }
+    main { width:100%; max-width:520px; padding:25px; background:#fff; border-radius:18px; box-shadow:0 8px 28px rgba(0,0,0,.09); text-align:center; }
+    h1 { font-size:25px; margin-top:0; }
+    p { line-height:1.5; }
+    button { width:100%; border:0; border-radius:12px; padding:15px 12px; margin:8px 0; font-size:16px; font-weight:700; color:white; background:#1769aa; cursor:pointer; }
+    button.dark { background:#344454; } button.green { background:#16804a; }
+    #status { margin-top:16px; padding:12px; background:#f2f5f8; border-radius:10px; min-height:48px; overflow-wrap:anywhere; }
+    .small { font-size:13px; color:#536170; }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Repartidor</h1>
-    <p>Pulsa el botón para abrir la página del repartidor y reproducir el audio en el móvil.</p>
+<main>
+  <h1>🔔 Botón de sonido remoto</h1>
+  <p>Abre esta misma URL pública de Render en ambos celulares.</p>
+  <button id="ownerBtn" class="green">1. ACTIVAR ESTE CELULAR COMO RECEPTOR</button>
+  <button id="enableBtn" class="dark">2. ACTIVAR / PROBAR SONIDO</button>
+  <button id="callBtn">ENVIAR SOLICITUD DE SONIDO</button>
+  <p id="status" role="status">Conectando con el servidor…</p>
+  <p class="small">En el celular receptor, activa el modo receptor y prueba el sonido una vez. Mantén la página abierta y conectada a Internet.</p>
+</main>
 
-    <!-- Opens the repartidor page and passes the Drive file ID as a parameter -->
-    <button id="openRepartidor" class="btn btn-primary" type="button">Abrir reproductor (repartidor)</button>
+<audio id="ring" preload="auto">
+  <source src="https://drive.google.com/uc?export=download&amp;id=1BrQhl2e-mM1DhMUv1hSpTULSD91ffMSz" type="audio/mpeg">
+</audio>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+(() => {
+  const socket = io();
+  const status = document.getElementById("status");
+  const audio = document.getElementById("ring");
+  let ownerMode = new URLSearchParams(location.search).get("mode") === "owner";
+  let audioEnabled = false;
+  function message(text) { status.textContent = text; }
 
+  async function playRing() {
+    try {
+      audio.pause();
+      audio.currentTime = 0;
+      await audio.play();
+      message("🔔 Reproduciendo el MP3 en este celular.");
+    } catch (error) {
+      message("La solicitud llegó, pero el audio no pudo reproducirse. Revisa el acceso de Google Drive y pulsa ACTIVAR / PROBAR SONIDO.");
+    }
+  }
 
-     <a href="repartidor/bill.mp3">Test</a>
-     <a href="https://drive.google.com/file/d/1BrQhl2e-mM1DhMUv1hSpTULSD91ffMSz/view?usp=sharing">Test</a>
+  function registerOwner() {
+    ownerMode = true;
+    if (socket.connected) socket.emit("owner:join");
+    message("Modo receptor activado. Pulsa ACTIVAR / PROBAR SONIDO una vez.");
+  }
 
-  
+  document.getElementById("ownerBtn").addEventListener("click", registerOwner);
+  document.getElementById("enableBtn").addEventListener("click", async () => {
+    audioEnabled = true;
+    await playRing();
+  });
+  document.getElementById("callBtn").addEventListener("click", () => {
+    if (!socket.connected) return message("Sin conexión con Render. Comprueba Internet e intenta de nuevo.");
+    socket.emit("visitor:call");
+    message("Enviando solicitud al celular receptor…");
+  });
 
-    <!-- Opens the Google Drive viewer in a new tab -->
-    <button id="openDrive" class="btn btn-secondary" type="button">Abrir archivo en Google Drive</button>
-  </div>
+  socket.on("connect", () => {
+    if (ownerMode) socket.emit("owner:join");
+    else message("Conectado al servidor público de Render.");
+  });
+  socket.on("disconnect", () => message("Desconectado. Intentando reconectar…"));
+  socket.on("server:status", message);
+  socket.on("owner:play-sound", () => {
+    if (!ownerMode) return;
+    if (!audioEnabled) return message("Solicitud recibida. Primero pulsa ACTIVAR / PROBAR SONIDO en este celular.");
+    playRing();
+  });
+  socket.on("visitor:result", (result) => message(result.message));
 
-  <script>
-    // Replace with your Drive file ID if different
-    const driveId = '1BrQhl2e-mM1DhMUv1hSpTULSD91ffMSz';
-    const driveViewerUrl = 'https://drive.google.com/file/d/' + driveId + '/view?usp=sharing';
-
-    document.getElementById('openRepartidor').addEventListener('click', () => {
-      // Navigate to the repartidor page and pass the driveId as a query parameter
-      window.location.href = '../repartidor/repartidor.html?driveId=' + encodeURIComponent(driveId);
-    });
-
-    document.getElementById('openDrive').addEventListener('click', () => {
-      // Open the Drive viewer in a new tab
-      window.open(driveViewerUrl, '_blank', 'noopener');
-    });
-  </script>
+  if (ownerMode) socket.on("connect", () => socket.emit("owner:join"));
+})();
+</script>
 </body>
 </html>

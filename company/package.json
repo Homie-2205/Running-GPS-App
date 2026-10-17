@@ -1,7 +1,6 @@
 {
-  "name": "compani-remote-mp3",
+  "name": "remote-mp3",
   "version": "1.0.0",
-  "description": "Remote MP3 playback command for a registered cellphone",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

@@ -1,304 +1,53 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Llamadas Jitsi</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script src="/socket.io/socket.io.js"></script>
+    <title>Videollamada Google Meet</title>
 
-<style>
-* {
-    box-sizing: border-box;
-}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f1f5f9;
+            padding: 40px 15px;
+        }
 
-body {
-    margin: 0;
-    padding: 25px 15px;
-    font-family: Arial, sans-serif;
-    background: #101827;
-    color: white;
-    text-align: center;
-}
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+        }
 
-main {
-    max-width: 420px;
-    margin: 30px auto;
-    padding: 25px;
-    background: #1e293b;
-    border-radius: 18px;
-}
-
-h1 {
-    font-size: 25px;
-}
-
-p {
-    line-height: 1.5;
-}
-
-input, button {
-    width: 100%;
-    padding: 14px;
-    margin-top: 12px;
-    border: 0;
-    border-radius: 10px;
-    font-size: 16px;
-}
-
-input {
-    background: white;
-    color: #111827;
-}
-
-button {
-    background: #16a34a;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-button:disabled {
-    opacity: .5;
-}
-
-.secondary {
-    background: #334155;
-}
-
-.danger {
-    background: #dc2626;
-}
-
-#estado {
-    padding: 12px;
-    background: #0f172a;
-    border-radius: 10px;
-    overflow-wrap: anywhere;
-}
-
-#llamada {
-    display: none;
-    margin-top: 20px;
-    padding: 15px;
-    background: #334155;
-    border-radius: 12px;
-}
-
-.hidden {
-    display: none;
-}
-</style>
+        .button {
+            display: block;
+            padding: 16px;
+            margin-top: 20px;
+            border-radius: 10px;
+            background: #00897b;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="container">
+        <h2>📹 Videollamada</h2>
 
-<main>
-    <h1>📞 Jitsi Meet</h1>
+        <p>Pulsa el botón para conectarte mediante Google Meet.</p>
 
-    <p id="estado">Conectando con el servidor...</p>
-
-    <section id="configuracion">
-        <input id="codigo"
-               type="password"
-               placeholder="Código de acceso del dueño">
-
-        <button onclick="activarRecepcion()">
-            🔔 Activar recepción de llamadas
-        </button>
-
-        <p>Para recibir llamadas, registra aquí el teléfono del dueño.</p>
-    </section>
-
-    <section id="llamada">
-        <h2>📲 ¡Llamada entrante!</h2>
-        <p>Alguien quiere comunicarse contigo.</p>
-
-        <button onclick="responder()">
-            ✅ RESPONDER
-        </button>
-
-        <button class="danger" onclick="rechazar()">
-            ❌ RECHAZAR
-        </button>
-    </section>
-
-    <section id="cliente">
-        <h2>Contactar</h2>
-
-        <button onclick="solicitarLlamada()">
-            📞 LLAMAR AL DUEÑO
-        </button>
-    </section>
-
-    <button class="secondary" onclick="activarSonido()">
-        🔊 Activar sonido
-    </button>
-</main>
-
-<audio id="tono" loop preload="auto">
-    <source
-        src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"
-        type="audio/ogg">
-</audio>
-
-<script>
-const socket = io();
-
-let esDueno = false;
-let llamadaActual = null;
-let sonidoActivado = false;
-
-const estado = document.getElementById("estado");
-const tono = document.getElementById("tono");
-
-socket.on("connect", () => {
-    estado.textContent = "Conectado al servidor.";
-});
-
-socket.on("disconnect", () => {
-    estado.textContent = "Desconectado. Reconecta la página.";
-    detenerTono();
-});
-
-socket.on("registrado", (mensaje) => {
-    esDueno = true;
-
-    estado.textContent = mensaje;
-
-    document.getElementById("configuracion").classList.add("hidden");
-    document.getElementById("cliente").classList.add("hidden");
-});
-
-socket.on("error-llamada", (mensaje) => {
-    estado.textContent = mensaje;
-});
-
-socket.on("estado-llamada", (mensaje) => {
-    estado.textContent = mensaje;
-});
-
-socket.on("llamada-entrante", (datos) => {
-    llamadaActual = datos.callId;
-
-    document.getElementById("llamada").style.display = "block";
-
-    estado.textContent = "¡Llamada entrante!";
-
-    reproducirTono();
-
-    if ("vibrate" in navigator) {
-        navigator.vibrate([500, 300, 500, 300, 1000]);
-    }
-});
-
-socket.on("llamada-aceptada", (datos) => {
-    detenerTono();
-
-    estado.textContent = "Abriendo Jitsi Meet...";
-
-    window.location.href =
-        "https://meet.jit.si/" + encodeURIComponent(datos.room);
-});
-
-socket.on("llamada-rechazada", () => {
-    estado.textContent = "La llamada fue rechazada.";
-});
-
-function activarRecepcion() {
-    const codigo = document.getElementById("codigo").value.trim();
-
-    if (!codigo) {
-        estado.textContent = "Escribe el código de acceso.";
-        return;
-    }
-
-    activarSonido();
-    socket.emit("registrar-dueno", codigo);
-}
-
-async function activarSonido() {
-    try {
-        tono.muted = true;
-        await tono.play();
-        tono.pause();
-        tono.currentTime = 0;
-        tono.muted = false;
-
-        sonidoActivado = true;
-
-        estado.textContent = esDueno
-            ? "Listo para recibir llamadas."
-            : "Sonido preparado. Registra el teléfono del dueño.";
-
-    } catch (error) {
-        tono.muted = false;
-        estado.textContent =
-            "El navegador bloqueó el sonido. Intenta de nuevo.";
-    }
-}
-
-function reproducirTono() {
-    if (sonidoActivado) {
-        tono.currentTime = 0;
-        tono.play().catch(() => {
-            estado.textContent =
-                "Llamada entrante. Pulsa la pantalla para activar el sonido.";
-        });
-    } else {
-        estado.textContent =
-            "Llamada entrante. Activa el sonido para escuchar el tono.";
-    }
-}
-
-function detenerTono() {
-    tono.pause();
-    tono.currentTime = 0;
-
-    if ("vibrate" in navigator) {
-        navigator.vibrate(0);
-    }
-
-    document.getElementById("llamada").style.display = "none";
-}
-
-function responder() {
-    if (!llamadaActual) return;
-
-    detenerTono();
-
-    socket.emit("responder-llamada", llamadaActual);
-
-    estado.textContent = "Aceptando llamada...";
-}
-
-function rechazar() {
-    if (!llamadaActual) return;
-
-    socket.emit("rechazar-llamada", llamadaActual);
-
-    llamadaActual = null;
-    detenerTono();
-
-    estado.textContent = "Llamada rechazada.";
-}
-
-function solicitarLlamada() {
-    if (!socket.connected) {
-        estado.textContent = "No hay conexión con el servidor.";
-        return;
-    }
-
-    if (esDueno) {
-        estado.textContent =
-            "Este teléfono está registrado como receptor.";
-        return;
-    }
-
-    socket.emit("solicitar-llamada");
-    estado.textContent = "Llamando al dueño...";
-}
-</script>
-
+        <a class="button"
+           href="https://meet.google.com/yiu-yagh-qab"
+           target="_blank"
+           rel="noopener noreferrer">
+            Iniciar videollamada
+        </a>
+    </div>
 </body>
 </html>

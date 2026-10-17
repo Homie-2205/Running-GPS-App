@@ -1,106 +1,55 @@
 const express = require("express");
 const http = require("http");
+const path = require("path");
 const { Server } = require("socket.io");
-const crypto = require("crypto");
 
 const app = express();
 const server = http.createServer(app);
-
-const io = new Server(server, {
-    cors: {
-        origin: true,
-        methods: ["GET", "POST"]
-    }
-});
-
-app.use(express.static(__dirname));
+const io = new Server(server);
 
 const PORT = process.env.PORT || 3000;
 
-// Configure these two environment variables in Render.
-const ACCESS_KEY = process.env.ACCESS_KEY;
 const OWNER_KEY = process.env.OWNER_KEY;
+const ACCESS_KEY = process.env.ACCESS_KEY;
 
-if (!ACCESS_KEY || !OWNER_KEY) {
-    console.error("Set ACCESS_KEY and OWNER_KEY in Render.");
-    process.exit(1);
-}
+let ownerSocket = null;
 
-const ownerRoom = "private-owner-" +
-    crypto.createHash("sha256")
-        .update(OWNER_KEY)
-        .digest("hex");
-
-app.get("/health", (req, res) => {
-    res.json({
-        status: "online",
-        service: "compani"
-    });
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "index.html"));
 });
 
 io.on("connection", (socket) => {
-
-    console.log("Device connected:", socket.id);
-
     socket.on("register-owner", (key) => {
-        if (
-            typeof key !== "string" ||
-            key.length !== OWNER_KEY.length ||
-            !crypto.timingSafeEqual(
-                Buffer.from(key),
-                Buffer.from(OWNER_KEY)
-            )
-        ) {
-            socket.emit("registration-error", "Invalid owner key.");
-            return;
+        if (!OWNER_KEY || key !== OWNER_KEY) return;
+
+        if (ownerSocket && ownerSocket !== socket.id) {
+            const previous = io.sockets.sockets.get(ownerSocket);
+            if (previous) previous.disconnect(true);
         }
 
-        socket.join(ownerRoom);
-        socket.data.isOwner = true;
-
-        socket.emit("owner-ready");
-        console.log("Owner phone registered.");
+        ownerSocket = socket.id;
+        socket.emit("status", "Your phone is connected!");
     });
 
-    socket.on("play-on-owner", (key) => {
-        if (
-            typeof key !== "string" ||
-            key.length !== ACCESS_KEY.length ||
-            !crypto.timingSafeEqual(
-                Buffer.from(key),
-                Buffer.from(ACCESS_KEY)
-            )
-        ) {
-            socket.emit("command-result", {
-                success: false,
-                message: "Invalid access key."
-            });
+    socket.on("open-mp3", (key) => {
+        if (!ACCESS_KEY || key !== ACCESS_KEY) return;
+
+        if (!ownerSocket || !io.sockets.sockets.has(ownerSocket)) {
+            socket.emit("status", "Your phone is not connected.");
             return;
         }
 
-        const receivers = io.sockets.adapter.rooms.get(ownerRoom);
-
-        if (!receivers || receivers.size === 0) {
-            socket.emit("command-result", {
-                success: false,
-                message: "Owner phone is not connected."
-            });
-            return;
-        }
-
-        io.to(ownerRoom).emit("play-mp3");
-
-        socket.emit("command-result", {
-            success: true,
-            message: "Playback command sent to the owner phone."
-        });
+        io.to(ownerSocket).emit("open-mp3-on-phone");
+        socket.emit("status", "Request sent to your phone.");
     });
 
     socket.on("disconnect", () => {
-        console.log("Device disconnected:", socket.id);
+        if (ownerSocket === socket.id) {
+            ownerSocket = null;
+        }
     });
 });
 
 server.listen(PORT, "0.0.0.0", () => {
-    console.log(`Compani server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });

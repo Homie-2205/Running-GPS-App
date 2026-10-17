@@ -1,42 +1,106 @@
 const express = require("express");
 const http = require("http");
-const path = require("path");
 const { Server } = require("socket.io");
+const crypto = require("crypto");
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+
+const io = new Server(server, {
+    cors: {
+        origin: true,
+        methods: ["GET", "POST"]
+    }
+});
 
 app.use(express.static(__dirname));
 
-app.get("/health", (_req, res) => {
-  res.status(200).json({ ok: true, service: "render-mp3-receiver" });
+const PORT = process.env.PORT || 3000;
+
+// Configure these two environment variables in Render.
+const ACCESS_KEY = process.env.ACCESS_KEY;
+const OWNER_KEY = process.env.OWNER_KEY;
+
+if (!ACCESS_KEY || !OWNER_KEY) {
+    console.error("Set ACCESS_KEY and OWNER_KEY in Render.");
+    process.exit(1);
+}
+
+const ownerRoom = "private-owner-" +
+    crypto.createHash("sha256")
+        .update(OWNER_KEY)
+        .digest("hex");
+
+app.get("/health", (req, res) => {
+    res.json({
+        status: "online",
+        service: "compani"
+    });
 });
 
 io.on("connection", (socket) => {
-  socket.on("owner:join", () => {
-    socket.join("owner-receivers");
-    socket.emit("server:status", "Este celular está conectado como receptor.");
-  });
 
-  socket.on("visitor:call", () => {
-    const room = io.sockets.adapter.rooms.get("owner-receivers");
-    const receiverConnected = !!room && room.size > 0;
+    console.log("Device connected:", socket.id);
 
-    io.to("owner-receivers").emit("owner:play-sound", {
-      requestedAt: new Date().toISOString()
+    socket.on("register-owner", (key) => {
+        if (
+            typeof key !== "string" ||
+            key.length !== OWNER_KEY.length ||
+            !crypto.timingSafeEqual(
+                Buffer.from(key),
+                Buffer.from(OWNER_KEY)
+            )
+        ) {
+            socket.emit("registration-error", "Invalid owner key.");
+            return;
+        }
+
+        socket.join(ownerRoom);
+        socket.data.isOwner = true;
+
+        socket.emit("owner-ready");
+        console.log("Owner phone registered.");
     });
 
-    socket.emit("visitor:result", {
-      receiverConnected,
-      message: receiverConnected
-        ? "Solicitud enviada al celular receptor."
-        : "No hay un celular receptor conectado. Abre la página en tu celular y activa el modo receptor."
+    socket.on("play-on-owner", (key) => {
+        if (
+            typeof key !== "string" ||
+            key.length !== ACCESS_KEY.length ||
+            !crypto.timingSafeEqual(
+                Buffer.from(key),
+                Buffer.from(ACCESS_KEY)
+            )
+        ) {
+            socket.emit("command-result", {
+                success: false,
+                message: "Invalid access key."
+            });
+            return;
+        }
+
+        const receivers = io.sockets.adapter.rooms.get(ownerRoom);
+
+        if (!receivers || receivers.size === 0) {
+            socket.emit("command-result", {
+                success: false,
+                message: "Owner phone is not connected."
+            });
+            return;
+        }
+
+        io.to(ownerRoom).emit("play-mp3");
+
+        socket.emit("command-result", {
+            success: true,
+            message: "Playback command sent to the owner phone."
+        });
     });
-  });
+
+    socket.on("disconnect", () => {
+        console.log("Device disconnected:", socket.id);
+    });
 });
 
-const PORT = process.env.PORT || 3000;
 server.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server listening on port ${PORT}`);
+    console.log(`Compani server running on port ${PORT}`);
 });

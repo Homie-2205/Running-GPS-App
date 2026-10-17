@@ -1,12 +1,12 @@
 {
-  "name": "remote-mp3",
+  "name": "remote-mp3-player",
   "version": "1.0.0",
+  "description": "Remote MP3 opening through Render",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.21.2",
-    "socket.io": "^4.8.1"
+    "express": "^5.1.0"
   }
 }

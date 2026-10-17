@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samsung MP3 Receiver</title>
+</head>
+<body>
+
+    <h2>Samsung MP3 Receiver</h2>
+
+    <p id="status">Connecting to Render...</p>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        const socket = io();
+        const status = document.getElementById("status");
+
+        socket.on("connect", () => {
+            socket.emit("register-samsung");
+            status.textContent = "Connected. Waiting for command.";
+        });
+
+        socket.on("disconnect", () => {
+            status.textContent = "Disconnected. Reconnecting...";
+        });
+
+        socket.on("receiver-status", (message) => {
+            status.textContent = message;
+        });
+
+        socket.on("open-mp3", () => {
+            status.textContent = "Opening your MP3...";
+
+            window.location.href =
+                "https://drive.google.com/uc?export=download&id=1BrQhl2e-mM1DhMUv1hSpTULSD91ffMSz";
+        });
+    </script>
+
+</body>
+</html>

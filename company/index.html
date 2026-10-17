@@ -2,85 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Remote MP3</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background: #f1f3f4;
-            padding: 70px 15px;
-        }
-
-        button {
-            padding: 20px 30px;
-            font-size: 20px;
-            color: white;
-            background: #188038;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-        }
-
-        #status {
-            margin-top: 25px;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remote MP3 Player</title>
 </head>
-
 <body>
-    <h2>Remote MP3</h2>
+    <h2>Remote MP3 Player</h2>
 
-    <div id="phoneControls" hidden>
-        <button onclick="connectPhone()">CONNECT MY PHONE</button>
-    </div>
+    <button onclick="openMP3()">
+        OPEN MP3 ON MY PHONE
+    </button>
 
-    <div id="computerControls" hidden>
-        <button onclick="openOnPhone()">OPEN MP3 ON MY PHONE</button>
-    </div>
-
-    <p id="status">Connecting...</p>
-
-    <script src="/socket.io/socket.io.js"></script>
+    <p id="status">Waiting...</p>
 
     <script>
-        const socket = io();
+        async function openMP3() {
+            const status = document.getElementById("status");
 
-        const OWNER_KEY = "CHANGE_THIS_OWNER_KEY";
-        const ACCESS_KEY = "CHANGE_THIS_ACCESS_KEY";
-        const FILE_ID = "YOUR_GOOGLE_DRIVE_FILE_ID";
+            try {
+                const response = await fetch("/open-mp3", {
+                    method: "POST"
+                });
 
-        const params = new URLSearchParams(location.search);
-        const isPhone = params.get("device") === "phone";
-
-        document.getElementById("phoneControls").hidden = !isPhone;
-        document.getElementById("computerControls").hidden = isPhone;
-
-        function connectPhone() {
-            socket.emit("register-owner", OWNER_KEY);
+                const data = await response.json();
+                status.textContent = data.message;
+            } catch (error) {
+                status.textContent = "Connection error.";
+            }
         }
+    </script>
 
-        function openOnPhone() {
-            socket.emit("open-mp3", ACCESS_KEY);
-        }
+    <hr>
 
-        socket.on("connect", () => {
+    <h3>Phone Receiver</h3>
+
+    <p>Open this page on your cellphone first.</p>
+
+    <button onclick="startReceiver()">
+        ACTIVATE PHONE RECEIVER
+    </button>
+
+    <script>
+        let receiver;
+
+        function startReceiver() {
+            if (receiver) return;
+
+            receiver = new EventSource("/events");
+
+            receiver.onmessage = function(event) {
+                if (event.data === "OPEN_MP3") {
+                    window.location.href = "/sound.mp3";
+                }
+            };
+
             document.getElementById("status").textContent =
-                "Connected to server.";
-        });
-
-        socket.on("status", (message) => {
-            document.getElementById("status").textContent = message;
-        });
-
-        socket.on("open-mp3-on-phone", () => {
-            const url =
-                "https://drive.google.com/file/d/" +
-                encodeURIComponent(FILE_ID) + "/view";
-
-            window.location.href = url;
-        });
+                "Phone receiver connected.";
+        }
     </script>
 </body>
 </html>

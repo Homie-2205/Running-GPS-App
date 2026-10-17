@@ -1,13 +1,15 @@
 {
-  "name": "jitsi-llamadas",
+  "name": "google-meet-videollamada",
   "version": "1.0.0",
-  "description": "Sistema de llamadas web con Jitsi Meet",
+  "description": "Pagina web para iniciar videollamadas con Google Meet",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
-    "express": "^5.1.0",
-    "socket.io": "^4.8.1"
+    "express": "^4.21.2"
   }
 }

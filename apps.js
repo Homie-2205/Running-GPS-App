@@ -7,7 +7,7 @@ importScripts('https://www.gstatic.com/firebasejs/13.0.0/firebase-messaging-comp
 // 2. Configura tu proyecto de Firebase
 // REEMPLAZA estos valores con la configuración real de tu aplicación web de Firebase
 const firebaseConfig = {
-  apiKey: "TU_API_KEY",
+  apiKey: "AIzaSyDAL1E_a2OJrf0XxnMLRLgtm4QPgQMnoEQ",
   authDomain: "myfreeproject-b07fb.firebaseapp.com.",
   projectId: "myfreeproject-b07fb",
   storageBucket: "PROJECT_ID.firebasestorage.app",

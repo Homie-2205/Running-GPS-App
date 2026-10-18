@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+  <h2>🔊 My Real-Time Notification Dashboard</h2>
+  <p>Status: <span id="status" style="font-weight: bold; color: gray;">Initializing...</span></p>
+  <button id="startBtn" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">
+    Click to Activate Listener
+  </button>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+    // Connects directly to your Firebase project
+    const firebaseConfig = { databaseURL: "https://myfreeproject-b07fb-default-rtdb.firebaseio.com" };
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const triggerRef = ref(db, "trigger");
+
+    // Replace this with your actual RAW GitHub URL
+    const audio = new Audio("https://github.com/Homie-2205/Running-GPS-App/blob/main/public/bill.mp3");
+    let audioReady = false;
+
+    // Browsers block autoplay by default, so you must click this button once
+    document.getElementById("startBtn").addEventListener("click", () => {
+      audioReady = true;
+      document.getElementById("status").innerText = "Listening...";
+      document.getElementById("status").style.color = "green";
+      document.getElementById("startBtn").style.display = "none";
+    });
+
+    // Watch your database in real time
+    onValue(triggerRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data && data.openFile === true && audioReady) {
+        document.getElementById("status").innerText = "🎵 Playing Song! 🎵";
+        
+        audio.play().then(() => {
+          // Reset Firebase to false immediately so it is ready for the next submission
+          set(triggerRef, { openFile: false });
+          setTimeout(() => {
+            document.getElementById("status").innerText = "Listening...";
+          }, 4000);
+        }).catch(err => console.log("Playback error: ", err));
+      }
+    });
+  </script>
+</body>
+</html>
+

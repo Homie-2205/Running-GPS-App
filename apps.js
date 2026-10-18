@@ -8,11 +8,11 @@ importScripts('https://www.gstatic.com/firebasejs/13.0.0/firebase-messaging-comp
 // REEMPLAZA estos valores con la configuración real de tu aplicación web de Firebase
 const firebaseConfig = {
   apiKey: "TU_API_KEY",
-  authDomain: "TU_PROYECTO.firebaseapp.com",
-  projectId: "TU_PROYECTO",
-  storageBucket: "TU_PROYECTO.firebasestorage.app",
-  messagingSenderId: "TU_SENDER_ID",
-  appId: "TU_APP_ID"
+  authDomain: "myfreeproject-b07fb.firebaseapp.com.",
+  projectId: "myfreeproject-b07fb",
+  storageBucket: "PROJECT_ID.firebasestorage.app",
+  messagingSenderId: "682329799134",
+  appId: "1:682329799134:web:8926def9d54f49939a054f"
 };
 
 // 3. Inicializa Firebase dentro de este Service Worker

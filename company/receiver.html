@@ -1,0 +1,70 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Receiver (phone)</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 1.5rem; }
+    #status { margin-top: .5rem; color: #333; }
+  </style>
+</head>
+<body>
+  <h1>Receiver (phone)</h1>
+  <p id="status">Connecting...</p>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const statusEl = document.getElementById('status');
+
+    function setStatus(s) { statusEl.textContent = s; }
+
+    // Connect to server via socket.io
+    const socket = io();
+
+    socket.on('connect', () => {
+      setStatus('Connected to server. Requesting notification permission...');
+      // Ask for Notification permission if not granted
+      if ('Notification' in window) {
+        if (Notification.permission === 'default') {
+          Notification.requestPermission().then(p => {
+            setStatus('Connected. Notification permission: ' + p);
+          });
+        } else {
+          setStatus('Connected. Notification permission: ' + Notification.permission);
+        }
+      } else {
+        setStatus('Connected. Notifications not supported in this browser.');
+      }
+
+      // Register this client as "samsung" (server code expects register-samsung)
+      socket.emit('register-samsung');
+    });
+
+    socket.on('disconnect', () => setStatus('Disconnected from server.'));
+
+    socket.on('receiver-status', msg => setStatus(msg));
+
+    socket.on('open-mp3', () => {
+      // Show a notification (if allowed) or fall back to alert
+      if ('Notification' in window && Notification.permission === 'granted') {
+        try {
+          new Notification('Server message', { body: 'Open MP3 command received', tag: 'server-open-mp3' });
+        } catch (e) {
+          // Some browsers require interaction for notifications; fall back
+          alert('Open MP3 command received');
+        }
+      } else {
+        alert('Open MP3 command received');
+      }
+
+      // Optional: try to play a short sound (may be blocked unless user interacted with page)
+      const audio = new Audio('/sound/notify.mp3'); // add a small file at public/sound/notify.mp3 if you want a sound
+      audio.play().catch(() => {
+        // Playing may be blocked by browser's autoplay rules
+      });
+    });
+  </script>
+</body>
+</html>

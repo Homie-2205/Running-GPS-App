@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Send notification</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2rem; }
+    button { font-size: 1.1rem; padding: .6rem 1rem; }
+    #status { margin-top: 1rem; color: #444; }
+  </style>
+</head>
+<body>
+  <h1>Send notification to phone</h1>
+  <button id="sendBtn">Send now</button>
+  <p id="status">Ready.</p>
+
+  <script>
+    const btn = document.getElementById('sendBtn');
+    const status = document.getElementById('status');
+
+    btn.addEventListener('click', async () => {
+      status.textContent = 'Sending...';
+      try {
+        const res = await fetch('/open-mp3', { method: 'POST' });
+        const j = await res.json().catch(()=>null);
+        if (!res.ok) {
+          status.textContent = (j && j.message) ? ('Error: ' + j.message) : ('Error: ' + res.status);
+        } else {
+          status.textContent = (j && j.message) ? j.message : 'Notification sent.';
+        }
+      } catch (err) {
+        status.textContent = 'Network error: ' + err.message;
+      }
+    });
+  </script>
+</body>
+</html>

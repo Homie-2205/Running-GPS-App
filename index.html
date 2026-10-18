@@ -842,6 +842,12 @@ function openExtensionPopup(imageSrc) {
 }
 </script>
 
+          <script>
+              const audioUrl = "https://docs.google.com/uc?export=download&id=1BrQhl2e-mM1DhMUv1hSpTULSD91ffMSz";
+const audio = new Audio(audioUrl);
+audio.play().catch(error => console.log("Autoplay blocked until user interaction:", error));
+</script>
+
 
       </div>
           </div>

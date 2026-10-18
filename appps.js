@@ -5,12 +5,12 @@ import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/13.0.
 
 // Configuración de tu proyecto (Encuéntrala en la consola de Firebase)
 const firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "TU_ID_PROYECTO.firebaseapp.com",
-  projectId: "TU_ID_PROYECTO",
-  storageBucket: "TU_ID_PROYECTO.firebasestorage.app",
-  messagingSenderId: "TU_SENDER_ID",
-  appId: "TU_APP_ID"
+   apiKey: "AIzaSyDAL1E_a2OJrf0XxnMLRLgtm4QPgQMnoEQ",
+  authDomain: "myfreeproject-b07fb.firebaseapp.com.",
+  projectId: "myfreeproject-b07fb",
+  storageBucket: "PROJECT_ID.firebasestorage.app",
+  messagingSenderId: "682329799134",
+  appId: "1:682329799134:web:8926def9d54f49939a054f"
 };
 
 // Inicializa Firebase

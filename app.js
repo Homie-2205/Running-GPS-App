@@ -3,12 +3,12 @@ import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 // Replace with your actual Firebase project configuration
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDAL1E_a2OJrf0XxnMLRLgtm4QPgQMnoEQ",
+  authDomain: "myfreeproject-b07fb.firebaseapp.com.",
+  projectId: "myfreeproject-b07fb",
+  storageBucket: "PROJECT_ID.firebasestorage.app",
+  messagingSenderId: "682329799134",
+  appId: "1:682329799134:web:8926def9d54f49939a054f"
 };
 
 const app = initializeApp(firebaseConfig);

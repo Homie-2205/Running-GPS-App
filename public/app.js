@@ -26,7 +26,7 @@ async function initFCM() {
       
       // Retrieve your FCM registration token
       const token = await getToken(messaging, { 
-        vapidKey: 'YOUR_PUBLIC_VAPID_KEY', // Generate in Project Settings > Cloud Messaging
+        vapidKey: 'BJPRUjr3eb4HAPrGuaNZhVUswLZWLB-61QLFLHkEt3Z4RSQSMPMTzP06EYgqLiKY7DL7vjPkHEXFYWl_SFliIdg', // Generate in Project Settings > Cloud Messaging
         serviceWorkerRegistration: reg 
       });
       console.log('FCM Token:', token);

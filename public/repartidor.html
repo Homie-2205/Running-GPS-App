@@ -515,61 +515,8 @@
         
 
    
-<input type="text" id="userName" placeholder="Pon tu nombre">
-<button  class="custom-button" onclick="greetUser()">Saludame</button>
-
-<p id="greetingText"></p>
 
 
-
-   <script>
-function greetUser() {
-    const name = document.getElementById("userName").value;
-    const display = document.getElementById("greetingText");
-
-    let message;
-
-    if (name.trim() !== "") {
-        message = `¡Hola ${name}! ¿Cómo estás hoy? soy elena t 10 hubo un crimen con migo, deseas contribuir, ya mi creador el que te entrega tus alimentos, puso el denuncio en la fiscalia, `;
-    } else {
-        message = "Por favor, ingresa tu nombre.";
-    }
-
-    display.textContent = message;
-
-    // Speak the message
-    const speech = new SpeechSynthesisUtterance(message);
-    speech.lang = "es-ES";      // Cambiado a "es-ES" para español
-    speech.rate = 1;            // Velocidad (0.1 a 10)
-    speech.pitch = 1;           // Tono de voz
-    speech.volume = 1;          // Volumen (0 a 1)
-
-    // Select a Spanish AI voice if available
-    const voices = window.speechSynthesis.getVoices();
-    const spanishVoice = voices.find(v => v.lang.startsWith("es"));
-    if (spanishVoice) {
-        speech.voice = spanishVoice;
-    }
-
-    window.speechSynthesis.cancel(); // Detener cualquier voz anterior
-    window.speechSynthesis.speak(speech);
-}
-
-// Load voices when they become available
-window.speechSynthesis.onvoiceschanged = () => {
-    window.speechSynthesis.getVoices();
-};
-</script>
-
-<script type="module" src="app.js"></script>
-
-
-<div class="audio-container">
-  <audio controls>
-    <source src="bill.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
-</div>
 
 
 
@@ -588,10 +535,7 @@ window.speechSynthesis.onvoiceschanged = () => {
 
             <p> Estoy obsesionado y tengo mucho fuego por el fitness y correr yo uso mis aplicaciones y funcionan muy bien melo, muchas personas alrededor del mundo inspiran e influencian bien este emprendimiento, cuando me quito la camisa y veo un buen pectoral marcado, correr, hacer buen crossfit, funcionales o circuitos todo eso, me hace sentir bien y las palabras hermosas que dicen algunas influencers y youtubers como Weyni Tesfai Alemania, Lily petals de Corea del sur, Ashley USA y mas me hacen sentir más feliz las palabras son como medicina.</p>
             </div>
-              <audio autoplay controls id="myAudio">
-  <source src="https://drive.google.com/file/d/1BrQhl2e-mM1DhMUv1hSpTULSD91ffMSz/view?usp=sharing" type="audio/mpeg">
-  Your browser does not support the audio element.
-</audio>
+              
                    <div class="container-section">
                     
             <section class="photo-gallery">

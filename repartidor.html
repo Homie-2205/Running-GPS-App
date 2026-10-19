@@ -593,7 +593,7 @@ window.speechSynthesis.onvoiceschanged = () => {
             <p> Estoy obsesionado y tengo mucho fuego por el fitness y correr yo uso mis aplicaciones y funcionan muy bien melo, muchas personas alrededor del mundo inspiran e influencian bien este emprendimiento, cuando me quito la camisa y veo un buen pectoral marcado, correr, hacer buen crossfit, funcionales o circuitos todo eso, me hace sentir bien y las palabras hermosas que dicen algunas influencers y youtubers como Weyni Tesfai Alemania, Lily petals de Corea del sur, Ashley USA y mas me hacen sentir más feliz las palabras son como medicina.</p>
             </div>
               <audio autoplay controls id="myAudio">
-  <source src="Michael.mp3" type="audio/mpeg" id="myAudio">
+  <source src="" type="audio/mpeg" id="myAudio">
   Your browser does not support the audio element.
 </audio>
 <script>
@@ -677,29 +677,7 @@ document.addEventListener('click', () => {
 
 
 
-<div id="fileContainer"></div>
 
-<script type="module">
-  // Import the necessary Firebase SDK functions here
-  import { getDatabase, ref, onValue, set } from "firebase/database";
-
-  const db = getDatabase();
-
-  onValue(ref(db, 'trigger'), (snapshot) => {
-    const data = snapshot.val();
-    if (data && data.openFile) {
-      // Inject the iframe to show the file in the page
-      document.getElementById("fileContainer").innerHTML = `
-        <iframe src="https://drive.google.com/file/d/1BrQhl2e-mM1DhMUv1hSpTULSD91ffMSz/preview" 
-                width="100%" height="600px" style="border:none;"></iframe>
-      `;
-      // Optional: Reset the trigger back to false
-      set(ref(db, 'trigger'), { openFile: false });
-    }
-  });
-</script>
-
-    
         
 
             

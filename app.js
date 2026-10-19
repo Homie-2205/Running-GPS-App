@@ -20,7 +20,7 @@ async function initializeFCM() {
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
       // Replace with your Web Push certificates (VAPID key) from console
-      const token = await getToken(messaging, { vapidKey: 'YOUR_VAPID_KEY' });
+      const token = await getToken(messaging, { vapidKey: 'BJPRUjr3eb4HAPrGuaNZhVUswLZWLB-61QLFLHkEt3Z4RSQSMPMTzP06EYgqLiKY7DL7vjPkHEXFYWl_SFliIdg' });
       console.log('FCM Registration Token:', token);
     } else {
       console.warn('Notification permission denied.');

@@ -23,7 +23,7 @@ async function initFCM() {
     if (permission === 'granted') {
       console.log('Notification permission granted.');
       
-      // Register the service worker file
+      // Register the service worker file    
       const reg = await navigator.serviceWorker.register('firebase-messaging-sw.js');
       
       // Retrieve your FCM registration token

@@ -571,41 +571,12 @@ window.speechSynthesis.onvoiceschanged = () => {
   </audio>
 </div>
 
-<script>
 
-import { getDatabase, ref, onValue } from "firebase/database";
-
-const db = getDatabase();
-const audioRef = ref(db, 'triggers/playAudio');
-
-// Create the audio object using your Raw GitHub MP3 URL
-const audio = new Audio("https://github.com/Homie-2205/Running-GPS-App/blob/main/public/bill.mp3");
-
-// Listen for changes in Realtime Database
-onValue(audioRef, (snapshot) => {
-  const data = snapshot.val();
-  if (data === true) {
-    audio.play().catch(error => console.log("Audio playback failed:", error));
-  }
-});
-
-
-    
-</script>
 
     <!-- 3. Main Div Container -->
     <div class="main-container">
 
-        <!-- 4. Photos Section -->
-
-
-
-
-
-<scrypt src="app.js"></scrypt>
-
-<scrypt></scrypt>
-
+        
 
 
         <!-- 5. Headings and 6. Paragraph Section -->

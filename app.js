@@ -9,7 +9,7 @@ const firebaseConfig = {
   storageBucket: "PROJECT_ID.firebasestorage.app",
   messagingSenderId: "682329799134",
   appId: "1:682329799134:web:8926def9d54f49939a054f"
-};
+}; 
 
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);

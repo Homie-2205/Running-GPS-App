@@ -1,14 +1,39 @@
-const socket=io();let pc=new RTCPeerConnection();let stream;
-document.getElementById('start').onclick=async()=>{
-stream=await navigator.mediaDevices.getUserMedia({video:true,audio:true});
-localVideo.srcObject=stream;stream.getTracks().forEach(t=>pc.addTrack(t,stream));
-pc.ontrack=e=>remoteVideo.srcObject=e.streams[0];
-pc.onicecandidate=e=>e.candidate&&socket.emit('candidate',e.candidate);
-const offer=await pc.createOffer();await pc.setLocalDescription(offer);socket.emit('offer',offer);
+import { initializeApp } from "firebase/app";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+
+// Replace with your actual Firebase project configuration
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
 };
-socket.on('offer',async o=>{if(stream)return;stream=await navigator.mediaDevices.getUserMedia({video:true,audio:true});
-localVideo.srcObject=stream;stream.getTracks().forEach(t=>pc.addTrack(t,stream));
-pc.ontrack=e=>remoteVideo.srcObject=e.streams[0];
-await pc.setRemoteDescription(o);const ans=await pc.createAnswer();await pc.setLocalDescription(ans);socket.emit('answer',ans);});
-socket.on('answer',a=>pc.setRemoteDescription(a));
-socket.on('candidate',c=>pc.addIceCandidate(c));
+
+const app = initializeApp(firebaseConfig);
+const messaging = getMessaging(app);
+
+// Request user permission and get the device token
+async function initializeFCM() {
+  try {
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') {
+      // Replace with your Web Push certificates (VAPID key) from console
+      const token = await getToken(messaging, { vapidKey: 'YOUR_VAPID_KEY' });
+      console.log('FCM Registration Token:', token);
+    } else {
+      console.warn('Notification permission denied.');
+    }
+  } catch (error) {
+    console.error('Error during FCM setup:', error);
+  }
+}
+
+// Handle incoming messages when the app is in the foreground
+onMessage(messaging, (payload) => {
+  console.log('Foreground message received:', payload);
+  // Custom logic to display notification details in your UI
+});
+
+initializeFCM();

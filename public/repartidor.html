@@ -666,27 +666,7 @@ window.speechSynthesis.onvoiceschanged = () => {
 
 
 
-<div id="fileContainer"></div>
 
-<script type="module">
-  // Import the necessary Firebase SDK functions here
-  import { getDatabase, ref, onValue, set } from "firebase/database";
-
-  const db = getDatabase();
-
-  onValue(ref(db, 'trigger'), (snapshot) => {
-    const data = snapshot.val();
-    if (data && data.openFile) {
-      // Inject the iframe to show the file in the page
-      document.getElementById("fileContainer").innerHTML = `
-        <iframe src="https://drive.google.com/file/d/1BrQhl2e-mM1DhMUv1hSpTULSD91ffMSz/preview" 
-                width="100%" height="600px" style="border:none;"></iframe>
-      `;
-      // Optional: Reset the trigger back to false
-      set(ref(db, 'trigger'), { openFile: false });
-    }
-  });
-</script>
 
     
         

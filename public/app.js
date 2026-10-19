@@ -3,13 +3,15 @@ import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 // Replace with your actual Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyDAL1E_a2OJrf0XxnMLRLgtm4QPgQMnoEQ",
-  authDomain: "myfreeproject-b07fb.firebaseapp.com.",
+  apiKey: "AIzaSyDAL1E_a2OJrf0XxnMLRLgtm4QPgQMnoEQ",
+  authDomain: "myfreeproject-b07fb.firebaseapp.com", // Removed trailing dot
   projectId: "myfreeproject-b07fb",
-  storageBucket: "PROJECT_ID.firebasestorage.app",
+  storageBucket: "myfreeproject-b07fb.firebasestorage.app", // Replaced placeholder
   messagingSenderId: "682329799134",
-  appId: "1:682329799134:web:8926def9d54f49939a054f",
+  appId: "1:682329799134:web:8926def9d54f49939a054f"
 };
+
+      
 
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);

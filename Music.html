@@ -355,16 +355,15 @@
     <div style="
     display: flex; 
     flex-direction: column; 
-    align-items: left; 
-    color: transparent; 
+    align-items: flex-start; /* Correcto: Alinea los elementos hijos a la izquierda */
+    color: #333333;           /* Cambiado de transparent a un color visible */
     background-color: transparent; 
     padding: 20px; 
     font-family: Arial, sans-serif; 
     width: fit-content;
     gap: 15px;
 ">
-    
-         <audio controls>
+       <audio controls>
   <source src="Rosaeffect.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
@@ -391,7 +390,10 @@
   <source src="Blueyessaxosweet.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
-
+ <!-- Tus elementos aquí dentro se alinearán a la izquierda -->
+</div>
+    
+     
                 
     
 </div>

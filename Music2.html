@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Run Tracker</title>
+    <!-- Cargamos Font Awesome para los iconos vectoriales -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          
+        
+    /* ... your other styles ... */
+    background-image: url('Music.png');
+    background-size: contain; /* Shows the full image centered */         
+    background-position: center;     
+    background-attachment: fixed;    
+    background-repeat: no-repeat;
+    background-color: #000; /* Adds a fallback color for any empty edges */
+
+
+            color: black;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 20px;  
+            box-sizing: border-box;
+            --accent: #ff0000;
+        }
+
+      
+
+
+       
+      
+        
+        </style>
+        
+  
+    
+    
+    <style>  /* Foreground main image or content card */
+        .main-card {
+            position: relative;
+            z-index: 10; /* Keeps your foreground content safely above background bubbles */
+            background: rgba(255, 255, 255, 0.75);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+                 display: flex;
+            justify-content: center;
+            align-items: center;
+               background-size: cover;          
+            background-position: center;     
+            background-attachment: fixed;    
+            background-repeat: no-repeat;
+        }
+
+        .main-card h1 {
+            color: #4a1525;
+            margin-bottom: 10px;
+        }
+
+        /* The Bubble Layer Container */
+        .bubble-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none; /* Allows users to click elements underneath if needed */
+        }
+
+        /* Core Bubble Styling */
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0.4) 70%, rgba(255, 255, 255, 0) 100%);
+            border-radius: 50%;
+            box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.5), 0 5px 15px rgba(0, 0, 0, 0.05);
+            animation: floatUp 12s infinite linear;
+        }
+
+        /* Creating randomized look and staggered float times using bubbles */
+        .bubble:nth-child(1) { left: 10%; width: 80px; height: 80px; animation-duration: 14s; animation-delay: 0s; }
+        .bubble:nth-child(2) { left: 25%; width: 45px; height: 45px; animation-duration: 10s; animation-delay: 2s; opacity: 0.7; }
+        .bubble:nth-child(3) { left: 40%; width: 110px; height: 110px; animation-duration: 18s; animation-delay: 1s; }
+        .bubble:nth-child(4) { left: 55%; width: 35px; height: 35px; animation-duration: 9s; animation-delay: 5s; }
+        .bubble:nth-child(5) { left: 70%; width: 90px; height: 90px; animation-duration: 15s; animation-delay: 3s; }
+        .bubble:nth-child(6) { left: 85%; width: 60px; height: 60px; animation-duration: 12s; animation-delay: 7s; opacity: 0.8; }
+
+        /* Floating animation moving bubbles from bottom to top */
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-115vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+    
+    
+    </style>
+    
+    
+    
+   <style>
+
+
+    /* 2. Entire Screen Background Fruits Container */
+    .screen-background-fruits {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1; /* Sits behind everything else */
+      pointer-events: none; /* Keeps clicks from hitting the background fruits */
+    }
+
+    /* 3. Base Floating Fruit Styles */
+    .fruit {
+      position: absolute;
+      bottom: -100px; /* Start below the visible screen */
+      opacity: 0;
+      user-select: none;
+      animation: floatUpFullScreen 8s linear infinite;
+    }
+
+    /* 4. Staggered screen positions, sizes, and delays across the screen width */
+    .apple-1      { left: 10%;  font-size: 3rem;   animation-delay: 0s;   animation-duration: 9s; }
+    .banana-1     { left: 25%;  font-size: 3.5rem; animation-delay: 2s;   animation-duration: 7s; }
+    .pineapple-1  { left: 40%;  font-size: 4rem;   animation-delay: 4s;   animation-duration: 10s; }
+    .apple-2      { left: 60%;  font-size: 2.8rem; animation-delay: 1s;   animation-duration: 8s; }
+    .banana-2     { left: 75%;  font-size: 3.8rem; animation-delay: 5s;   animation-duration: 11s; }
+    .pineapple-2  { left: 90%;  font-size: 4.5rem; animation-delay: 3s;   animation-duration: 9s; }
+
+    /* 5. Core Full-Screen Animation Logic */
+    @keyframes floatUpFullScreen {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8; /* Keep it soft and ambient so it doesn't distract from the button */
+      }
+      90% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-120vh) rotate(360deg); /* Float entirely past the top of the viewport */
+        opacity: 0;
+      }
+    }
+
+    /* 6. Clean, Eye-Catching Center Button */
+    .center-button {
+      position: relative;
+      z-index: 2; /* Ensures the button sits clearly in front of the floating fruits */
+      padding: 18px 40px;
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      background: linear-gradient(45px, #ff416c, #ff4b2b);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(255, 75, 43, 0.4);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    /* Button Interactivity */
+    .center-button:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 15px 35px rgba(255, 75, 43, 0.6);
+    }
+
+    .center-button:active {
+      transform: translateY(-1px) scale(1.01);
+    }
+  
+  </style>
+
+</head>
+<body>
+
+ <div class="bubble-layer">
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+        </div>
+
+     <div class="bubble-layer">
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+        </div>
+        
+       
+
+
+
+
+    <div style="
+    display: flex; 
+    flex-direction: column; 
+    align-items: flex-start; /* Correcto: Alinea los elementos hijos a la izquierda */
+    color: #333333;           /* Cambiado de transparent a un color visible */
+    background-color: transparent; 
+    padding: 20px; 
+    font-family: Arial, sans-serif; 
+    width: fit-content;
+    gap: 15px;
+">
+       
+
+             
+
+
+                   <audio controls>
+  <source src="EnchatedQuenagith3.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+              <audio controls>
+  <source src="Enchatedsaxogith3.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+
+        <audio controls>
+  <source src="Rosaeffect.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+
+                    <audio controls>
+  <source src="Blueyessweetquena.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+                    <audio controls>
+  <source src="Blueyessaxosweet.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+ <!-- Tus elementos aquí dentro se alinearán a la izquierda -->
+</div>
+    
+     
+                
+    
+</div>
+
+  
+
+          
+
+
+
+
+    
+          
+</body>
+</html>

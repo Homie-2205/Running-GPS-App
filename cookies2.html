@@ -566,7 +566,42 @@ audio {
         
     </style>
 
-    
+<style>
+  /* 1. The container holds both the image and the text */
+  .image-container {
+    position: relative;
+    display: inline-block;
+    border-radius: 12px;
+    overflow: hidden;
+font-family: Georgia, serif;
+          
+  }
+
+  /* 2. Style the image to ensure it behaves correctly */
+  .image-container img {
+    display: block;
+    width: 100%;
+    max-width: 350px; /* Adjust size as needed */
+    height: auto;
+  }
+
+  /* 3. This overlays the text onto the bottom-left of the image */
+  .price-badge {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background-color: rgba(0, 0, 0, 0.75); /* Dark semi-transparent background */
+    color: #ffffff; /* White text */
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+</style>
+
+
 
 
     
@@ -925,6 +960,7 @@ function openExtensionPopup(imageSrc) {
 
 
 
+
           
             
         <div class="container-section">
@@ -936,7 +972,7 @@ function openExtensionPopup(imageSrc) {
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
             <img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?q=80&w=800&auto=format&fit=crop"  style="width: 300px; height: 250px;" onclick="openExtensionPopup('banano.html')">
-  <audio id="audio2" src="gracias.mp3"></audio>
+ <div class="price-badge">Banano 1 lb — 1,400 COP</div>
 
 </div>
           </div>
@@ -948,6 +984,8 @@ function openExtensionPopup(imageSrc) {
 
 
             <img src="fruits/coconutk.png"  style="width: 260px; height: 250px;" alt="Hope"  onclick="openExtensionPopup('coco.html')">
+            
+            <div class="price-badge">Coco 1 lb — 1,200 COP</div>
 
 </div>
           </div>
@@ -957,7 +995,7 @@ function openExtensionPopup(imageSrc) {
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
   <img src="fruits/pitaya2.jpg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('pitaya.html')">
-  <audio id="audio4" src="gracias.mp3"></audio>
+ <div class="price-badge">Pitata 1 lb — 10,000 COP</div>
 
          <script>
 // One single function to rule them all
@@ -993,7 +1031,7 @@ function openExtensionPopup(imageSrc) {
 
             <img src="fruits/piñaK.png"  style="width: 300px; height: 250px;" alt="Hope"  onclick="openExtensionPopup('piña.html')">
            
-  <audio id="audio2" src="gracias.mp3"></audio>
+<div class="price-badge">Piña 1 lb — 1,450 COP</div>
 
 </div>
           </div>
@@ -1004,7 +1042,7 @@ function openExtensionPopup(imageSrc) {
       <div class="inner-sharp-border">
   <img src="fruits/chontadurok.png"  style="width: 300px; height: 250px;" alt="Hope"  onclick="openExtensionPopup('chontaduro.html')">
           
-  <audio id="audio5" src="gracias.mp3"></audio>
+<div class="price-badge">Chontaduro 1 lb — 3,700 COP</div>
              <!-- Image 4 plays its audio when clicked -->
 </div>
           </div>
@@ -1014,7 +1052,7 @@ function openExtensionPopup(imageSrc) {
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
   <img src="fruits/mangok.png"  alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('mangocomun.html')">
-  <audio id="audio4" src="gracias.mp3"></audio>
+  <div class="price-badge">Mango Común 1 lb — 2,100 COP</div>
 
          <script>
 // One single function to rule them all
@@ -1050,7 +1088,7 @@ function openExtensionPopup(imageSrc) {
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
             <img src="fruits/apio2.jpeg"  style="width: 300px; height: 250px;" alt="Hope" onclick="openExtensionPopup('apio.html')">
-  <audio id="audio2" src="gracias.mp3"></audio>
+    <div class="price-badge">Apio 1 lb — 4,400 COP</div>
 
 </div>
           </div>
@@ -1062,7 +1100,8 @@ function openExtensionPopup(imageSrc) {
 
             
            <img src="fruits/espinaca.jpg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('espinaca.html')">
-             <!-- Image 4 plays its audio when clicked -->
+            
+          <div class="price-badge">Espinaca 1 lb — 6,000 COP</div>
 </div>
           </div>
                   </div>
@@ -1080,8 +1119,9 @@ function openExtensionPopup(imageSrc) {
             <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-  <img src="fruits/limonmandarino2.jpg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('limonmandarino.html')"
-  <audio id="audio4" src="gracias.mp3"></audio>
+  <img src="fruits/limonmandarino2.jpg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('limonmandarino.html')">
+  
+  <div class="price-badge">Limón Mand. 1 lb — 1,500 COP</div>
 
          <script>
 // One single function to rule them all
@@ -1120,7 +1160,8 @@ function openExtensionPopup(imageSrc) {
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
             <img src="fruits/manzanagolden.jpg"  style="width: 300px; height: 250px;" alt="Hope"  onclick="openExtensionPopup('Manzana Golden.html')">
-  <audio id="audio2" src="gracias.mp3"></audio>
+
+  <div class="price-badge">Manzana Golden 1 lb — 1,500 COP</div>
 
 </div>
           </div>
@@ -1131,7 +1172,7 @@ function openExtensionPopup(imageSrc) {
       <div class="inner-sharp-border">
 
              <img src="fruits/papayak.jpg"  style="width: 300px; height: 250px;" alt="Recipe"  onclick="openExtensionPopup('papaya.html')">
-  <audio id="audio5" src="gracias.mp3"></audio>
+   <div class="price-badge">Papaya 1 lb — 2,250 COP</div>
              <!-- Image 4 plays its audio when clicked -->
 </div>
           </div>
@@ -1141,7 +1182,7 @@ function openExtensionPopup(imageSrc) {
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
   <img src="fruits/manzanaverde2.jpg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('manzanaverde.html')">
-  <audio id="audio4" src="gracias.mp3"></audio>
+ <div class="price-badge">Manzana Verde 1 lb — 1,500 COP</div>
 
          <script>
 // One single function to rule them all
@@ -1177,7 +1218,8 @@ function openExtensionPopup(imageSrc) {
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
             <img src="fruits/platano2.jpg"  style="width: 300px; height: 250px;" alt="Hope" onclick="openExtensionPopup('platano.html')">
-  <audio id="audio2" src="gracias.mp3"></audio>
+
+<div class="price-badge">Platano Verde 1 lb — 1,400 COP</div>
 
 </div>
           </div>
@@ -1188,7 +1230,8 @@ function openExtensionPopup(imageSrc) {
       <div class="inner-sharp-border">
 
              <img src="fruits/platanomadurok.png"  style="width: 300px; height: 250px;" alt="Recipe" onclick="openExtensionPopup('platanomaduro.html')">
-  <audio id="audio5" src="gracias.mp3"></audio>
+ 
+<div class="price-badge">Platano Maduro 1 lb — 1,400 COP</div>
              <!-- Image 4 plays its audio when clicked -->
 </div>
           </div>
@@ -1199,7 +1242,7 @@ function openExtensionPopup(imageSrc) {
       <div class="inner-sharp-border">
   <img src="fruits/Tommyk.jpg" alt="Mapalma" style="width: 300px; height: 250px;" alt="Recipe" onclick="openExtensionPopup('mango.html')">
 
-
+<div class="price-badge">Mango Tommy 1 lb — 3,500 COP</div>
          <script>
 // One single function to rule them all
 function openExtensionPopup(imageSrc) {
@@ -1222,6 +1265,36 @@ function openExtensionPopup(imageSrc) {
     
 
 
+
+
+
+
+            
+  
+
+
+
+
+
+
+       
+
+
+
+
+         
+
+
+
+
+
+
+
+
+
+
+
+            
 
                <div class="container-section">
                <section class="content-text">

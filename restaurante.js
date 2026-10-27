@@ -5,30 +5,30 @@ const path = require('path');
 const PORT = 3000;
 
 const server = http.createServer((req, res) => {
-    // 1. Check if the button on restaurante.html sent a command request
+    // 1. Check if the button sent a command request
     if (req.url === '/command') {
         console.log("📥 [COMMAND RECEIVED]: The user clicked the button on the restaurante HTML page!");
-        
-        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
         res.end('Command successfully received by restaurante.js!');
         return;
     }
 
-    // 2. Serve the renamed restaurante.html file as the homepage
+    // 2. Serve the restaurante.html file
     if (req.url === '/' || req.url === '/restaurante.html') {
         const filePath = path.join(__dirname, 'restaurante.html');
         
         fs.readFile(filePath, (err, data) => {
             if (err) {
-                res.writeHead(500, { 'Content-Type': 'text/plain' });
+                res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
                 res.end('Internal Server Error: Missing restaurante.html file');
                 return;
             }
-            res.writeHead(200, { 'Content-Type': 'text/html' });
+            // CRITICAL FIX: Explicitly tell the browser this is an HTML website document
+            res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
             res.end(data);
         });
     } else {
-        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
         res.end('404 Not Found');
     }
 });

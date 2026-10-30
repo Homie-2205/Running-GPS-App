@@ -3,14 +3,13 @@ const cors = require('cors');
 const path = require('path');
 
 const app = express();
-
-// Render dynamically provides a PORT variable. If it's missing, it defaults to 3000 locally.
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 
-// Serve restaurante.html at the root path
+// 👇 FIX: This explicitly tells the browser to render the file as HTML
 app.get('/', (req, res) => {
+    res.setHeader('Content-Type', 'text/html');
     res.sendFile(path.join(__dirname, 'restaurante.html'));
 });
 
@@ -19,7 +18,6 @@ app.get('/api/message', (req, res) => {
     res.json({ message: "Hello World from Node.js!" });
 });
 
-// Start the server using Render's assigned port
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

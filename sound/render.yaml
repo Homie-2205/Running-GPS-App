@@ -1,12 +1,12 @@
+
+
 services:
   - type: web
-    name: sound-service
-    env: node
-    plan: free
-    rootDir: sound
+    name: sound-server
+    runtime: node
     buildCommand: npm install
-    startCommand: npm start
-    healthCheckPath: /health
+    startCommand: node server.js
     envVars:
-      - key: NODE_ENV
-        value: production
+      - key: NODE_VERSION
+        value: 18.0.0
+    healthCheckPath: /health

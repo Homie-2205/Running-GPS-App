@@ -24,55 +24,6 @@
 
 
 
-  <script>  
-
-  // 1. DOM Element Selectors
-const button = document.getElementById('myButton');
-const output = document.getElementById('output');
-const messageContainer = document.getElementById('message-container');
-
-// 2. Event Listeners
-button.addEventListener('click', handleFetchSequence);
-
-// 3. Event Handlers & Logic
-async function handleFetchSequence() {
-    try {
-        // This line connects your frontend to your Node.js backend server
-        const apiResponse = await fetch('/api/message');
-        
-        // Check if the server responded successfully
-        if (!apiResponse.ok) {
-            throw new Error(`Server returned error status: ${apiResponse.status}`);
-        }
-        
-        // Parse the JSON data sent by the server
-        const apiData = await apiResponse.json();
-
-        // Update your HTML elements with the message from the server
-        if (output) {
-            output.textContent = apiData.message;
-        }
-        
-        if (messageContainer) {
-            messageContainer.innerText = apiData.message;
-        }
-
-    } catch (error) {
-        handleFetchError(error);
-    }
-}
-
-// 4. Error Handling
-function handleFetchError(error) {
-    console.error('Connection Error:', error);
-    if (output) {
-        output.textContent = 'Could not connect to the server. Please check your connection.';
-    }
-}
-
-
- </script>
-
 
 
 </body>

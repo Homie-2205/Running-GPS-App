@@ -9,11 +9,11 @@ const server = http.createServer((req, res) => {
     res.end(JSON.stringify({ message: "Hello World from Node.js!" }));
   } 
   // 2. When you first load http://localhost:3000/
-  else if (req.url === '/' || req.url === '/index.html') {
-    fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
+  else if (req.url === '/' || req.url === '/restaurante.html') {
+    fs.readFile(path.join(__dirname, 'restaurante.html'), (err, data) => {
       if (err) {
         res.writeHead(500, { 'Content-Type': 'text/plain' });
-        res.end('Error loading index.html');
+        res.end('Error loading restaurante.html');
       } else {
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.end(data);

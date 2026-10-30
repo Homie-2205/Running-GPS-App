@@ -2,37 +2,31 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const PORT = 3000;
-
 const server = http.createServer((req, res) => {
-    // 1. Check if the button sent a command request
-    if (req.url === '/command') {
-        console.log("📥 [COMMAND RECEIVED]: The user clicked the button on the restaurante HTML page!");
-        res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
-        res.end('Command successfully received by restaurante.js!');
-        return;
-    }
-
-    // 2. Serve the restaurante.html file
-    if (req.url === '/' || req.url === '/restaurante.html') {
-        const filePath = path.join(__dirname, 'restaurante.html');
-        
-        fs.readFile(filePath, (err, data) => {
-            if (err) {
-                res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
-                res.end('Internal Server Error: Missing restaurante.html file');
-                return;
-            }
-            // CRITICAL FIX: Explicitly tell the browser this is an HTML website document
-            res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-            res.end(data);
-        });
-    } else {
-        res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-        res.end('404 Not Found');
-    }
+  // 1. When the button asks the server for the message data
+  if (req.url === '/api/message') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ message: "Hello World from Node.js!" }));
+  } 
+  // 2. When you first load http://localhost:3000/
+  else if (req.url === '/' || req.url === '/index.html') {
+    fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
+      if (err) {
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end('Error loading index.html');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(data);
+      }
+    });
+  } 
+  // 3. If someone looks for a page that doesn't exist
+  else {
+    res.writeHead(404, { 'Content-Type': 'text/plain' });
+    res.end('404 Not Found');
+  }
 });
 
-server.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
+server.listen(3000, () => {
+  console.log('Server running at http://localhost:3000/');
 });

@@ -3,14 +3,14 @@ const fs = require('fs');
 const path = require('path');
 
 const server = http.createServer((req, res) => {
-  // 1. When the button asks the server for the message data
+  // 1. API endpoint that provides the message
   if (req.url === '/api/message') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ message: "Hello World from Node.js!" }));
   } 
-  // 2. When you first load http://localhost:3000/
-  else if (req.url === '/' || req.url === 'sound/restaurante.js') {
-    fs.readFile(path.join(__dirname, 'sound/restaurante.js'), (err, data) => {
+  // 2. Route to serve the HTML file
+  else if (req.url === '/' || req.url === '/sound/restaurante.html') {
+    fs.readFile(path.join(__dirname, 'sound', 'restaurante.html'), (err, data) => {
       if (err) {
         res.writeHead(500, { 'Content-Type': 'text/plain' });
         res.end('Error loading restaurante.html');
@@ -20,7 +20,7 @@ const server = http.createServer((req, res) => {
       }
     });
   } 
-  // 3. If someone looks for a page that doesn't exist
+  // 3. 404 handler
   else {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.end('404 Not Found');

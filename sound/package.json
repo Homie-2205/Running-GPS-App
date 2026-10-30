@@ -1,14 +1,12 @@
 {
   "name": "running-gps-app-server",
   "version": "1.0.0",
-  "description": "Simple Express server to serve the site and stream",
-  "main": "sound/restaurante.js",
+  "description": "Simple Express server to serve the frontend site and handle text notifications for /repartidor",
+  "main": "restaurante.js",
   "scripts": {
-    "start": "node sound/restaurante.js",
-    "dev": "nodemon sound/restaurante.js"
-  }
-}
-,
+    "start": "node restaurante.js",
+    "dev": "nodemon restaurante.js"
+  },
   "keywords": [],
   "author": "Homie-2205",
   "license": "MIT",

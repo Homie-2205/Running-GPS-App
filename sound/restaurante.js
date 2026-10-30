@@ -5,8 +5,13 @@ const app = express();
 // Render sets process.env.PORT automatically. Fall back to 3000 for local testing.
 const PORT = process.env.PORT || 3000; 
 
-// Serve your static HTML file automatically
+// Serve static files from the root directory
 app.use(express.static(__dirname));
+
+// Direct route to explicitly serve restaurante.html at the root URL '/'
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'restaurante.html'));
+});
 
 // The API endpoint your frontend script fetches
 app.get('/api/message', (req, res) => {

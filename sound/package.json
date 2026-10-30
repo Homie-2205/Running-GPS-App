@@ -1,0 +1,12 @@
+{
+  "name": "restaurante-app",
+  "version": "1.0.0",
+  "description": "A Node.js application for a restaurant",
+  "main": "restaurante.js",
+  "scripts": {
+    "start": "node restaurante.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

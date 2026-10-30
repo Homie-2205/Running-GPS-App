@@ -1,56 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Send Command to Server</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #eef2f3;
-        }
-        button {
-            padding: 12px 24px;
-            font-size: 16px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        button:hover {
-            background-color: #2980b9;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Node.js Click Example</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    h1 { color: #333; margin-top: 20px; }
+  </style>
 </head>
 <body>
 
-    <h1>Interact with the Backend</h1>
-    <!-- Clicking this button sends a command to the server -->
-    <button onclick="sendCommandToServer()">Ping the Server</button>
+  <button id="myButton">Click Me to Ask Node.js</button>
+  <h1 id="output"></h1>
 
-    <script>
-        // This script automatically sets your text from earlier
-        console.log("HTML loaded in the browser.");
+  <script>
+    const button = document.getElementById('myButton');
+    const output = document.getElementById('output');
 
-        // This function runs when the button is clicked
-        function sendCommandToServer() {
-            // Fetch sends a background request to the server at the /command path
-            fetch('/command')
-                .then(response => response.text())
-                .then(data => {
-                    alert("Server replied: " + data);
-                })
-                .catch(err => console.error("Error:", err));
-        }
-    </script>
+    button.addEventListener('click', async () => {
+      try {
+        // The browser talks to your running server.js here:
+        const response = await fetch('/api/message');
+        const data = await response.json();
+        
+        // This puts "Hello World from Node.js!" into the h1 tag
+        output.textContent = data.message;
+      } catch (error) {
+        output.textContent = "Couldn't connect to server.";
+        console.error(error);
+      }
+    });
+  </script>
 
 </body>
 </html>

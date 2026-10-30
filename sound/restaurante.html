@@ -19,23 +19,35 @@
 <script src="/sound/restaurante.js"></script>
 <script>
   
-    const button = document.getElementById('myButton');
-    const output = document.getElementById('output');
+const button = document.getElementById('myButton');
+const output = document.getElementById('output');
+const messageContainer = document.getElementById('message-container');
 
-    button.addEventListener('click', async () => {
-      try {
-        // REPLACE THIS URL with your actual live Render URL + /restaurante
-        const response = await fetch('https://running-gps-app.onrender.com/sound/restaurante.js'); 
-        
+button.addEventListener('click', async () => {
+    try {
+        // 1. Fetch from your live Render URL
+        const response = await fetch('https://running-gps-app.onrender.com/sound/restaurante.js');
         const data = await response.json();
         
-        // This puts the response message into your HTML element
+        // Update the main output element
         output.textContent = data.message;
-      } catch (error) {
-        output.textContent = "Couldn't connect to server.";
-        console.error(error);
-      }
-    });
+
+        // 2. Fetch from your relative local/Render API path
+        const apiResponse = await fetch('/api/message');
+        const apiData = await apiResponse.json();
+
+        // Update the secondary message container
+        if (messageContainer) {
+            messageContainer.innerText = apiData.message;
+        }
+
+    } catch (error) {
+        // Properly handle any network or parsing errors
+        console.error('Error fetching data:', error);
+        output.textContent = 'Failed to load message. Please try again.';
+    }
+});
+
 </script>
 
 

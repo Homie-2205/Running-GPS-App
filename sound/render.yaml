@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: sound-service
+    env: node
+    plan: free
+    rootDir: sound
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production

@@ -17,9 +17,10 @@
  
 
 <script src="/sound/restaurante.js"></script>
-<script>
 
-// 1. DOM Element Selectors
+  <script>  
+
+  // 1. DOM Element Selectors
 const button = document.getElementById('myButton');
 const output = document.getElementById('output');
 const messageContainer = document.getElementById('message-container');
@@ -30,13 +31,18 @@ button.addEventListener('click', handleFetchSequence);
 // 3. Event Handlers & Logic
 async function handleFetchSequence() {
     try {
-        // Fetch and display data from your local Node.js API endpoint
+        // This line connects your frontend to your Node.js backend server
         const apiResponse = await fetch('/api/message');
-        if (!apiResponse.ok) throw new Error(`API fetch failed: ${apiResponse.status}`);
         
+        // Check if the server responded successfully
+        if (!apiResponse.ok) {
+            throw new Error(`Server returned error status: ${apiResponse.status}`);
+        }
+        
+        // Parse the JSON data sent by the server
         const apiData = await apiResponse.json();
 
-        // Update the output containers with the API data
+        // Update your HTML elements with the message from the server
         if (output) {
             output.textContent = apiData.message;
         }
@@ -52,18 +58,14 @@ async function handleFetchSequence() {
 
 // 4. Error Handling
 function handleFetchError(error) {
-    console.error('Error fetching data:', error);
+    console.error('Connection Error:', error);
     if (output) {
-        output.textContent = 'Failed to load message. Please try again. oui';
+        output.textContent = 'Could not connect to the server. Please check your connection.';
     }
 }
 
 
-</script>
-
-
-
-
+ </script>
 
 
 

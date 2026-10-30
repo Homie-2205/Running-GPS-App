@@ -26,8 +26,12 @@ const messageContainer = document.getElementById('message-container');
 button.addEventListener('click', async () => {
     try {
         // 1. Fetch from your live Render URL
-        const response = await fetch('https://running-gps-app.onrender.com/sound/restaurante.js');
-        const data = await response.json();
+   // Change .json() to .text() if the file contains plain text or script code
+const response = await fetch('https://running-gps-app.onrender.com/sound/restaurante.js'); 
+const textData = await response.text();
+
+output.textContent = textData;
+
         
         // Update the main output element
         output.textContent = data.message;

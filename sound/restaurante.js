@@ -3,22 +3,23 @@ const cors = require('cors');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
 
-// Enable CORS for smooth frontend-backend communication
+// Render dynamically provides a PORT variable. If it's missing, it defaults to 3000 locally.
+const PORT = process.env.PORT || 3000;
+
 app.use(cors());
 
-// Serve your restaurante.html file at the root URL '/'
+// Serve restaurante.html at the root path
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'restaurante.html'));
 });
 
-// The API endpoint your button clicks are fetching from
+// The API endpoint for your button click
 app.get('/api/message', (req, res) => {
     res.json({ message: "Hello World from Node.js!" });
 });
 
-// Start the server
+// Start the server using Render's assigned port
 app.listen(PORT, () => {
-    console.log(`Server is running! Open your browser at: http://localhost:${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });

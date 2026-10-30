@@ -4,9 +4,11 @@
   "description": "Simple Express server to serve the site and stream bill.mp3 in /repartidor",
   "main": "sound/restaurante.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
-  },
+    "start": "node sound/restaurante.js",
+    "dev": "nodemon sound/restaurante.js"
+  }
+}
+,
   "keywords": [],
   "author": "Homie-2205",
   "license": "MIT",

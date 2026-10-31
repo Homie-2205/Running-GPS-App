@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device B - Speaker</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body style="font-family: sans-serif; text-align: center; padding-top: 50px; background-color: #f4f4f4;">
+
+    <h1>Device B: Live Speaker</h1>
+    <p id="status">Status: Waiting for initialization...</p>
+    
+    <!-- 1. Required Browser Unlock Button -->
+    <button id="unlockBtn" style="padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        1. Tap to Unlock Speaker
+    </button>
+
+    <br><br>
+
+    <!-- 2. The Audio Player -->
+    <audio id="myAudio" src="bill.mp3" controls style="margin-top: 20px;"></audio>
+
+    <script>
+        const socket = io();
+        const audio = document.getElementById('myAudio');
+        const statusText = document.getElementById('status');
+        const unlockBtn = document.getElementById('unlockBtn');
+
+        // Unlock browser autoplay protection on tap
+        unlockBtn.addEventListener('click', () => {
+            audio.play().then(() => {
+                audio.pause(); // Immediately pause it, browser is now unlocked
+                statusText.innerText = "Status: Ready! Waiting for Device A...";
+                unlockBtn.style.backgroundColor = "#6c757d";
+                unlockBtn.innerText = "Speaker Unlocked ✓";
+            }).catch(err => console.log("Unlock failed", err));
+        });
+
+        // Listen for the play signal coming from the backend server
+        socket.on('receive-play-signal', (data) => {
+            if (data.action === 'play') {
+                statusText.innerText = "Status: Playing song via remote!";
+                audio.play().catch(error => {
+                    statusText.innerText = "Status: Autoplay blocked. Make sure to tap 'Unlock Speaker' first.";
+                    console.log("Play failed:", error);
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
+

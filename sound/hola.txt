@@ -1,0 +1,6 @@
+
+// The API endpoint your frontend script fetches
+app.get('/api/message', (req, res) => {
+    res.json({ message: "Hello World from Node.js!" });
+});
+

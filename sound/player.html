@@ -11,7 +11,6 @@
             padding: 50px;
             background-color: #f4f4f4;
         }
-        /* Overlay to capture user interaction for autoplay */
         #autoplay-overlay {
             display: none;
             position: fixed;
@@ -28,7 +27,7 @@
             font-size: 1.2rem;
             cursor: pointer;
             border: none;
-            background-color: #1DB954; /* Spotify Green */
+            background-color: #1DB954;
             color: white;
             border-radius: 25px;
             font-weight: bold;
@@ -44,8 +43,6 @@
     </style>
 </head>
 <body>
-
-    <!-- Autoplay Overlay Screen -->
     <div id="autoplay-overlay">
         <h2>Your music is ready!</h2>
         <button id="play-now-btn">Click to Listen</button>
@@ -53,15 +50,14 @@
 
     <div class="player-container">
         <h1>Music Player Page</h1>
-        
-        <audio id="myAudio" controls>
-            <!-- NOTE: Ensure bill.mp3 is in the same folder as this file on Render -->
-            <source src="bill.mp3" type="audio/mpeg">
+
+        <audio id="myAudio" controls preload="auto">
+            <source src="/sound/bill.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
         </audio>
 
         <p><br>
-            <a href="index2.html">Go Back Home</a>
+            <a href="/index2.html">Go Back Home</a>
         </p>
     </div>
 
@@ -73,16 +69,37 @@
             const overlay = document.getElementById('autoplay-overlay');
             const playBtn = document.getElementById('play-now-btn');
 
-            if (shouldPlay === 'true') {
-                audio.play().catch(() => {
-                    // If browser blocks autoplay, show the interactive overlay
-                    overlay.style.display = 'flex';
+            const primaryAudioPath = '/sound/bill.mp3';
+            const fallbackAudioPath = '/repartidor/bill.mp3';
+
+            const setAudioSource = (src) => {
+                const source = audio.querySelector('source');
+                source.src = src;
+                audio.load();
+            };
+
+            fetch(primaryAudioPath, { method: 'HEAD' })
+                .then((response) => {
+                    if (!response.ok) {
+                        setAudioSource(fallbackAudioPath);
+                    }
+                })
+                .catch(() => {
+                    setAudioSource(fallbackAudioPath);
                 });
+
+            if (shouldPlay === 'true') {
+                overlay.style.display = 'flex';
             }
 
-            playBtn.addEventListener('click', () => {
-                audio.play();
-                overlay.style.display = 'none';
+            playBtn.addEventListener('click', async () => {
+                try {
+                    overlay.style.display = 'none';
+                    await audio.play();
+                } catch (error) {
+                    console.error('Audio playback failed:', error);
+                    overlay.style.display = 'flex';
+                }
             });
         });
     </script>

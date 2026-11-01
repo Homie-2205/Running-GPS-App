@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Player</title>
     <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f4f4f4;
+        }
         /* Overlay to capture user interaction for autoplay */
         #autoplay-overlay {
             display: none;
@@ -16,7 +22,6 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            font-family: sans-serif;
         }
         #play-now-btn {
             padding: 15px 30px;
@@ -29,6 +34,13 @@
             font-weight: bold;
             margin-top: 15px;
         }
+        .player-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
@@ -39,16 +51,19 @@
         <button id="play-now-btn">Click to Listen</button>
     </div>
 
-    <h1>Music Player Page</h1>
-    
-    <audio id="myAudio" controls>
-        <!-- NOTE: Ensure bill.mp3 is in the same folder as this file on Render -->
-        <source src="bill.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+    <div class="player-container">
+        <h1>Music Player Page</h1>
+        
+        <audio id="myAudio" controls>
+            <!-- NOTE: Ensure bill.mp3 is in the same folder as this file on Render -->
+            <source src="bill.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
 
-    <br><br>
-    <a href="index2.html">Go Back Home</a>
+        <p><br>
+            <a href="index2.html">Go Back Home</a>
+        </p>
+    </div>
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
@@ -59,19 +74,17 @@
             const playBtn = document.getElementById('play-now-btn');
 
             if (shouldPlay === 'true') {
-                // Show the overlay asking the user to click
-                overlay.style.display = 'flex';
-
-                playBtn.addEventListener('click', () => {
-                    // Hide overlay and play audio upon explicit user interaction
-                    overlay.style.display = 'none';
-                    audio.play().catch(error => {
-                        console.error("Playback failed. Please ensure bill.mp3 exists:", error);
-                    });
+                audio.play().catch(() => {
+                    // If browser blocks autoplay, show the interactive overlay
+                    overlay.style.display = 'flex';
                 });
             }
+
+            playBtn.addEventListener('click', () => {
+                audio.play();
+                overlay.style.display = 'none';
+            });
         });
     </script>
-
 </body>
 </html>

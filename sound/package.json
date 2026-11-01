@@ -1,16 +1,12 @@
 {
-  "name": "sound",
+  "name": "bill-notification-app",
   "version": "1.0.0",
-  "description": "Notification app with Node.js and HTML",
+  "description": "Browser notification with bill.mp3",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
-  "engines": {
-    "node": "18.x"
-  },
   "dependencies": {
-    "express": "^4.19.2",
-    "socket.io": "^4.8.1"
+    "express": "^4.19.2"
   }
 }

@@ -1,107 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Player</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            text-align: center;
-            padding: 50px;
-            background-color: #f4f4f4;
-        }
-        #autoplay-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            color: white;
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-        #play-now-btn {
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            border: none;
-            background-color: #1DB954;
-            color: white;
-            border-radius: 25px;
-            font-weight: bold;
-            margin-top: 15px;
-        }
-        .player-container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            display: inline-block;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bill Audio</title>
 </head>
 <body>
-    <div id="autoplay-overlay">
-        <h2>Your music is ready!</h2>
-        <button id="play-now-btn">Click to Listen</button>
-    </div>
+  <h1>Bill Audio</h1>
 
-    <div class="player-container">
-        <h1>Music Player Page</h1>
-
-        <audio id="myAudio" controls preload="auto">
-            <source src="bill.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-
-        <p><br>
-            <a href="/index2.html">Go Back Home</a>
-        </p>
-    </div>
-
-    <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const shouldPlay = urlParams.get('play');
-            const audio = document.getElementById('myAudio');
-            const overlay = document.getElementById('autoplay-overlay');
-            const playBtn = document.getElementById('play-now-btn');
-
-            const primaryAudioPath = 'bill.mp3';
-            const fallbackAudioPath = 'bill.mp3';
-
-            const setAudioSource = (src) => {
-                const source = audio.querySelector('source');
-                source.src = src;
-                audio.load();
-            };
-
-            fetch(primaryAudioPath, { method: 'HEAD' })
-                .then((response) => {
-                    if (!response.ok) {
-                        setAudioSource(fallbackAudioPath);
-                    }
-                })
-                .catch(() => {
-                    setAudioSource(fallbackAudioPath);
-                });
-
-            if (shouldPlay === 'true') {
-                overlay.style.display = 'flex';
-            }
-
-            playBtn.addEventListener('click', async () => {
-                try {
-                    overlay.style.display = 'none';
-                    await audio.play();
-                } catch (error) {
-                    console.error('Audio playback failed:', error);
-                    overlay.style.display = 'flex';
-                }
-            });
-        });
-    </script>
+  <audio controls autoplay loop>
+    <source src="bill.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
 </body>
 </html>

@@ -13,8 +13,8 @@ app.use(express.json());
 let clients = [];
 
 // 1. Serve the frontend HTML file on the root route
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on port ${PORT}`);
 });
 
 // 2. Server-Sent Events endpoint

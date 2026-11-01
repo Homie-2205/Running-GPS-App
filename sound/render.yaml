@@ -1,12 +1,10 @@
-
-
 services:
   - type: web
-    name: sound-server
-    runtime: node
+    name: sound
+    env: node
+    plan: free
     buildCommand: npm install
-    startCommand: node server.js
+    startCommand: npm start
     envVars:
-      - key: NODE_VERSION
-        value: 18.0.0
-    healthCheckPath: /health
+      - key: NODE_ENV
+        value: production

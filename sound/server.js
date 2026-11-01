@@ -18,7 +18,6 @@ const PORT = process.env.PORT || 10000;
 
 app.use('/sound', express.static(__dirname)); // serves files from current folder at /sound
 
-app.listen(process.env.PORT || 3000);
 
 
 app.get("/", (req, res) => {

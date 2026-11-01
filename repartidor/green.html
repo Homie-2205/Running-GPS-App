@@ -602,7 +602,30 @@ font-family: Georgia, serif;
 </style>
 
 
+<style>
+  body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        #statusBtn {
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
+
+    
+</style>
 
     
 </head>
@@ -655,9 +678,53 @@ font-family: Georgia, serif;
     </header>
 <input type="text" id="userName" placeholder="Pon tu nombre">
 <button  class="custom-button" onclick="greetUser()">Saludame</button>
+       <button id="statusBtn" onclick="toggleStatus()">Loading...</button>
 
 <p id="greetingText"></p>
+   <script>
+        // Fetch current status from Node.js server on page load
+        async function checkStatus() {
+            try {
+                const response = await fetch('/api/get-status');
+                const data = await response.json();
+                updateButtonUI(data.status);
+            } catch (error) {
+                console.error('Error fetching status:', error);
+            }
+        }
 
+        // Update the button's text, color, and stored state
+        function updateButtonUI(status) {
+            const btn = document.getElementById('statusBtn');
+            btn.innerText = status === 'available' ? 'Available' : 'Unavailable';
+            btn.style.backgroundColor = status === 'available' ? '#2ecc71' : '#e74c3c';
+            btn.dataset.currentStatus = status;
+        }
+
+        // Tell Node.js to flip the status when clicked
+        async function toggleStatus() {
+            const btn = document.getElementById('statusBtn');
+            const currentStatus = btn.dataset.currentStatus;
+            const newStatus = currentStatus === 'available' ? 'unavailable' : 'available';
+
+            try {
+                const response = await fetch('/api/update-status', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                
+                if (response.ok) {
+                    updateButtonUI(newStatus);
+                }
+            } catch (error) {
+                console.error('Error updating status:', error);
+            }
+        }
+
+        // Run immediately when page opens
+        checkStatus();
+    </script>
 
 
    <script>

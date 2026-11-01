@@ -1,31 +1,58 @@
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
 
 const app = express();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// OPTION 1: Expose an entire folder (e.g., "public") for static assets like MP3s, CSS, or JS
-// Place your bill.mp3 inside a folder named "public" next to this script
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Serve player.html when someone visits the main URL "/"
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'player.html'));
-});
-
-// OPTION 2: Create a specific endpoint just for your MP3 file
-// Place bill.mp3 in the same directory as this server file
-app.get('/audio', (req, res) => {
-    res.sendFile(path.join(__dirname, 'bill.mp3'));
-});
-
-// Render dynamically sets the PORT
 const PORT = process.env.PORT || 3000;
 
-// Listen on 0.0.0.0 to allow Render to route external traffic to your app
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on port ${PORT}`);
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Active client connections array
+let clients = [];
+
+// 1. Serve the frontend HTML file on the root route
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// 2. Server-Sent Events endpoint
+app.get('/events', (req, res) => {
+  res.set({
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive',
+  });
+  res.flushHeaders();
+
+  // Add client connection to the list
+  clients.push(res);
+  console.log(`Client connected. Total clients: ${clients.length}`);
+
+  // Clean up on user disconnect
+  req.on('close', () => {
+    clients = clients.filter(client => client !== res);
+    console.log(`Client disconnected. Total clients: ${clients.length}`);
+  });
+});
+
+// 3. API endpoint to trigger a notification
+app.post('/notify', (req, res) => {
+  const { message } = req.body;
+
+  if (!message) {
+    return res.status(400).json({ error: 'Message payload is required' });
+  }
+
+  const sseFormattedData = `data: ${JSON.stringify({ message, timestamp: new Date() })}\n\n`;
+
+  // Send message to all connected browsers
+  clients.forEach(client => client.write(sseFormattedData));
+
+  res.status(200).json({ success: true, sentTo: clients.length });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 // Serve static frontend files from a 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'sound')));
 
 // Active client connections array
 let clients = [];

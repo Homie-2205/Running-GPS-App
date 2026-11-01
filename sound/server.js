@@ -9,18 +9,17 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Serve static frontend files from a 'public' directory
+// Serve static frontend files from your 'sound' directory
 app.use(express.static(path.join(__dirname, 'sound')));
 
 // Active client connections array
 let clients = [];
 
-// 1. Root route to serve your frontend HTML file (or health check)
+// 1. Root route to serve your index.html from the 'sound' folder
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'sound', 'index.html'), (err) => {
     if (err) {
-      // Fallback if you don't have an index.html file ready yet
-      res.status(200).send('Server is running! SSE endpoint ready at /events');
+      res.status(404).send('Error: index.html not found inside the "sound" folder.');
     }
   });
 });
@@ -61,7 +60,7 @@ app.post('/notify', (req, res) => {
   res.status(200).json({ success: true, sentTo: clients.length });
 });
 
-// 4. Start Server (Only called ONCE)
+// 4. Start Server (Binds to 0.0.0.0 for Render compatibility)
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });

@@ -1,118 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Notifications</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f4f4f9;
-            margin: 0;
-        }
-        .container {
-            text-align: center;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            max-width: 400px;
-            width: 90%;
-        }
-        button {
-            padding: 12px 24px;
-            font-size: 16px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 15px;
-            width: 100%;
-        }
-        button:hover { background-color: #0056b3; }
-        #logs {
-            margin-top: 20px;
-            max-height: 150px;
-            overflow-y: auto;
-            color: #555;
-            font-size: 14px;
-            text-align: left;
-            border-top: 1px solid #eee;
-            padding-top: 10px;
-        }
-        p { margin: 5px 0; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notification Demo</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background: #f5f5f5;
+    }
+    #toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: #1f1f1f;
+      color: #fff;
+      padding: 14px 18px;
+      border-radius: 8px;
+      display: none;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      max-width: 300px;
+    }
+    button {
+      padding: 10px 18px;
+      border: none;
+      background: #007bff;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
+  <h1>Website Notifications</h1>
+  <button id="enable-notif">Enable browser notifications</button>
+  <button id="send-test" style="margin-left:10px;">Send test notification</button>
 
-<div class="container">
-    <h2>Real-Time Notification System</h2>
-    <p style="color: #666; font-size: 14px;">Click the button below to allow the browser to play your audio notification.</p>
-    
-    <!-- Since server.js points to the "sound" folder, notification.mp3 is in the same directory -->
-    <audio id="notif-audio" src="bill.mp3" preload="auto"></audio>
-    
-    <button id="trigger-btn">Test Notification Sound</button>
-    <div id="logs"></div>
-</div>
+  <div id="toast"></div>
 
-<script>
-    const audio = document.getElementById('notif-audio');
-    const triggerBtn = document.getElementById('trigger-btn');
-    const logs = document.getElementById('logs');
+  <script>
+    const socket = io();
 
-    function logMessage(text) {
-        const item = document.createElement('p');
-        item.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
-        logs.prepend(item);
-    }
+    socket.on('notification', (data) => {
+      showToast(data.title, data.message);
 
-    // Connects relatively to your Render root domain /events path [3]
-    const eventSource = new EventSource('/events');
-
-    eventSource.onmessage = function(event) {
-        // Render sends an initial pulse comment ': ok', ignore JSON parsing on empty/malformed data [3]
-        if (!event.data || event.data.trim() === 'ok') return;
-        
-        try {
-            const data = JSON.parse(event.data);
-            logMessage(`Notification received: ${data.message}`);
-            
-            // Play your mp3 audio track [3]
-            audio.play().catch(err => {
-                logMessage("Audio blocked. Click the button to grant playback permissions.");
-            });
-        } catch(e) {
-            // Quietly catch heartbeat pulses
-        }
-    };
-
-    // Client button click sets up audio context permissions and triggers a test notification [3]
-    triggerBtn.addEventListener('click', () => {
-        // Essential: Unlock the audio element for browsers so it can autoplay down the road [3]
-        audio.play().then(() => {
-            audio.pause();
-            audio.currentTime = 0;
-            logMessage("Audio channel unlocked successfully!");
-        }).catch(() => {});
-
-        // Send a request to trigger the notification across all connected user tabs [3]
-        fetch('/trigger-notification', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: "Hello from Render live app!" })
-        })
-        .then(res => res.json())
-        .then(data => logMessage("Sent trigger request to server..."))
-        .catch(err => logMessage("Error sending request: " + err));
+      if (Notification.permission === 'granted') {
+        new Notification(data.title, {
+          body: data.message
+        });
+      }
     });
-</script>
 
+    document.getElementById('enable-notif').addEventListener('click', async () => {
+      const permission = await Notification.requestPermission();
+      console.log('Notification permission:', permission);
+    });
+
+    document.getElementById('send-test').addEventListener('click', () => {
+      fetch('/send-test');
+    });
+
+    function showToast(title, message) {
+      const toast = document.getElementById('toast');
+      toast.innerHTML = `<strong>${title}</strong><br>${message}`;
+      toast.style.display = 'block';
+
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 4000);
+    }
+  </script>
 </body>
 </html>

@@ -1,10 +1,25 @@
 const express = require("express");
 const path = require("path");
 
+
+const express = require('express');
+const path = require('path');
+
+const app = express();
+
+
+
+
+
+
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-app.use("/sound", express.static(path.join(__dirname, "sound")));
+
+app.use('/sound', express.static(__dirname)); // serves files from current folder at /sound
+
+app.listen(process.env.PORT || 3000);
+
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));

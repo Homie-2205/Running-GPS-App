@@ -1,75 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Live Server Notifications with Sound</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f9; }
-    #notification-container { max-width: 500px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-    .status { font-weight: bold; color: #e67e22; margin-bottom: 15px; }
-    .status.connected { color: #2ecc71; }
-    .notification-item { background: #eef2f7; padding: 12px; margin-top: 10px; border-left: 5px solid #3498db; border-radius: 4px; }
-    .time { font-size: 11px; color: #7f8c8d; display: block; margin-top: 5px; }
-    .hint { font-size: 12px; color: #7f8c8d; font-style: italic; margin-top: 10px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Notifications</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 90%;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+        }
+        button:hover { background-color: #0056b3; }
+        #logs {
+            margin-top: 20px;
+            max-height: 150px;
+            overflow-y: auto;
+            color: #555;
+            font-size: 14px;
+            text-align: left;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+        p { margin: 5px 0; }
+    </style>
 </head>
 <body>
 
-  <div id="notification-container">
-    <h2>Server Notifications</h2>
-    <div id="connection-status" class="status">Connecting to stream...</div>
-    <div id="messages-list">
-      <p style="color: #95a5a6;">Waiting for live alerts...</p>
-    </div>
-    <div class="hint">⚠️ Note: Click anywhere on this page first to enable notification sounds.</div>
-  </div>
+<div class="container">
+    <h2>Real-Time Notification System</h2>
+    <p style="color: #666; font-size: 14px;">Click the button below to allow the browser to play your audio notification.</p>
+    
+    <!-- Since server.js points to the "sound" folder, notification.mp3 is in the same directory -->
+    <audio id="notif-audio" src="bill.mp3" preload="auto"></audio>
+    
+    <button id="trigger-btn">Test Notification Sound</button>
+    <div id="logs"></div>
+</div>
 
-  <!-- High-quality free notification chime -->
-  <audio id="notification-sound" src="bill.mp3" preload="auto"></audio>
+<script>
+    const audio = document.getElementById('notif-audio');
+    const triggerBtn = document.getElementById('trigger-btn');
+    const logs = document.getElementById('logs');
 
-  <script>
-    const statusDiv = document.getElementById('connection-status');
-    const listDiv = document.getElementById('messages-list');
-    const alertSound = document.getElementById('notification-sound');
+    function logMessage(text) {
+        const item = document.createElement('p');
+        item.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
+        logs.prepend(item);
+    }
 
-    // Dynamically uses the current domain (works both locally and deployed on Render)
-    const streamUrl = `${window.location.origin}/events`;
-    const eventSource = new EventSource(streamUrl);
+    // Connects relatively to your Render root domain /events path [3]
+    const eventSource = new EventSource('/events');
 
-    eventSource.onopen = () => {
-      statusDiv.innerText = "● Connected to live stream";
-      statusDiv.className = "status connected";
+    eventSource.onmessage = function(event) {
+        // Render sends an initial pulse comment ': ok', ignore JSON parsing on empty/malformed data [3]
+        if (!event.data || event.data.trim() === 'ok') return;
+        
+        try {
+            const data = JSON.parse(event.data);
+            logMessage(`Notification received: ${data.message}`);
+            
+            // Play your mp3 audio track [3]
+            audio.play().catch(err => {
+                logMessage("Audio blocked. Click the button to grant playback permissions.");
+            });
+        } catch(e) {
+            // Quietly catch heartbeat pulses
+        }
     };
 
-    eventSource.onmessage = (event) => {
-      if(listDiv.querySelector('p')) listDiv.innerHTML = '';
+    // Client button click sets up audio context permissions and triggers a test notification [3]
+    triggerBtn.addEventListener('click', () => {
+        // Essential: Unlock the audio element for browsers so it can autoplay down the road [3]
+        audio.play().then(() => {
+            audio.pause();
+            audio.currentTime = 0;
+            logMessage("Audio channel unlocked successfully!");
+        }).catch(() => {});
 
-      const data = JSON.parse(event.data);
+        // Send a request to trigger the notification across all connected user tabs [3]
+        fetch('/trigger-notification', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: "Hello from Render live app!" })
+        })
+        .then(res => res.json())
+        .then(data => logMessage("Sent trigger request to server..."))
+        .catch(err => logMessage("Error sending request: " + err));
+    });
+</script>
 
-      // Play chime sound immediately
-      alertSound.currentTime = 0; 
-      alertSound.play().catch(error => {
-        console.log("Audio playback blocked by browser security. Click on the page first!", error);
-      });
-
-      // Build notification component
-      const item = document.createElement('div');
-      item.className = 'notification-item';
-      item.innerHTML = `
-        <strong>Notification:</strong> ${data.message}
-        <span class="time">${new Date(data.timestamp).toLocaleTimeString()}</span>
-      `;
-
-      // Insert new message at the top
-      listDiv.insertBefore(item, listDiv.firstChild);
-    };
-
-    eventSource.onerror = (error) => {
-      console.error("SSE Error:", error);
-      statusDiv.innerText = "● Disconnected. Retrying connection...";
-      statusDiv.className = "status";
-    };
-  </script>
 </body>
 </html>

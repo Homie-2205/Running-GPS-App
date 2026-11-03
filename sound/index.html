@@ -11,9 +11,41 @@
     
     <!-- The HTML5 audio player tag -->
     <audio controls>
-        <source src="sound/bill.mp3" type="audio/mpeg">
+        <source src="bill.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
+
+
+    <script>
+async function sendNotification() {
+  const response = await fetch("/send-push", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      title: "Running App",
+      body: "Your website has sent a notification!"
+    })
+  });
+
+  const result = await response.json();
+
+  alert(result.success
+    ? "Notification sent!"
+    : "Error sending notification");
+}
+
+        
+    </script>
+
+    <button onclick="sendNotification()">
+  Send Notification
+</button>
+
+
+
+    
 
 </body>
 </html>

@@ -5,7 +5,7 @@ const app = express();
 const PORT = process.env.PORT || 10000;
 
 // Serve all files in the same folder at /sound
-app.use("/sound", express.static(__dirname));
+app.use("/public", express.static(__dirname));
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));

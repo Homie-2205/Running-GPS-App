@@ -1,94 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bill Notification</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    .card {
-      background: white;
-      padding: 30px 40px;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-
-    button {
-      background: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 24px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Player</title>
 </head>
 <body>
-  <div class="card">
-    <h2>Bill Notification Demo</h2>
-    <button id="notifyBtn">Allow Notification</button>
-  </div>
 
-  <script>
-    const notifyBtn = document.getElementById("notifyBtn");
-    const sound = new Audio("/sound/bill.mp3");
+    <h2>My Audio Player</h2>
+    
+    <!-- The HTML5 audio player tag -->
+    <audio controls>
+        <source src="bill.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
-    function playSound() {
-      sound.currentTime = 0;
-      sound.play().catch(() => {
-        console.log("Audio blocked until user interaction.");
-      });
-    }
-
-    async function triggerNotification() {
-      if (!("Notification" in window)) {
-        alert("This browser does not support notifications.");
-        return;
-      }
-
-      if (Notification.permission === "granted") {
-        new Notification("Bill Reminder", {
-          body: "Your bill is ready!",
-          icon: "https://cdn-icons-png.flaticon.com/512/1828/1828666.png"
-        });
-        playSound();
-        return;
-      }
-
-      if (Notification.permission !== "denied") {
-        const permission = await Notification.requestPermission();
-        if (permission === "granted") {
-          new Notification("Bill Reminder", {
-            body: "Your bill is ready!",
-            icon: "https://cdn-icons-png.flaticon.com/512/1828/1828666.png"
-          });
-          playSound();
-        }
-      }
-    }
-
-    notifyBtn.addEventListener("click", triggerNotification);
-
-    setTimeout(() => {
-      if (Notification.permission === "granted") {
-        new Notification("Bill Reminder", {
-          body: "Your bill is ready!",
-          icon: "https://cdn-icons-png.flaticon.com/512/1828/1828666.png"
-        });
-        playSound();
-      }
-    }, 4000);
-  </script>
 </body>
 </html>

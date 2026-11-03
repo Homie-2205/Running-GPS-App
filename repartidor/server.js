@@ -11,6 +11,8 @@ app.use(express.json());
 // In-memory variable to hold the status
 let currentStatus = 'unavailable';
 
+app.use("/repartidor", express.static(__dirname));
+
 // Serve the HTML page
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));

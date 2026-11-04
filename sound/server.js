@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const path = require("node:path");
 
@@ -5,10 +7,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const PUSHBULLET_API_URL = "https://api.pushbullet.com/v2/pushes";
 
-// Middleware
 app.use(express.json({ limit: "10kb" }));
 
-// Helpers
 function getText(value, fallback, maxLength) {
   if (typeof value !== "string") return fallback;
 
@@ -16,7 +16,6 @@ function getText(value, fallback, maxLength) {
   return text ? text.slice(0, maxLength) : fallback;
 }
 
-// Pushbullet service
 async function sendPushbulletNote({ accessToken, title, body }) {
   const response = await fetch(PUSHBULLET_API_URL, {
     method: "POST",
@@ -24,15 +23,20 @@ async function sendPushbulletNote({ accessToken, title, body }) {
       "Access-Token": accessToken,
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ type: "note", title, body })
+    body: JSON.stringify({
+      type: "note",
+      title,
+      body
+    })
   });
 
   if (!response.ok) {
     throw new Error(`Pushbullet returned status ${response.status}`);
   }
+
+  return response.json();
 }
 
-// Routes
 app.get("/", (_req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
@@ -54,8 +58,9 @@ app.post("/send-push", async (req, res) => {
   const body = getText(req.body?.body, "Hello from your website!", 1000);
 
   try {
-    await sendPushbulletNote({ accessToken, title, body });
-    return res.json({ success: true });
+    const result = await sendPushbulletNote({ accessToken, title, body });
+
+    return res.json({ success: true, result });
   } catch (error) {
     console.error("Push notification failed:", error.message);
     return res.status(502).json({
@@ -64,7 +69,6 @@ app.post("/send-push", async (req, res) => {
   }
 });
 
-// Start the server when this file is run directly.
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);

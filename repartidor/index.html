@@ -706,8 +706,7 @@ font-family: Georgia, serif;
         <p>No hay nada imposible para aquel que intenta.
 </p>
     </header>
-<input type="text" id="userName" placeholder="Pon tu nombre">
-<button  class="custom-button" onclick="greetUser()">Saludame</button>
+
        <button id="statusBtn" onclick="toggleStatus()">Loading...</button>
 
 <p id="greetingText"></p>
@@ -757,46 +756,7 @@ font-family: Georgia, serif;
     </script>
 
 
-   <script>
-function greetUser() {
-    const name = document.getElementById("userName").value;
-    const display = document.getElementById("greetingText");
-
-    let message;
-
-    if (name.trim() !== "") {
-        message = `¡Hola ${name}! ¿Cómo estás hoy? soy elena t 10 hubo un crimen con migo, deseas contribuir, ya mi creador el que te entrega tus alimentos, puso el denuncio en la fiscalia, `;
-    } else {
-        message = "Por favor, ingresa tu nombre.";
-    }
-
-    display.textContent = message;
-
-    // Speak the message
-    const speech = new SpeechSynthesisUtterance(message);
-    speech.lang = "es-ES";      // Cambiado a "es-ES" para español
-    speech.rate = 1;            // Velocidad (0.1 a 10)
-    speech.pitch = 1;           // Tono de voz
-    speech.volume = 1;          // Volumen (0 a 1)
-
-    // Select a Spanish AI voice if available
-    const voices = window.speechSynthesis.getVoices();
-    const spanishVoice = voices.find(v => v.lang.startsWith("es"));
-    if (spanishVoice) {
-        speech.voice = spanishVoice;
-    }
-
-    window.speechSynthesis.cancel(); // Detener cualquier voz anterior
-    window.speechSynthesis.speak(speech);
-}
-
-// Load voices when they become available
-window.speechSynthesis.onvoiceschanged = () => {
-    window.speechSynthesis.getVoices();
-};
-</script>
-
-
+ 
 
 
 
@@ -1433,7 +1393,7 @@ function openExtensionPopup(imageSrc) {
             
            <img src="repartidor/uvaisabella.jpeg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/uvaisabela.html')">
             
-          <div class="price-badge">Uva Isabela 1 lb — 5.000 COP</div>
+          <div class="price-badge">Uva Isabela 1 lb — 5.950 COP</div>
 </div>
           </div>
                   </div>

@@ -1,12 +1,16 @@
 {
   "name": "bill-notification-app",
   "version": "1.0.0",
-  "description": "Browser notification with bill.mp3",
+  "description": "Notificaciones de Pushbullet para Running GPS App",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
-    "express": "^4.19.2"
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
   }
 }

@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: bill-notification
+    env: node
+    plan: free
+    rootDir: sound
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PUSHBULLET_ACCESS_TOKEN
+        sync: false

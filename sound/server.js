@@ -21,7 +21,7 @@ app.get("/health", (_req, res) => {
 });
 
 app.post("/send-push", async (req, res) => {
-  const accessToken = o.2P5XGoxR9JtpN6oUAThbNrMgJu5wwUQq
+  const accessToken = 
 
   if (!accessToken) {
     return res.status(503).json({

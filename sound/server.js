@@ -15,7 +15,7 @@ app.get("/health", (_req, res) => {
 });
 
 app.post("/send-push", async (req, res) => {
-  const accessToken = process.env.o.uL0DsrOie9eAxEdln6CcYaNCY7wCbFC8;
+  const accessToken = process.env.o.2P5XGoxR9JtpN6oUAThbNrMgJu5wwUQq; 
 
   if (!accessToken) {
     return res.status(503).json({

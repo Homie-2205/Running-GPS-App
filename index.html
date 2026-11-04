@@ -461,6 +461,34 @@
     }
         
     </style>
+
+
+    <style>
+
+
+        <style>
+       
+
+        .animated-image {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            position: absolute;
+            animation: moveSideToSide 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes moveSideToSide {
+            0% {
+                left: 0;
+            }
+            100% {
+                left: calc(100% - 150px);
+            }
+        }
+    </style>
+    </style>
 </head>
 <body>
 
@@ -563,6 +591,7 @@ window.speechSynthesis.onvoiceschanged = () => {
 </script>
 
 
+ <img src="canada.png" alt="Moving Showcase" class="animated-image">
 
 
 

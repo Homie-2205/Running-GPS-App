@@ -1,5 +1,5 @@
-<script>
-const PRICE_PER_KILO = 3000;
+
+const PRICE_PER_KILO = 1500;
 
 function recalculatePrice() {
     const pesoInput = document.getElementById('weight').value;
@@ -10,4 +10,4 @@ function recalculatePrice() {
     
     precioTotalSpan.textContent = finalPrice.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 }
-</script>
+

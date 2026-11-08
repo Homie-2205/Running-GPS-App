@@ -1,4 +1,4 @@
-<script>
+
 const PRICE_PER_KILO = 7500;
 
 function recalculatePrice() {
@@ -10,4 +10,4 @@ function recalculatePrice() {
     
     precioTotalSpan.textContent = finalPrice.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 }
-</script>
+

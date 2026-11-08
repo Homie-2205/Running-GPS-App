@@ -477,7 +477,7 @@
         </div> 
         
         <div class="total-box" style="margin: 15px 0; font-weight: bold; font-size: 1.2em; text-align: center;"> 
-            Total: $<span id="totalPrice">4.500</span> COP 
+            Total: $<span id="totalPrice">0.0</span> COP 
         </div> 
         
        <div class="input-group" style="margin-bottom: 15px;"> 
@@ -510,18 +510,8 @@
         
 
 
-<script>
-const PRICE_PER_KILO = 6000;
+<script src="scripts/ajo.js">
 
-function recalculatePrice() {
-    const pesoInput = document.getElementById('weight').value;
-    const precioTotalSpan = document.getElementById('totalPrice');
-    
-    const currentWeight = parseFloat(pesoInput) || 0;
-    const finalPrice = currentWeight * PRICE_PER_KILO;
-    
-    precioTotalSpan.textContent = finalPrice.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-}
 </script>
 
 <script>

@@ -1,5 +1,5 @@
 
-const PRICE_PER_KILO = 2100;
+const PRICE_PER_KILO = 5000;
 
 function recalculatePrice() {
     const pesoInput = document.getElementById('weight').value;

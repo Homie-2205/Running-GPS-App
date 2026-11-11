@@ -1,80 +1,57 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notificación Pushbullet Local</title>
-    <style>
-        /* Estilos visuales para el botón */
-        .btn-notificacion {
-            padding: 12px 24px;
-            font-size: 16px;
-            font-family: Arial, sans-serif;
-            background-color: #4caf50;
-            color: #ffffff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: background-color 0.2s, transform 0.1s;
+<button id="statusBtn" onclick="toggleStatus()">Loading...</button>
+
+<script>
+    // Fetch current status from Node.js server on page load
+    async function checkStatus() {
+        try {
+            const response = await fetch('/api/get-status');
+            const data = await response.json();
+            updateButtonUI(data.status);
+        } catch (error) {
+            console.error('Error fetching status:', error);
         }
-
-        .btn-notificacion:hover {
-            background-color: #43a047;
-        }
-
-        .btn-notificacion:active {
-            transform: scale(0.98);
-        }
-    </style>
-</head>
-<body>
-
-    <!-- El botón estructurado en HTML -->
-    <button id="miBoton" class="btn-notificacion">
-        🔔 Enviar Alerta (Sonido + Push)
-    </button>
-
-    <!-- El script nativo de JavaScript -->
-    <script>
-    function enviarNotificacionConSonido() {
-        // 1. Reproducir el sonido de notificación en tu PC
-        // Asegúrate de tener tu archivo .mp3 en la misma carpeta que este archivo HTML
-        const audio = new Audio('bill.mp3');
-        audio.play().catch(e => {
-            console.log("El navegador bloqueó el audio automático. Haz clic en la página antes de presionar el botón.", e);
-        });
-
-        // 2. Parámetros de envío a Pushbullet
-        const accessToken = 'o.vbXwA2uFjyMTKFvVTBVMT40YjcUxInxj'; 
-        const url = 'https://pushbullet.com';
-
-        const data = {
-            type: 'note',
-            title: '¡Nueva alerta en tu sistema!',
-            body: 'Se ha ejecutado la acción programada en tu computadora.'
-        };
-
-        // 3. Petición HTTP nativa a la API
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`, 
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => {
-            if (!response.ok) throw new Error(`Error en el servidor: ${response.status}`);
-            return response.json();
-        })
-        .then(data => console.log('Notificación Pushbullet enviada con éxito:', data))
-        .catch((error) => console.error('Error al conectar con Pushbullet:', error));
     }
 
-    // Escuchar el clic del botón HTML
-    document.getElementById('miBoton').addEventListener('click', enviarNotificacionConSonido);
-    </script>
+    // Update the button's text, color, and stored state
+    function updateButtonUI(status) {
+        const btn = document.getElementById('statusBtn');
+        btn.innerText = status === 'available' ? 'Available' : 'Unavailable';
+        btn.style.backgroundColor = status === 'available' ? '#2ecc71' : '#e74c3c';
+        btn.dataset.currentStatus = status;
+    }
 
-</body>
-</html>
+    // Tell Node.js to flip the status when clicked, verifying with a 3-digit PIN
+    async function toggleStatus() {
+        const btn = document.getElementById('statusBtn');
+        const currentStatus = btn.dataset.currentStatus;
+        const newStatus = currentStatus === 'available' ? 'unavailable' : 'available';
+
+        // Prompt user for the 3-digit security code
+        const securityCode = prompt("Enter your 3-digit security code:");
+        
+        if (!securityCode) return; // Cancelled by user
+
+        try {
+            const response = await fetch('/api/update-status', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    status: newStatus,
+                    pin: securityCode // Sending the PIN to the server
+                })
+            });
+            
+            if (response.ok) {
+                updateButtonUI(newStatus);
+            } else {
+                const errorData = await response.json();
+                alert(errorData.error || "Action unauthorized.");
+            }
+        } catch (error) {
+            console.error('Error updating status:', error);
+        }
+    }
+
+    // Run immediately when page opens
+    checkStatus();
+</script>

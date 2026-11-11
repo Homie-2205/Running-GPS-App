@@ -711,8 +711,7 @@ font-family: Georgia, serif;
 
 <p id="greetingText"></p>
    <script>
-        // Fetch current status from Node.js server on page load
-        async function checkStatus() {
+       async function checkStatus() {
             try {
                 const response = await fetch('/api/get-status');
                 const data = await response.json();
@@ -730,21 +729,32 @@ font-family: Georgia, serif;
             btn.dataset.currentStatus = status;
         }
 
-        // Tell Node.js to flip the status when clicked
+        // Tell Node.js to flip the status when clicked, verifying with a 3-digit PIN
         async function toggleStatus() {
             const btn = document.getElementById('statusBtn');
             const currentStatus = btn.dataset.currentStatus;
             const newStatus = currentStatus === 'available' ? 'unavailable' : 'available';
 
+            // Prompt user for the 3-digit security code
+            const securityCode = prompt("Enter your 3-digit security code:");
+            
+            if (!securityCode) return; // Cancelled by user
+
             try {
                 const response = await fetch('/api/update-status', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ status: newStatus })
+                    body: JSON.stringify({ 
+                        status: newStatus,
+                        pin: securityCode // Sending the PIN to the server
+                    })
                 });
                 
                 if (response.ok) {
                     updateButtonUI(newStatus);
+                } else {
+                    const errorData = await response.json();
+                    alert(errorData.error || "Action unauthorized.");
                 }
             } catch (error) {
                 console.error('Error updating status:', error);
@@ -753,6 +763,7 @@ font-family: Georgia, serif;
 
         // Run immediately when page opens
         checkStatus();
+   
     </script>
 
 

@@ -553,9 +553,7 @@
    
 <input type="text" id="userName" placeholder="Pon tu nombre">
 <button  class="custom-button" onclick="greetUser()">Saludame</button>
-
-<p id="greetingText"></p>
-<p style="color: red;">No Disponible programando</p>
+ <button id="statusBtn" onclick="toggleStatus()">Loading...</button>
 
 
 
@@ -597,6 +595,64 @@ window.speechSynthesis.onvoiceschanged = () => {
     window.speechSynthesis.getVoices();
 };
 </script>
+
+
+
+     <script>
+       async function checkStatus() {
+            try {
+                const response = await fetch('/api/get-status');
+                const data = await response.json();
+                updateButtonUI(data.status);
+            } catch (error) {
+                console.error('Error fetching status:', error);
+            }
+        }
+
+        // Update the button's text, color, and stored state
+        function updateButtonUI(status) {
+            const btn = document.getElementById('statusBtn');
+            btn.innerText = status === 'available' ? 'Available' : 'Unavailable';
+            btn.style.backgroundColor = status === 'available' ? '#2ecc71' : '#e74c3c';
+            btn.dataset.currentStatus = status;
+        }
+
+        // Tell Node.js to flip the status when clicked, verifying with a 3-digit PIN
+        async function toggleStatus() {
+            const btn = document.getElementById('statusBtn');
+            const currentStatus = btn.dataset.currentStatus;
+            const newStatus = currentStatus === 'available' ? 'unavailable' : 'available';
+
+            // Prompt user for the 3-digit security code
+            const securityCode = prompt("Enter your 3-digit security code:");
+            
+            if (!securityCode) return; // Cancelled by user
+
+            try {
+                const response = await fetch('/api/update-status', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        status: newStatus,
+                        pin: securityCode // Sending the PIN to the server
+                    })
+                });
+                
+                if (response.ok) {
+                    updateButtonUI(newStatus);
+                } else {
+                    const errorData = await response.json();
+                    alert(errorData.error || "Action unauthorized.");
+                }
+            } catch (error) {
+                console.error('Error updating status:', error);
+            }
+        }
+
+        // Run immediately when page opens
+        checkStatus();
+   
+    </script>
 
 
  <img src="canada.png"  style="width: 110px; height: 110px;"  alt="Moving Showcase" class="animated-image">

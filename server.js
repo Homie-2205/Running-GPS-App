@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 // Serve static files directly from the root directory and set repartidor.html as the homepage
-app.use(express.static(__dirname, { index: 'repartidor.html' }));
+app.use(express.static(__dirname, { index: 'index.html' }));
 
 // In-memory variable to store the status
 let globalStatus = 'available';
@@ -40,7 +40,7 @@ app.post('/api/update-status', (req, res) => {
 
 // Fallback route to explicitly serve repartidor.html from the root folder
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'repartidor.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(PORT, () => {

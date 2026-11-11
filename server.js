@@ -1,70 +1,48 @@
 const express = require('express');
 const path = require('path');
-const fs = require('fs');
-const cors = require('cors');
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+// Middleware to parse JSON payloads
+app.use(express.json());
 
-// Serve files from the repo root so pages like index2.html and player.html load normally
-app.use(express.static(path.join(__dirname)));
+// Serve static files directly from the root directory and set repartidor.html as the homepage
+app.use(express.static(__dirname, { index: 'repartidor.html' }));
 
-// Optional: expose common media folders explicitly for Render
-app.use('/sound', express.static(path.join(__dirname, 'sound')));
-app.use('/repartidor', express.static(path.join(__dirname, 'repartidor')));
+// In-memory variable to store the status
+let globalStatus = 'available';
 
-// Health check for Render deployment
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok', message: 'Music server is running' });
+// The 3-digit security code configuration
+const SECRET_PIN = "220"; 
+
+// GET endpoint to fetch current status
+app.get('/api/get-status', (req, res) => {
+    res.json({ status: globalStatus });
 });
 
-// Serve the mp3 file from whichever folder exists
-app.get('/repartidor/bill.mp3', (req, res) => {
-  const possibleFiles = [
-    path.join(__dirname, 'repartidor', 'bill.mp3'),
-    path.join(__dirname, 'sound', 'bill.mp3'),
-    path.join(__dirname, 'bill.mp3')
-  ];
-
-  const filePath = possibleFiles.find((candidate) => {
-    try {
-      return fs.existsSync(candidate) && fs.statSync(candidate).isFile();
-    } catch (error) {
-      return false;
+// POST endpoint to toggle/update status with PIN validation
+app.post('/api/update-status', (req, res) => {
+    const { status, pin } = req.body;
+    
+    // 1. Validate the specific 3-digit security code
+    if (pin !== SECRET_PIN) {
+        return res.status(401).json({ error: 'Unauthorized: Invalid security code.' });
     }
-  });
 
-  if (!filePath) {
-    return res.status(404).json({
-      error: 'bill.mp3 not found.',
-      message: 'Place the file in /repartidor/bill.mp3, /sound/bill.mp3, or the repo root before loading the page.'
-    });
-  }
-
-  res.setHeader('Content-Type', 'audio/mpeg');
-  res.setHeader('Content-Length', fs.statSync(filePath).size);
-  fs.createReadStream(filePath).pipe(res);
+    // 2. Validate input values
+    if (status === 'available' || status === 'unavailable') {
+        globalStatus = status;
+        return res.status(200).json({ message: 'Status updated successfully', status: globalStatus });
+    }
+    
+    res.status(400).json({ error: 'Invalid status value' });
 });
 
-// Also allow direct access to the same file at /sound/bill.mp3 for browser audio tags
-app.get('/sound/bill.mp3', (req, res) => {
-  const filePath = [
-    path.join(__dirname, 'sound', 'bill.mp3'),
-    path.join(__dirname, 'repartidor', 'bill.mp3'),
-    path.join(__dirname, 'bill.mp3')
-  ].find((candidate) => fs.existsSync(candidate));
-
-  if (!filePath) {
-    return res.status(404).json({ error: 'bill.mp3 not found.' });
-  }
-
-  res.setHeader('Content-Type', 'audio/mpeg');
-  res.setHeader('Content-Length', fs.statSync(filePath).size);
-  fs.createReadStream(filePath).pipe(res);
+// Fallback route to explicitly serve repartidor.html from the root folder
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'repartidor.html'));
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server running on http://0.0.0.0:${PORT}`);
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });

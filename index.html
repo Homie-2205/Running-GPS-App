@@ -658,6 +658,38 @@ font-family: Georgia, serif;
 </style>
 
     
+        <style>
+       body {
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            overflow-hidden;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .animated-image {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            position: absolute;
+            animation: moveSideToSide 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes moveSideToSide {
+            0% {
+                left: 0;
+            }
+            100% {
+                left: calc(100% - 150px);
+            }
+        }
+    </style>
+ 
+    
 </head>
 <body>
 

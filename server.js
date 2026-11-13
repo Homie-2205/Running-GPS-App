@@ -15,14 +15,14 @@ function getSavedStatus() {
     try {
         if (fs.existsSync(STATUS_FILE)) {
             const data = fs.readFileSync(STATUS_FILE, 'utf8');
-            return JSON.parse(data).status || 'available';
+            return JSON.parse(data).status || 'unavailable';
         }
     } catch (error) {
         console.error('Error al leer status.json:', error);
     }
     // Solo si el archivo nunca ha existido, crea uno por defecto
-    saveStatus('available');
-    return 'available';
+    saveStatus('unavailable');
+    return 'unavailable';
 }
 
 // Función para guardar el estado de forma permanente en disco

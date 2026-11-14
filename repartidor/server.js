@@ -1,58 +1,65 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const app = express();
-
-// Render dynamically assigns a port via process.env.PORT
 const PORT = process.env.PORT || 3000;
 
-// Middleware to parse JSON data
 app.use(express.json());
+app.use(express.static(__dirname, { index: 'index.html' }));
 
-// In-memory variable to hold the status
-let currentStatus = 'unavailable';
+const SECRET_PIN = process.env.SECRET_PIN || "220";
+const STATUS_FILE = path.join(__dirname, 'status.json');
 
-app.use("/repartidor", express.static(__dirname));
+// Función para leer el estado guardado en disco
+function getSavedStatus() {
+    try {
+        if (fs.existsSync(STATUS_FILE)) {
+            const data = fs.readFileSync(STATUS_FILE, 'utf8');
+            return JSON.parse(data).status || 'unavailable';
+        }
+    } catch (error) {
+        console.error('Error al leer status.json:', error);
+    }
+    // Solo si el archivo nunca ha existido, crea uno por defecto
+    saveStatus('unavailable');
+    return 'unavailable';
+}
 
-// Serve the HTML page
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
+// Función para guardar el estado de forma permanente en disco
+function saveStatus(newStatus) {
+    try {
+        fs.writeFileSync(STATUS_FILE, JSON.stringify({ status: newStatus }, null, 2), 'utf8');
+    } catch (error) {
+        console.error('Error al guardar status.json:', error);
+    }
+}
 
-// In-memory variable to store the status
-let globalStatus = 'available';
-
-// The 3-digit security code configuration
-const SECRET_PIN = "220"; 
-
-// GET endpoint to fetch current status
+// GET endpoint: lee siempre el valor guardado en el archivo
 app.get('/api/get-status', (req, res) => {
-    res.json({ status: globalStatus });
+    const currentStatus = getSavedStatus();
+    res.json({ status: currentStatus });
 });
 
-// POST endpoint to toggle/update status with PIN validation
+// POST endpoint: actualiza el archivo solo cuando envías el PIN correcto
 app.post('/api/update-status', (req, res) => {
     const { status, pin } = req.body;
     
-    // 1. Validate the specific 3-digit security code
-    if (pin !== SECRET_PIN) {
+    if (String(pin) !== SECRET_PIN) {
         return res.status(401).json({ error: 'Unauthorized: Invalid security code.' });
     }
 
-    // 2. Validate input values
     if (status === 'available' || status === 'unavailable') {
-        globalStatus = status;
-        return res.status(200).json({ message: 'Status updated successfully', status: globalStatus });
+        saveStatus(status);
+        return res.status(200).json({ message: 'Status updated successfully', status });
     }
     
     res.status(400).json({ error: 'Invalid status value' });
 });
 
-// Fallback route to explicitly serve repartidor.html from the root folder
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}. Estado actual: ${getSavedStatus()}`);
 });
-

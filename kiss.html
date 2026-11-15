@@ -1,20 +1,110 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HTML Video Example</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mi Video</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+    overflow-x: hidden;
+}
+
+/* Texto de fondo */
+.background-text {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    padding: 15px;
+    color: white;
+    opacity: 0.17;
+    font-size: 19px;
+    font-weight: bold;
+    line-height: 2;
+    word-spacing: 8px;
+    overflow-wrap: anywhere;
+    pointer-events: none;
+}
+
+/* Contenido principal */
+.container {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 30px 15px;
+}
+
+h1 {
+    color: #ffcc00;
+}
+
+video {
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    border: 3px solid white;
+    border-radius: 12px;
+    background: black;
+}
+</style>
 </head>
+
 <body>
 
-  <h1>My Video</h1>
+<!-- Frases como fondo -->
+<div class="background-text">
+Le dieron horrible, feo.
+No quiero que se case con la extranjera
+para que vea porno o vaya a los prostíbulos.
+Loco, prefiero besar un perro.
+Me quiero casar con mi perro.
+Me voy con mi perro a la USA.
+No lo dejes.
+Dale duro.
+No puede.
+Black Lives Matter, ¿para qué?
+No me traiga esas frutas.
+No cante.
+Dale veneno en la comida para que no sea atlético.
+Mate ese negro.
+Róbele 25 millones para que no construya.
+Porque le dieron.
+Le dieron horrible, feo.
+No quiero que se case con la extranjera.
+No lo dejes.
+Dale duro.
+No puede.
+Black Lives Matter, ¿para qué?
+No me traiga esas frutas.
+No cante.
+Porque le dieron.
+</div>
 
-  <!-- Replace 'my-video.mp4' with the actual path to your video file -->
-  <video width="640" height="360" controls poster="thumbnail.jpg">
-    <source src="https://drive.google.com/file/d/1-kmX3FTHXqR7LxT9CBooWhKg9LItiS9u/view?usp=sharing" type="video/mp4">
-    <source src="https://drive.google.com/file/d/1-kmX3FTHXqR7LxT9CBooWhKg9LItiS9u/view?usp=sharing" type="video/webm">
-    Your browser does not support the video tag.
-  </video>
+<div class="container">
+
+<h1>Mi Video</h1>
+
+<video controls playsinline>
+    <source
+    src="https://drive.google.com/uc?export=download&id=1-kmX3FTHXqR7LxT9CBooWhKg9LItiS9u"
+    type="video/mp4">
+
+    Tu navegador no soporta la reproducción de video.
+</video>
+
+</div>
 
 </body>
 </html>

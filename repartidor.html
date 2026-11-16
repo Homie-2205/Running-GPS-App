@@ -638,7 +638,40 @@ font-family: Georgia, serif;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 </style>
+<style>
+  /* 1. The container holds both the image and the text */
+  .image-container {
+    position: relative;
+    display: inline-block;
+    border-radius: 12px;
+    overflow: hidden;
+font-family: Georgia, serif;
+          
+  }
 
+  /* 2. Style the image to ensure it behaves correctly */
+  .image-container img {
+    display: block;
+    width: 100%;
+    max-width: 350px; /* Adjust size as needed */
+    height: auto;
+  }
+
+  /* 3. This overlays the text onto the bottom-left of the image */
+  .price-badge {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background-color: rgba(0, 0, 0, 0.75); /* Dark semi-transparent background */
+    color: #ffffff; /* White text */
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+</style>
 
 <style>
 
@@ -868,13 +901,15 @@ font-family: Georgia, serif;
     
         <div class="container-section">
              <section class="content-text">
-        <h2>Extension que funciona sobre computadores de mesa.Demo</h2>
+        <h2>Mis Primeros Domicilios</h2>
 <section class="photo-gallery">
       <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
 
   <img src="cartoonbasket.jpeg" alt="Open Extension"  onclick="openExtensionPopup('kiss.html')" style="cursor: pointer; ">
+          
+           <div class="price-badge">San Andres Islas</div>
     
       </div>
            </div>
@@ -895,6 +930,8 @@ function openExtensionPopup() {
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
             <img src="basketc1.jpeg" alt="Open Extension"  onclick="openExtensionPopup('Efrain1.mp4')" style="cursor: pointer; ">
+
+           <div class="price-badge">San Andres Islas</div>
       </div>
            </div>
              </div>
@@ -907,6 +944,7 @@ function openExtensionPopup() {
                <img src="baket2.jpeg" alt="Mapalma" onclick="openExtensionPopup('Efrain1.mp4')" style="cursor: pointer; ">
 
 
+           <div class="price-badge">San Andres Islas</div>
 
       </div>
            </div>

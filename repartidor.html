@@ -1095,15 +1095,166 @@ function openExtensionPopup(imageSrc) {
                
 
 
+   <h2>Descarga la aplicación Alma De Atleta </h2>
+    <div class="subtitle">Sube el comprobante para procesar la fecha y descargar tu archivo real</div>
+    
+    <!-- Entrada de Imagen -->
+    <div class="upload-box" onclick="document.getElementById('imageInput').click()">
+        <span style="font-size: 45px;">📊</span>
+        <p><strong>Haz clic aquí para subir la captura del comprobante</strong></p>
+        <input type="file" id="imageInput" accept="image/*">
+    </div>
+
+    <!-- Animación de lectura -->
+    <div class="loader" id="loadingSpinner"></div>
+
+    <!-- Panel de Resultados -->
+    <div id="resultsContainer" class="results-container">
+        
+        <div class="time-card">
+            📌 <b>Datos del Comprobante:</b><br>
+            • Fecha: <span class="highlight">12 de Septiembre de 2026</span><br>
+            • Hora: <span class="highlight">01:16 PM (13:16)</span>
+        </div>
+
+        <div class="time-card" style="border-left-color: #0288d1;">
+            🕒 <b>Fecha y Hora Actual del Sistema:</b><br>
+            • <span id="currentSystemTime" class="highlight">-</span>
+        </div>
+
+        <div class="comparison-card" id="comparisonCard">
+            ⏳ <b>Resultado de la Comparación:</b><br>
+            <span id="timeDiffLabel" class="highlight">Calculando diferencia...</span>
+        </div>
+
+        <!-- BOTÓN REAL DE DESCARGA DESDE TU SERVIDOR -->
+        <a id="realDownloadButton" href="MAPAAPI.apk"  download="saxo.mp3" class="download-btn">
+            📥 Descargar
+        </a>
+    </div>
+
+
+
+  
+       
+
+
+
+<script>
+document.getElementById('imageInput').addEventListener('change', function(e) {
+    if (e.target.files.length > 0) {
+        const spinner = document.getElementById('loadingSpinner');
+        const resultsContainer = document.getElementById('resultsContainer');
+        
+        spinner.style.display = 'block';
+        resultsContainer.style.display = 'none';
+
+        setTimeout(() => {
+            spinner.style.display = 'none';
+            resultsContainer.style.display = 'block';
+
+            // 1. Obtener la hora real actual del sistema (Momento de la subida)
+            const now = new Date();
+            
+            // Mostramos la hora actual en el HTML
+            document.getElementById('currentSystemTime').innerText = now.toLocaleString('es-CO', {
+                day: '2-digit', month: 'long', year: 'numeric',
+                hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+            });
+
+            // 2. Simulamos la fecha del comprobante basado en el archivo subido
+            // Para probar el bloqueo, puedes restar minutos aquí de forma manual si lo deseas.
+            const ticketDate = new Date(); 
+
+            // 3. Calcular la diferencia exacta de tiempo en milisegundos
+            const diffMs = now - ticketDate; 
+            
+            // Convertimos la diferencia total directamente a minutos y segundos reales
+            const totalMinutesDiff = Math.floor(diffMs / (1000 * 60));
+            const totalSecondsDiff = Math.floor((diffMs % (1000 * 60)) / 1000);
+
+            let resultText = "";
+            let fileSuffix = "";
+            const downloadBtn = document.getElementById('realDownloadButton');
+            const compCard = document.getElementById('comparisonCard');
+
+            // 4. VALIDACIÓN ESTRICTA: Permitir descargar SOLO en la ventana de 0 a 3 minutos
+            if (diffMs < 0 || totalMinutesDiff > 3) {
+                // Si está en el futuro (diffMs < 0) o excede los 3 minutos
+                if (diffMs < 0) {
+                    resultText = `Acceso denegado. El comprobante registra una fecha futura inválida.`;
+                } else {
+                    resultText = `Acceso denegado. Se excedió el tiempo límite de 3 minutos (Transcurrido: ${totalMinutesDiff}m y ${totalSecondsDiff}s).`;
+                }
+                
+                // Bloqueamos el botón por completo (Estilo y funcionalidad)
+                downloadBtn.removeAttribute('download');
+                downloadBtn.href = "#";
+                downloadBtn.style.opacity = "0.4";
+                downloadBtn.style.cursor = "not-allowed";
+                downloadBtn.onclick = function(event) {
+                    event.preventDefault();
+                    alert("Descarga bloqueada: Este archivo expiró o no cumple el rango de 3 minutos.");
+                };
+
+                // Cambiamos la tarjeta a un estilo de alerta/error (Rojo)
+                compCard.style.backgroundColor = "#ffebee";
+                compCard.style.borderLeftColor = "#c62828";
+                
+                document.getElementById('timeDiffLabel').innerText = resultText;
+                return; // Corta la ejecución para que no configure el archivo de descarga
+            }
+
+            // 5. SI CUMPLE LA CONDICIÓN (Está dentro de los 3 minutos válidos)
+            resultText = `Comprobante válido y verificado. Tiempo transcurrido: ${totalMinutesDiff} min y ${totalSecondsDiff} seg.`;
+            fileSuffix = `${totalMinutesDiff}m_${totalSecondsDiff}s`;
+
+            document.getElementById('timeDiffLabel').innerText = resultText;
+
+            // Restauramos los estilos normales del botón (Permitir descarga)
+            downloadBtn.style.opacity = "1";
+            downloadBtn.style.cursor = "pointer";
+            downloadBtn.onclick = null; 
+
+            // Tarjeta en estilo exitoso (Verde)
+            compCard.style.backgroundColor = "#e8f5e9";
+            compCard.style.borderLeftColor = "#2e7d32";
+
+            // Formatear el nombre del archivo MP3 dinámicamente con la hora actual
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hour = String(now.getHours()).padStart(2, '0');
+            const min = String(now.getMinutes()).padStart(2, '0');
+
+            const finalFilename = `Nequi_${year}${month}${day}_${hour}${min}_[${fileSuffix}].mp3`;
+            
+            // Asignamos el nombre final al botón
+            downloadBtn.setAttribute('download', finalFilename);
+
+            // Opcional: Descomenta la línea de abajo si quieres que se descargue automáticamente solo
+            // downloadBtn.click();
+
+        }, 800); 
+    }
+});
+
+
+</script>
+
+
+      <a href="Tabla.html" class="custom-button">Santa Elena</a>
+               <a href="https://checkout.wompi.co/l/VPOS_UtSYLy" class="custom-button">Contribuir</a>
+
+    
+
             
 
             <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Widget</a> is loading comments...</div>
  <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
  <script type="text/javascript" id="hcb"> /*<!--*/ if(!window.hcb_user){hcb_user={};} (function(){var s=document.createElement("script"), l=hcb_user.PAGE || (""+window.location).replace(/'/g,"%27"), h="https://www.htmlcommentbox.com";s.setAttribute("type","text/javascript");s.setAttribute("src", h+"/jread?page="+encodeURIComponent(l).replace("+","%2B")+"&mod=%241%24wq1rdBcg%247aB745nspKAd5Xstqg1Kt1"+"&opts=16862&num=10&ts=1554953903298");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})(); /*-->*/ </script>
 
-
   
-
   <section class="contact-section">
     <div class="contact-container">
         
@@ -1113,6 +1264,9 @@ function openExtensionPopup(imageSrc) {
               <h2>3156545314<span class="highlight"></span></h2>
             
         </div>
+        
+        
+        
          
 
 
@@ -1211,6 +1365,67 @@ form.addEventListener('submit', function(e) {
 
 
 
+        
+      
+
+  
+
+
+
+
+
+
+
+
+
+
+    
+
+     
+
+
+
+
+
+        
+
+
+
+       <script>
+  // Selecciona tu etiqueta <nav> por su ID (asegúrate de que tu <nav id="navbar"> tenga este ID)
+  const navbar = document.getElementById('navbar');
+
+  window.addEventListener('scroll', () => {
+    // Si el usuario baja más de 50 píxeles, añade la clase de fondo amarillo
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      // Si regresa al inicio de la página, vuelve a ser transparente
+      navbar.classList.remove('scrolled');
+    }
+  });
+</script>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1259,7 +1474,7 @@ form.addEventListener('submit', function(e) {
     }
   });
 </script>
-    </div>
+   
 
 
 

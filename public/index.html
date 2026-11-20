@@ -3,17 +3,1229 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audio Player</title>
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+    <title>Principal</title>
+    <style>
+        /* ==========================================================================
+           CSS STYLES
+           ========================================================================== */
+{
+    margin: 0;
+    padding: 0;
+}
+
+/* Make the footer horizontal and full width */
+.site-footer {
+    width: 100%;
+    background-color: #333; /* Change to your preferred background color */
+    color: #fff;            /* Change to your preferred text color */
+    text-align: center;     /* Centers the text horizontally */
+    padding: 20px 0;        /* Adds vertical space inside the footer */
+    box-sizing: border-box; /* Prevents padding from breaking the 100% width */
+}
+
+.site-footer p {
+    margin: 0;              /* Removes default paragraph margins */
+}
+
+        /* Contenedor principal de la sección */
+        .contact-section {
+            width: 100%;
+            max-width: 1200px;
+            padding: 40px 20px;
+            margin: 0 auto; /* Centra la sección de contacto en la página */
+        }
+
+        /* Flexbox para alinear las dos columnas */
+        .contact-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 50px;
+            flex-wrap: wrap; /* Permite que sea responsive en móviles */
+        }
+
+        /* Estilos de la columna de texto */
+        .contact-textm {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .contact-textm h1 {
+            font-size: 3.5rem;
+            font-weight: 500;
+            line-height: 1.2;
+            color: #333;
+        }
+
+        /* Estilos de la columna del formulario */
+        .contact-form {
+            flex: 0 0 600px; 
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; 
+        }
+
+        /* 💡 Separates input fields 10px up and down with identical spacing */
+        .inputs-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Estilos de los campos de entrada */
+        .input-group input {
+            width: 100%;
+            padding: 25px 30px;
+            font-size: 1.1rem;
+            border: 2px solid #ffd700; /* 🟡 Solid gold/yellow border */
+            border-radius: 25px; 
+            background-color: #fcf9f5; 
+            color: #333333;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        /* Efecto visual al hacer clic en el input */
+        .input-group input:focus {
+            border-color: #ffcc00; /* 🟡 Deeper yellow when active */
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.5); /* Yellow glow */
+            background-color: #ffffff;
+        }
+        /* Reset default browser styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+ nav {
+      position: fixed; /* Mantiene el nav fijo arriba al hacer scroll */
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 40px;
+      box-sizing: border-box;
+      background-color: transparent; /* Totalmente transparente al inicio */
+      transition: background-color 0.4s ease, box-shadow 0.4s ease; /* Transición suave */
+      z-index: 1000; /* Asegura que el nav esté por encima del contenido */
+    }
+    
+    nav.scrolled {
+      background-color: #ffd480; /* Se convierte en amarillo */
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidad */
+    }
+
+
+
+
+
+
+/* Espacio opcional por si deseas meter el efecto azul sobre la 'o' */
+.contact-text .highlight {
+    position: relative;
+    display: inline-block;
+}
+
+
+/* Reset básico de estilos */
+
+
+/* Fondo principal oscuro */
+
+
+/* Contenedor principal de la sección */
+.contact-section {
+    width: 100%;
+    max-width: 1200px;
+    padding: 40px 20px;
+}
+
+/* Flexbox para alinear las dos columnas */
+.contact-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+    flex-wrap: wrap; /* Permite que sea responsive en móviles */
+}
+
+/* Estilos de la columna de texto */
+.contact-text {
+    flex: 1;
+    min-width: 300px;
+}
+
+.contact-text h1 {
+    font-size: 3.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+/* Espacio opcional por si deseas meter el efecto azul sobre la 'o' */
+.contact-text .highlight {
+    position: relative;
+    display: inline-block;
+}
+
+/* Estilos de la columna del formulario */
+.contact-form {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Estilos de los campos de entrada */
+
+
+
+.input-group input {
+    width: 100%;
+    padding: 25px 30px;
+    font-size: 1.1rem;
+    border: 2px solid #ffd700;
+    border-radius: 25px;
+    background-color: #fcf9f5;
+    color: #333333;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+/* 💻 Desktop */
+@media (min-width: 768px) {
+    .input-group input {
+        width: 600px;
+        max-width: 100%;
+    }
+}
+
+/* Efecto visual al hacer clic en el input */
+.input-group input:focus {
+    border-color: #ffcc00;
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+    background-color: #ffffff;
+}
+
+/* Reset default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+
+
+
+
+/* 2. Agrega esta regla para ocultar SOLO los dos enlaces (Santa Elena y Video Call) */
+@media (max-width: 450px) {
+  .nav-links {
+    display: none;
+  }
+}
+
+
+
+
+        .nav-links li {
+            margin-right: 1.5rem;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+            margin-right: 1.5rem;
+        }
+        .nav-links a:hover {
+            color: #00adb5;
+        }
+
+        /* 2. Header */
+        .hero-header {
+        background-image: url("https://homie-2205.github.io/Running-GPS-App/I.gif");
+            text-align: center;
+            padding: 4rem 2rem;
+            border-bottom: 1px solid #ddd;
+             background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    margin: 0;
+    height: 60vh;
+        }
+        .hero-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #222;
+        }
+
+.lang-link {
+  color: #334155;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: inline-flex; /* Mantiene el link compacto e interno */
+  align-items: center; /* Corrección: "center" alinea el icono con el texto */
+  gap: 0.3rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+}
+
+        /* 3. Main Div Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* 4. Photos Section */
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .photo-gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .lang-list {
+  display: flex;
+  list-style: none;               
+  margin: 0 0 0 3rem; /* Added left margin to space it from the label */
+  padding: 0;
+  gap: 1rem;          /* Spacing between language choices */
+}
+        .custom-button {
+  /* Layout & Sizing */
+  display: inline-block;
+  padding: 12px 24px;
+
+  /* Typography */
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+
+  /* Colors & Borders */
+  color: #1a1100;
+  background-color: #ffd480;
+  border: none;
+  border-radius: 8px;
+
+  /* Interactivity & Performance */
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Hover State: When the mouse pointer sits over the button */
+.custom-button:hover {
+  background-color: #005ce6;
+}
+
+/* Active State: When the button is being clicked */
+.custom-button:active {
+  transform: scale(0.98);
+}
+
+/* Focus State: When navigating via keyboard for web accessibility */
+.custom-button:focus-visible {
+  outline: 3px solid #80bfff;
+  outline-offset: 2px;
+}
+
+
+
+
+
+
+        /* 5. Headings & 6. Paragraph Section */
+        .content-text h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+          font-family:  Georgia, Serif;
+             letter-spacing: 5px;
+            font-weight: 180;
+        }
+        .content-text h3 {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 1rem;
+             font-family:  Georgia, Serif;
+              font-weight: 160;
+
+        }
+        .content-text p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #444;
+             font-family:  Georgia, Serif;
+        }
+       .container-section:not(:last-child) {
+  border-top: 1px solid #ffd24d; 
+
+}
+
+.container-section {
+  padding-top: 40px;
+     padding-bottom: 40px;
+}
+
+
+        /* 7. Footer */
+        .site-footer {
+            background-color: #ffd480;
+            color: #fff;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+    </style>
+
+
+
+    <style>
+@media screen and (max-width: 768px) {
+    body {
+        width: 100%;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+    .container {
+        width: 100%;
+        padding: 15px;
+    }
+
+    button {
+        width: 100%;
+        min-height: 48px;
+        font-size: 16px;
+        border-radius: 12px;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+
+        
+    </style>
+
+    <style>
+          h2 {
+            color: #da1f5f;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 0.95em;
+        }
+        .upload-box {
+            border: 2px dashed #da1f5f;
+            border-radius: 8px;
+            padding: 35px 20px;
+            background: #fff5f8;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .upload-box:hover {
+            background: #fce4ec;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        .results-container {
+            display: none;
+            margin-top: 25px;
+            border-top: 2px solid #eee;
+            padding-top: 20px;
+            text-align: left;
+        }
+        .time-card {
+            background: #f8f9fa;
+            border-left: 4px solid #da1f5f;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+        .comparison-card {
+            background: #e8f5e9;
+            border-left: 4px solid #2e7d32;
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 20px;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #111;
+        }
+        .loader {
+            display: none;
+            margin: 20px auto;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #da1f5f;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            animation: spin 1s linear infinite;
+        }
+        /* ESTILO DEL BOTÓN COMBINADO */
+        .download-btn {
+            display: block;
+            width: fit-content;
+            background-color: #da1f5f;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            margin: 20px auto 10px auto;
+            font-family: sans-serif;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            transition: background 0.2s;
+        }
+        .download-btn:hover {
+            background-color: #b8164b;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        </style>
+    
+    <style>
+
+
+
+    /* Outermost frame bounding structural lines */
+    .outer-geometric-frame {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      padding: 9px;
+      box-sizing: border-box;
+      
+      /* Generates the primary outer parallel golden outlines */
+      border: 3px double #d4af37; 
+      outline: 1px solid #f3e5ab;
+      outline-offset: -8px;
+      
+      /* Simulates metallic reflection */
+      box-shadow: 
+        inset 0 0 15px rgba(212, 175, 55, 0.3),
+        0 0 20px rgba(0, 0, 0, 0.7);
+        
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Recreates the secondary inner nested lines and geometric offsets */
+    .mid-geometric-lines {
+      width: 100%;
+      height: 100%;
+      padding: 19px;
+      box-sizing: border-box;
+      border: 1px solid #aa7c11;
+      
+      /* Layered double lines using inset box shadows to match the image structure */
+      box-shadow: 
+        inset 0 0 0 2px #d4af37,
+        inset 0 0 0 6px #ffffff,
+        inset 0 0 0 8px #f3e5ab,
+        inset 0 0 0 10px #aa7c11;
+        
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Core inner frame line sitting directly against your image */
+    .inner-sharp-border {
+      width: 100%;
+      height: 100%;
+      border: 4px double #d4af37;
+      box-shadow: 0 0 0 4px #ffffff;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #ffffff;
+    }
+
+    /* The nested display content placeholder */
+    .inner-sharp-border img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+        
+    </style>
+
+
+    <style>
+audio {
+  /* Targets modern browser accents (like play/pause and sliders) */
+  accent-color: #f1c40f; 
+  
+  /* Applies a yellow tint over the entire native audio element */
+  filter: sepia(1) saturate(7) hue-rotate(10deg); 
+  
+  /* Adds a matching yellow outer ring and rounds the player edges */
+  border: 2px solid #f1c40f;
+  border-radius: 30px;
+  background-color: #fffdec; 
+}
+
+
+        
+    </style>
+
+<style>
+  /* 1. The container holds both the image and the text */
+  .image-container {
+    position: relative;
+    display: inline-block;
+    border-radius: 12px;
+    overflow: hidden;
+font-family: Georgia, serif;
+          
+  }
+
+  /* 2. Style the image to ensure it behaves correctly */
+  .image-container img {
+    display: block;
+    width: 100%;
+    max-width: 350px; /* Adjust size as needed */
+    height: auto;
+  }
+
+  /* 3. This overlays the text onto the bottom-left of the image */
+  .price-badge {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background-color: rgba(0, 0, 0, 0.75); /* Dark semi-transparent background */
+    color: #ffffff; /* White text */
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+</style>
+<style>
+  /* 1. The container holds both the image and the text */
+  .image-container {
+    position: relative;
+    display: inline-block;
+    border-radius: 12px;
+    overflow: hidden;
+font-family: Georgia, serif;
+          
+  }
+
+  /* 2. Style the image to ensure it behaves correctly */
+  .image-container img {
+    display: block;
+    width: 100%;
+    max-width: 350px; /* Adjust size as needed */
+    height: auto;
+  }
+
+  /* 3. This overlays the text onto the bottom-left of the image */
+  .price-badge {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background-color: rgba(0, 0, 0, 0.75); /* Dark semi-transparent background */
+    color: #ffffff; /* White text */
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+</style>
+
+<style>
+
+        #statusBtn {
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+
+    
+</style>
+
+    
+        <style>
+       
+
+        .animated-image {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            position: absolute;
+            animation: moveSideToSide 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes moveSideToSide {
+            0% {
+                left: 0;
+            }
+            100% {
+                left: calc(100% - 150px);
+            }
+        }
+    </style>
+ 
+    
 </head>
 <body>
 
-    <h2>My Audio Player</h2>
-    
-    <!-- The HTML5 audio player tag -->
-    <audio controls>
-        <source src="bill.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+    <!-- 1. Horizontal Navigation -->
 
+
+
+
+
+<nav id="navbar">
+<div class="lang-list">
+    <li>
+      <a href="indexEnglish.html" class="lang-link">
+         <span class="custom-flag">🇺🇸</span>  En
+
+      </a>
+    </li>
+    <li>
+      <a href="https://running-gps-app-cobc.onrender.com/" class="lang-link">
+        <span class="custom-flag">🇨🇴</span> Es
+      </a>
+    </li>
+    <li>
+    <a href="indexFrancais.html" class="lang-link">
+     <span class="custom-flag">🇫🇷</span> Fr
+     </a>
+     </li>
+  
+  </div>
+
+<div class="nav-links" align="right">
+        
+
+          <a href="https://available-fbmr.onrender.com/">Green Store</a>
+            <a href="repartidor.html">Delivery</a>
+
+            <a href="Tabla.html">Santa Elena</a>
+
+     
+        </div>
+    </nav>
+
+    <!-- 2. Header -->
+    <header class="hero-header">
+        <h1>Bienvenido</h1>
+        <p>No hay nada imposible para aquel que intenta.
+</p>
+    </header>
+
+
+
+         
+
+
+ 
+
+
+
+ <img src="canada.png"  style="width: 110px; height: 110px;"  alt="Moving Showcase" class="animated-image">
+
+
+
+
+
+
+    <!-- 3. Main Div Container -->
+    <div class="main-container">
+
+        <!-- 4. Photos Section -->
+
+
+
+
+
+
+
+
+
+        <!-- 5. Headings and 6. Paragraph Section -->
+        <section class="content-text">
+            <div class="container-section">
+            <h2>Unete Al Proyecto</h2>
+            <h3>Trabaja con amor</h3>
+            <p>Mis aplicaciones están basadas en la ecuación para calcular calorías Calories = Body Weight (kg) × Distance (km) × Coefficient esta es la ecuación para calcular calorías simplificada, esta dentro del código de programación, los expertos de fitness e investigadores usan esta fórmula, Yo tengo un diploma de la Florida USA Ingles, del SENA en computadores y más </p>
+
+            <p> Estoy obsesionado y tengo mucho fuego por el fitness y correr yo uso mis aplicaciones y funcionan muy bien melo, muchas personas alrededor del mundo inspiran e influencian bien este emprendimiento, cuando me quito la camisa y veo un buen pectoral marcado, correr, hacer buen crossfit, funcionales o circuitos todo eso, me hace sentir bien y las palabras hermosas que dicen algunas influencers y youtubers como Weyni Tesfai Alemania, Lily petals de Corea del sur, Ashley USA y mas me hacen sentir más feliz las palabras son como medicina.</p>
+
+                <p>Gracias a Dios tengo el apoyo afectivo buenas palabras de ánimo con mi amigo Canadiense presencialmente el vive aqui en Palmira, me gusta los valores de Jesus por esa razon me conecto de lunes a viernes con la Pastora Alicia Jones de la  USA chévere stay woke and pray to God.</p>
+            </div>
+              
+
+    
+<div style="text-align: center;"><iframe width="310" height="350" src="https://www.openstreetmap.org/export/embed?bbox=-76.30942583084108%2C3.522084320152465%2C-76.29816055297853%2C3.5280811007896955&amp;layer=cyclemap" style="border: 1px solid black"></iframe><br/><small><a href="https://www.openstreetmap.org/#map=17/3.525083/-76.303793&amp;layers=C">Ver el mapa más grande</a></small></div>
+
+        
+
+
+
+
+
+
+          
+
+
+
+    
+    
+
+
+
+
+    
+        
+            <div class="container-section">
+                <section class="content-text">
+             <h2>Principios y Valores</h2>
+             <p>Muchos Americanos hablan sobre el work ethic significa trabajar honrado. como la profesora de Inglés Tiffani  la que trabajó en la NASA, si tu quieres algo trabaja honrado para conseguirlo, ni en el paro nacional llegue a coger una sola uva o banana, honrado como los de Singapur.</p></p>
+          <p>Me gusta los valores de Jesus, el dice que la iglesia son las personas no templos hechos por hombres. Arnold Schwarzenegger, will smith en algún momento de la vida llegaron a trabajar la construcción para invertir en ellos mismos construir su carrera y seguir adelante, ellos hablan muy bien e inspiran hard work never killed any one 
+</p></p>
+            </section>
+
+            </div>
+
+
+
+
+    
+        <div class="container-section">
+             <section class="content-text">
+        <h2>Mis Primeros Domicilios Canasta de Papel Reciclado</h2>
+<section class="photo-gallery">
+      <div class="outer-geometric-frame">
+    <div class="mid-geometric-lines">
+      <div class="inner-sharp-border">
+
+  <img src="cartoonbasket.jpeg" alt="Open Extension"  onclick="openExtensionPopup('kiss.html')" style="cursor: pointer; ">
+          
+           <div class="price-badge">San Andres Islas</div>
+    
+      </div>
+           </div>
+             </div>
+      
+
+<script>
+function openExtensionPopup() {
+    // This opens page.html in a new browser tab
+    window.open('input.html', '_blank');
+
+    // OR: If you want it to open in the SAME tab instead, use this line:
+    // window.location.href = 'page.html';
+}
+</script>
+
+            <div class="outer-geometric-frame">
+    <div class="mid-geometric-lines">
+      <div class="inner-sharp-border">
+            <img src="basketc1.jpeg" alt="Open Extension"  onclick="openExtensionPopup('Efrain1.mp4')" style="cursor: pointer; ">
+
+           <div class="price-badge">San Andres Islas</div>
+      </div>
+           </div>
+             </div>
+             
+    
+      <div class="outer-geometric-frame">
+    <div class="mid-geometric-lines">
+      <div class="inner-sharp-border">
+
+               <img src="baket2.jpeg" alt="Mapalma" onclick="openExtensionPopup('Efrain1.mp4')" style="cursor: pointer; ">
+
+
+           <div class="price-badge">San Andres Islas</div>
+
+      </div>
+           </div>
+             </div>
+
+
+
+
+
+
+    
+</section>
+                     </section>
+        </div>
+<h2>Testimonio de mis Primeros Clientes</h2>
+<audio controls>
+  <source src="tere.mp4" type="audio/mpeg" id="myAudio">
+  Your browser does not support the audio element.
+</audio>
+
+    
+   
+   <div class="container-section">
+             <section class="content-text">
+          <h2>Jaguar Green Store <span style="color: green;"> Boutique</span></h2>
+<section class="photo-gallery">
+      <div class="outer-geometric-frame">
+    <div class="mid-geometric-lines">
+      <div class="inner-sharp-border">
+
+
+  <img src="green.png" alt="Open Extension"  onclick="openExtensionPopup('https://available-fbmr.onrender.com/')" style="cursor: pointer; ">
+          
+           <div class="price-badge">San Andres Islas</div>
+    
+      </div>
+           </div>
+             </div>
+      
+
+<script>
+function openExtensionPopup() {
+    // This opens page.html in a new browser tab
+    window.open('input.html', '_blank');
+
+    // OR: If you want it to open in the SAME tab instead, use this line:
+    // window.location.href = 'page.html';
+}
+</script>
+
+            <div class="outer-geometric-frame">
+    <div class="mid-geometric-lines">
+      <div class="inner-sharp-border">
+          
+  <img src="green.png" alt="Open Extension"  onclick="openExtensionPopup('https://available-fbmr.onrender.com/')" style="cursor: pointer; ">
+
+           <div class="price-badge">San Andres Islas</div>
+      </div>
+           </div>
+             </div>
+             
+    
+      <div class="outer-geometric-frame">
+    <div class="mid-geometric-lines">
+      <div class="inner-sharp-border">
+  <img src="greenstore.jpg" alt="Open Extension"  onclick="openExtensionPopup('https://available-fbmr.onrender.com/')" style="cursor: pointer; ">
+
+
+           <div class="price-badge">San Andres Islas</div>
+
+      </div>
+           </div>
+             </div>
+
+
+
+
+
+
+    
+</section>
+                     </section>
+        </div>
+   
+
+
+
+      </div>
+         
+
+ 
+
+  
+
+
+
+
+
+
+
+ 
+
+
+  
+    
+
+            
+
+         
+
+  
+  <section class="contact-section">
+    <div class="contact-container">
+        
+        <!-- Left Side: Text heading -->
+        <div class="content-text">
+            <h2>Contact<span class="highlight"></span></h2>
+              <h2>3156545314<span class="highlight"></span></h2>
+            
+        </div>
+        
+        
+        
+         
+
+
+
+   
+   
+   <form id="dataForm" action="https://script.google.com/macros/s/AKfycbwH-fm_RNyysuWRFVSRHof4dZNOO_NRAcZ7CDOKAn7XNrAAO_PmyEfOXs-8IIOOOXewSg/exec" method="POST">
+   
+   
+   
+   
+   
+        <div class="form-group">
+            <label for="Name"></label>
+        <!-- Right Side: Input box column -->
+        <div class="contact-form">
+            <div class="inputs-container">
+                <div class="input-group">
+                    <input type="text" id="Name" name="Name" placeholder="Pon tu nombre">
+                </div>
+                <div class="input-group">
+                    <input type="text" id="Address" name="Address" placeholder="Pon tu dirección">
+                </div>
+                <div class="input-group">
+                    <input type="tel" id="Phone" name="Phone" placeholder="Pon tu teléfono">
+                </div>
+            </div> <!-- Closed inputs-container -->
+        </div> <!-- Closed contact-form -->
+        
+             <div><button  class="custom-button"  style="margin-top: 20px;" type="submit" id="submitBtn">Submit Data</button> </div>
+      
+    </form>
+    
+    </div>  
+   
+</section> <!-- Closed contact-section -->
+ 
+     <div id="message"></div>
+
+        
+<script>
+const form = document.getElementById('dataForm');
+const messageDiv = document.getElementById('message');
+const submitBtn = document.getElementById('submitBtn');
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault(); 
+
+    submitBtn.disabled = true;
+    messageDiv.textContent = "Submitting...";
+    messageDiv.style.color = "black";
+
+    // This now works perfectly because the inputs have "name" attributes
+    const formData = new FormData(form);
+    
+    // Convert to URL parameters required by Google Apps Script
+    const urlEncodedData = new URLSearchParams();
+    for (const pair of formData) {
+        urlEncodedData.append(pair[0], pair[1]);
+    }
+
+    fetch(form.action, {
+        method: 'POST',
+        mode: 'no-cors', // Required for Google Apps Script
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: urlEncodedData.toString()
+    })
+    .then(() => {
+        messageDiv.textContent = "Data submitted successfully!";
+        messageDiv.style.color = "green";
+        form.reset();
+    })
+    .catch(error => {
+        messageDiv.textContent = "Error submitting data. Please check connection.";
+        messageDiv.style.color = "red";
+        console.error("Submission Error Details:", error); 
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+    });
+});
+</script>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      
+
+  
+
+
+
+
+
+
+
+
+
+
+    
+
+     
+
+
+
+
+
+        
+
+
+
+       <script>
+  // Selecciona tu etiqueta <nav> por su ID (asegúrate de que tu <nav id="navbar"> tenga este ID)
+  const navbar = document.getElementById('navbar');
+
+  window.addEventListener('scroll', () => {
+    // Si el usuario baja más de 50 píxeles, añade la clase de fondo amarillo
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      // Si regresa al inicio de la página, vuelve a ser transparente
+      navbar.classList.remove('scrolled');
+    }
+  });
+</script>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      
+<!-- Footer is now completely outside and at the bottom -->
+<footer class="site-footer">
+    <p>&copy; 2026 MyBrand. Cristian Mauricio Arcos All rights reserved.</p>
+</footer>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+    
+
+     
+
+
+
+
+
+        
+
+
+
+       <script>
+  // Selecciona tu etiqueta <nav> por su ID (asegúrate de que tu <nav id="navbar"> tenga este ID)
+  const navbar = document.getElementById('navbar');
+
+  window.addEventListener('scroll', () => {
+    // Si el usuario baja más de 50 píxeles, añade la clase de fondo amarillo
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      // Si regresa al inicio de la página, vuelve a ser transparente
+      navbar.classList.remove('scrolled');
+    }
+  });
+</script>
+   
+
+
+
+
+
+
+
+  
 </body>
 </html>

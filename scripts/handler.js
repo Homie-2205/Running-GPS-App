@@ -8,8 +8,8 @@ submitButton.addEventListener('click', async (event) => {
     
     try {
         // 1. Import both modules dynamically
-        const dataModule = await import('./data.js');
-        const pushModule = await import('./push.js');
+        const dataModule = await import('scripts/coco.js');
+        const pushModule = await import('scripts/data.js');
         
         // 2. Execute functions from those modules
         // Replace 'initData' and 'sendPush' with the actual exported functions you have inside those files

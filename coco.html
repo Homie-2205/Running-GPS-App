@@ -490,7 +490,7 @@
             <input type="text" id="price" name="price" placeholder="Escribe de nuevo el precio" > 
         </div> 
         
-        <button type="submit" class="custom-button" id="submitBtn" style="cursor: pointer; width: 140px; margin-top: 28px;">
+        <button  onclick="import('scripts/data.js'); import('scripts/push.js');" type="submit" class="custom-button" id="submitBtn" style="cursor: pointer; width: 140px; margin-top: 28px;">
             Enviar 
         </button>
                        <div class="content-text"> <h2 id="content-text">Cel. 3156545314 llamame</h2></div>
@@ -511,6 +511,8 @@
 <script src="scripts/coco.js"></script>
     <script src="scripts/push.js"></script>
 
+    <script src="scripts/data.js"></script>
+
 <script>
 const PRICE_PER_KILO = 3200;
 
@@ -525,68 +527,6 @@ function recalculatePrice() {
 }
 </script>
 
-<script>
-(function() {
-    const form = document.getElementById('dataForm');
-    const messageDiv = document.getElementById('message');
-    const submitBtn = document.getElementById('submitBtn');
-
-    form.addEventListener('submit', function(e) {
-        e.preventDefault(); 
-
-        submitBtn.disabled = true;
-        messageDiv.style.display = "block";
-        messageDiv.textContent = "Enviando pedido...";
-        messageDiv.style.color = "black";
-
-        // Convert form data directly to a clean URL search string format for Google Apps script
-        const formData = new FormData(form);
-        const urlEncodedData = new URLSearchParams();
-        for (const pair of formData) {
-            urlEncodedData.append(pair[0].trim(), pair[1]);
-        }
-
-        // Sending with method POST to Google Web App script URL
-        fetch(form.action, {
-            method: 'POST',
-            mode: 'cors', // Enable standard cors handling for web app json response
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: urlEncodedData.toString()
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.result === 'success') {
-                messageDiv.textContent = "¡Pedido registrado con éxito!";
-                messageDiv.style.color = "green";
-                form.reset();
-                
-                if (typeof recalculatePrice === "function") {
-                    recalculatePrice();
-                }
-                
-                setTimeout(() => {
-                    messageDiv.style.display = "none";
-                }, 3500);
-            } else {
-                throw new Error(data.error || 'Unknown sheet writing issue.');
-            }
-        })
-        .catch(error => {
-            messageDiv.textContent = "Error al enviar. Por favor intente de nuevo.";
-            messageDiv.style.color = "red";
-            console.error("Submission Error Details:", error); 
-        })
-        .finally(() => {
-            submitBtn.disabled = false;
-        });
-    });
-})();
-</script>
-
-                
-                
 
 
 

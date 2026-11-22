@@ -1,4 +1,4 @@
-<script>
+
     document.getElementById('submitBtn').addEventListener('click', function() {
         const statusText = document.getElementById('status');
         statusText.innerText = "Sending...";
@@ -39,4 +39,4 @@
             console.error('Error:', error);
         });
     });
-</script>
+

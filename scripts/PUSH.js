@@ -1,4 +1,4 @@
- document.getElementById('submitBtn').addEventListener('click', function() {
+ document.getElementById('submitBTNN').addEventListener('click', function() {
             const statusText = document.getElementById('status');
             statusText.innerText = "Sending...";
 

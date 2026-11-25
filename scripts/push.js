@@ -4,7 +4,7 @@
 
             // 1. Define the API endpoint and your token
             const url = 'https://api.pushbullet.com/v2/pushes';
-            const accessToken = 'o.k1v3f77NaxjtadBUPSJHrRL8iGJd6Y4J'; // Replace this!
+            const accessToken = 'o.3h7ESpakX1x5C6ayPfD1cx6pb5Xu6Gjz'; // Replace this!
 
             // 2. Prepare the payload data
             const data = {

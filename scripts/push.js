@@ -9,8 +9,8 @@
             // 2. Prepare the payload data
             const data = {
                 "email": "cqacqacqaamerica@gmail.com",
-                "body": "Space Elevator, Mars Hyperloop, Space Model S (Model Space?)",
-                "title": "Space Travel Ideas",
+                "body": "LLego el pedido",
+                "title": "Llego el pedido",
                 "type": "note"
             };
 

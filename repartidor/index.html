@@ -6,8 +6,7 @@
     <meta name="viewport"
       content="width=device-width, initial-scale=1.0">
     <title>Principal</title>
-
-  <style>
+    <style>
         /* ==========================================================================
            CSS STYLES
            ========================================================================== */
@@ -398,9 +397,41 @@
 
 
 
+    <style>
+@media screen and (max-width: 768px) {
+    body {
+        width: 100%;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
 
-    
-  
+    .container {
+        width: 100%;
+        padding: 15px;
+    }
+
+    button {
+        width: 100%;
+        min-height: 48px;
+        font-size: 16px;
+        border-radius: 12px;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+
+        
+    </style>
+
     <style>
           h2 {
             color: #da1f5f;
@@ -420,7 +451,7 @@
             transition: 0.3s;
         }
         .upload-box:hover {
-            background: #fce4ec;
+            background: #85e085;
         }
         input[type="file"] {
             display: none;
@@ -433,14 +464,14 @@
             text-align: left;
         }
         .time-card {
-            background: #f8f9fa;
-            border-left: 4px solid #da1f5f;
+            background: #85e085;
+            border-left: 4px solid #85e085;
             padding: 12px;
             margin-bottom: 15px;
             border-radius: 0 8px 8px 0;
         }
         .comparison-card {
-            background: #e8f5e9;
+            background: #85e085;
             border-left: 4px solid #2e7d32;
             padding: 15px;
             border-radius: 0 8px 8px 0;
@@ -453,8 +484,8 @@
         .loader {
             display: none;
             margin: 20px auto;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #da1f5f;
+            border: 4px solid #85e085;
+            border-top: 4px solid #85e085;
             border-radius: 50%;
             width: 35px;
             height: 35px;
@@ -464,7 +495,7 @@
         .download-btn {
             display: block;
             width: fit-content;
-            background-color: #da1f5f;
+            background-color: #85e085;
             color: white;
             padding: 12px 24px;
             text-decoration: none;
@@ -476,7 +507,7 @@
             transition: background 0.2s;
         }
         .download-btn:hover {
-            background-color: #b8164b;
+            background-color: #85e085;
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -660,7 +691,7 @@ font-family: Georgia, serif;
 <div class="nav-links" align="right">
         
 
-          <a href="">Green Store</a>
+          <a href="cookies2.html">Green Store</a>
             <a href="repartidor.html">Ubicación</a>
 
             <a href="Tabla.html">Santa Elena</a>
@@ -676,6 +707,7 @@ font-family: Georgia, serif;
 </p>
     </header>
 
+       <button id="statusBtn" onclick="toggleStatus()">Loading...</button>
 
 <p id="greetingText"></p>
    <script>
@@ -758,7 +790,7 @@ font-family: Georgia, serif;
         <!-- 5. Headings and 6. Paragraph Section -->
         <section class="content-text">
             <div class="container-section">
-         <h2>Unete Al <span style="color: green;">Proyecto</span></h2>
+            <h2>Unete Al <span style="color: green;">Proyecto</span></h2>
             <h3>Trabaja con amor</h3>
             <p>Mis aplicaciones están basadas en la ecuación para calcular calorías Calories = Body Weight (kg) × Distance (km) × Coefficient esta es la ecuación para calcular calorías simplificada, esta dentro del código de programación, los expertos de fitness e investigadores usan esta fórmula, Yo tengo un diploma de la Florida USA Ingles, del SENA en computadores y más </p>
 
@@ -790,7 +822,7 @@ font-family: Georgia, serif;
         
             <div class="container-section">
                 <section class="content-text">
-           <h2>Principios y <span style="color: green;">Valores</span></h2>
+             <h2>Principios y <span style="color: green;">Valores</span></h2>
              <p>Muchos Americanos hablan sobre el work ethic significa trabajar honrado. como la profesora de Inglés Tiffani  la que trabajó en la NASA, si tu quieres algo trabaja honrado para conseguirlo, ni en el paro nacional llegue a coger una sola uva o banana, honrado como los de Singapur.</p></p>
           <p>Me gusta los valores de Jesus, el dice que la iglesia son las personas no templos hechos por hombres. Arnold Schwarzenegger, will smith en algún momento de la vida llegaron a trabajar la construcción para invertir en ellos mismos construir su carrera y seguir adelante, ellos hablan muy bien e inspiran hard work never killed any one 
 </p></p>
@@ -804,7 +836,7 @@ font-family: Georgia, serif;
     
         <div class="container-section">
              <section class="content-text">
-    <h2>Extension que funciona sobre <span style="color: green;">computadores de mesa.</span></h2>
+        <h2>Extension que funciona sobre <span style="color: green;">computadores de mesa.</span></h2>
 <section class="photo-gallery">
       <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
@@ -880,7 +912,7 @@ function openExtensionPopup(imageSrc) {
     
         <div class="container-section">
                <section class="content-text">
-          <h2>Alma De <span style="color: green;">Atleta</span></h2>
+        <h2>Alma De <span style="color: green;">Atleta</span></h2>
 
         <section class="photo-gallery">
               <div class="outer-geometric-frame">
@@ -933,7 +965,7 @@ function openExtensionPopup(imageSrc) {
             
         <div class="container-section">
                <section class="content-text">
-         <h2>Green and <span style="color: green;">Cookies</span></h2>
+        <h2>Green and <span style="color: green;">Cookies</span></h2>
 
         <section class="photo-gallery">
               <div class="outer-geometric-frame">
@@ -991,14 +1023,14 @@ function openExtensionPopup(imageSrc) {
             
         <div class="container-section">
                <section class="content-text">
-          <h2>Gracias Lili, Ashly, Alicia <span style="color: green;">y mas</span> </h2>
+        <h2>Gracias Lili, Ashly, Alicia <span style="color: green;">y mas</span> </h2>
 
         <section class="photo-gallery">
               <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
             <img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?q=80&w=800&auto=format&fit=crop"  style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/banano.html')">
- <div class="price-badge">Banano 1 lb — 1,500 COP</div>
+ <div class="price-badge">Banano 1 lb — 1,400 COP</div>
 
 </div>
           </div>
@@ -1009,26 +1041,9 @@ function openExtensionPopup(imageSrc) {
       <div class="inner-sharp-border">
 
 
-            <img src="https://homie-2205.github.io/Running-GPS-App/fruits/coconutk.png"  style="width: 260px; height: 250px;" alt="Hope"  onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/coco.html')">
+            <img src="repartidor/coconut.png"  style="width: 260px; height: 250px;" alt="Hope"  onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/coco.html')">
             
-            <div class="price-badge">Coco 1 lb — 1,600 COP</div>
-
-</div>
-          </div>
-                  </div>
-
-
-
-  <div class="container-section">
-               <section class="content-text">
-          <h2>Gracias Lili, Ashly, Alicia <span style="color: green;">y mas</span> </h2>
-
-        <section class="photo-gallery">
-              <div class="outer-geometric-frame">
-    <div class="mid-geometric-lines">
-      <div class="inner-sharp-border">
-            <img src="https://homie-2205.github.io/Running-GPS-App/fruits/arandanos.jpg"  style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/banano.html')">
- <div class="price-badge">Arandano 1 lb — 24,500 COP</div>
+            <div class="price-badge">Coco 1 lb — 1,200 COP</div>
 
 </div>
           </div>
@@ -1037,37 +1052,42 @@ function openExtensionPopup(imageSrc) {
             <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
+  <img src="repartidor/pitaya.jpg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/pitaya.html')">
+ <div class="price-badge">Pitata 1 lb — 10,000 COP</div>
+
+         <script>
+// One single function to rule them all
+function openExtensionPopup(imageSrc) {
+    window.open(
+        imageSrc, 
+        '_blank', 
+        'width=700,height=600,resizable=yes,scrollbars=yes'
+    );
+}
+</script>
 
 
-            <img src="https://homie-2205.github.io/Running-GPS-App/fruits/uvaverde.png"  style="width: 260px; height: 250px;" alt="Hope"  onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/coco.html')">
-            
-            <div class="price-badge">Uva verde 1 lb — 6,600 COP</div>
-
-</div>
+      </div>
           </div>
                   </div>
-
-
-
-
-
-
-
-
+ </section>
+                      </section>
+          
+        </div>
 
 
           
             
         <div class="container-section">
                <section class="content-text">
-     <h2>Frutas <span style="color: green;">Hermosas</span></h2>
+        <h2>Deliciosas </h2>
 
         <section class="photo-gallery">
               <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
 
-            <img src="https://homie-2205.github.io/Running-GPS-App/fruits/piña.png"  style="width: 300px; height: 250px;" alt="Hope"  onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/pi%C3%B1a.html')">
+            <img src="https://homie-2205.github.io/Running-GPS-App/fruits/pi%C3%B1aK.png"  style="width: 300px; height: 250px;" alt="Hope"  onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/pi%C3%B1a.html')">
            
 <div class="price-badge">Piña 1 lb — 1,600 COP</div>
 
@@ -1078,7 +1098,7 @@ function openExtensionPopup(imageSrc) {
             <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-  <img src="https://homie-2205.github.io/Running-GPS-App/fruits/chontaduro.png"  style="width: 300px; height: 250px;" alt="Hope"  onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/chontaduro.html')">
+  <img src="repartidor/chontaduro.png"  style="width: 300px; height: 250px;" alt="Hope"  onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/chontaduro.html')">
           
 <div class="price-badge">Chontaduro 1 lb — 3,750 COP</div>
              <!-- Image 4 plays its audio when clicked -->
@@ -1089,7 +1109,7 @@ function openExtensionPopup(imageSrc) {
             <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-  <img src="https://homie-2205.github.io/Running-GPS-App/fruits/mango.png"  alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/mangocomun.html')">
+  <img src="/repartidor/mango.png"  alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/mangocomun.html')">
   <div class="price-badge">Mango Común 1 lb — 2,100 COP</div>
 
          <script>
@@ -1115,9 +1135,11 @@ function openExtensionPopup(imageSrc) {
 
 
 
-  <div class="container-section">
+
+
+            <div class="container-section">
                <section class="content-text">
-      <h2>Frutas Jaguar <span style="color: green;">Green Store</span></h2>
+        <h2>Frutas <span style="color: green;">Hermosas</span></h2>
 
         <section class="photo-gallery">
               <div class="outer-geometric-frame">
@@ -1155,7 +1177,7 @@ function openExtensionPopup(imageSrc) {
             <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-  <img src="https://homie-2205.github.io/Running-GPS-App/fruits/limonmandarino.jpeg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/limonmandarino.html')">
+  <img src="repartidor/limonmandarino.jpeg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/limonmandarino.html')">
   
   <div class="price-badge">Limón Mand. 1 lb — 1,500 COP</div>
 
@@ -1187,10 +1209,9 @@ function openExtensionPopup(imageSrc) {
 
 
 
-
             <div class="container-section">
                <section class="content-text">
-           <h2>Enjoy <span style="color: green;">Life</span></h2>
+        <h2>Frutas Jaguar <span style="color: green;">Green Store</span></h2>
 
         <section class="photo-gallery">
               <div class="outer-geometric-frame">
@@ -1218,7 +1239,7 @@ function openExtensionPopup(imageSrc) {
             <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-  <img src="https://homie-2205.github.io/Running-GPS-App/fruits/manzanaverde.png" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/manzanaverde.html')">
+  <img src="repartidor/manzanaverde.png" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/manzanaverde.html')">
  <div class="price-badge">Manzana Verde 1 lb — 1,500 COP</div>
 
          <script>
@@ -1248,13 +1269,13 @@ function openExtensionPopup(imageSrc) {
 
             <div class="container-section">
                <section class="content-text">
-      <h2>No hay nada imposible para aquel <span style="color: green;">que intenta</span></h2>
+        <h2>Enjoy <span style="color: green;">Life</span></h2>
 
         <section class="photo-gallery">
               <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-            <img src="https://homie-2205.github.io/Running-GPS-App/fruits/platano.png"  style="width: 300px; height: 250px;" alt="Hope" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/platano.html')">
+            <img src="repartidor/platano.png"  style="width: 300px; height: 250px;" alt="Hope" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/platano.html')">
 
 <div class="price-badge">Platano Verde 1 lb — 1,400 COP</div>
 
@@ -1266,7 +1287,7 @@ function openExtensionPopup(imageSrc) {
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
 
-             <img src="https://homie-2205.github.io/Running-GPS-App/fruits/platanomadurok.png"  style="width: 300px; height: 250px;" alt="Recipe" onclick="openExtensionPopup(' https://homie-2205.github.io/Running-GPS-App/platanomaduro.html')">      
+             <img src="https://homie-2205.github.io/Running-GPS-App/fruits/platanomadurok.png"  style="width: 300px; height: 250px;" alt="Recipe" onclick="openExtensionPopup('platanomaduro.html')">
  
 <div class="price-badge">Platano Maduro 1 lb — 1,400 COP</div>
              <!-- Image 4 plays its audio when clicked -->
@@ -1277,9 +1298,9 @@ function openExtensionPopup(imageSrc) {
             <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-  <img src="https://homie-2205.github.io/Running-GPS-App/fruits/Tommy.jpg" alt="Mapalma" style="width: 300px; height: 250px;" alt="Recipe" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/mango.html')">
+  <img src="repartidor/Tommy.jpg" alt="Mapalma" style="width: 300px; height: 250px;" alt="Recipe" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/platanomaduro.html')">
 
-<div class="price-badge">Mango Tommy 1 lb — 3,650 COP</div>
+<div class="price-badge">Mango Tommy 1 lb — 3,500 COP</div>
          <script>
 // One single function to rule them all
 function openExtensionPopup(imageSrc) {
@@ -1304,13 +1325,13 @@ function openExtensionPopup(imageSrc) {
 
   <div class="container-section">
                <section class="content-text">
-  <h2>Put the elbow grease <span style="color: green;">on the project</span></h2>
+        <h2>No hay nada imposible para aquel <span style="color: green;">que intenta</span></h2>
 
         <section class="photo-gallery">
               <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-            <img src="https://homie-2205.github.io/Running-GPS-App/fruits/tomate.jpeg"  style="width: 200px; height: 200px;" alt="Hope" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/tomate.html')">
+            <img src="repartidor/tomate.jpeg"  style="width: 200px; height: 200px;" alt="Hope" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/tomate.html')">
 
 <div class="price-badge">Tomate 1 lb — 2,900 COP</div>
 </div>
@@ -1321,7 +1342,7 @@ function openExtensionPopup(imageSrc) {
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
 
-             <img src="https://homie-2205.github.io/Running-GPS-App/fruits/papa.png"  style="width: 200px; height: 200px;" alt="Recipe" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/papa.html')">
+             <img src="repartidor/papa.png"  style="width: 200px; height: 200px;" alt="Recipe" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/papa.html')">
 <div class="price-badge">Papa Sucia 1 lb — 2,000 COP</div>
              <!-- Image 4 plays its audio when clicked -->
 </div>
@@ -1331,7 +1352,7 @@ function openExtensionPopup(imageSrc) {
             <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-  <img src="https://homie-2205.github.io/Running-GPS-App/fruits/yuca.png" alt="Mapalma" style="width: 300px; height: 250px;" alt="Recipe" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/yuca.html')">
+  <img src="repartidor/yuca.png" alt="Mapalma" style="width: 300px; height: 250px;" alt="Recipe" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/yuca.html')">
 <div class="price-badge"> Yuca 1 lb — 2,000 COP</div>
 
          <script>
@@ -1363,13 +1384,13 @@ function openExtensionPopup(imageSrc) {
             
             <div class="container-section">
                <section class="content-text">
-    <h2>Go the <span style="color: green;">Extra mile</span></h2>
+        <h2>Put the elbow grease <span style="color: green;">on the project</span></h2>
 
         <section class="photo-gallery">
               <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-            <img src="https://homie-2205.github.io/Running-GPS-App/fruits/uvachilena.png"  style="width: 300px; height: 250px;" alt="Hope" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/uvachilena.html')">
+            <img src="repartidor/uvachilena.png"  style="width: 300px; height: 250px;" alt="Hope" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/uvachilena.html')">
     <div class="price-badge">Uva Chilena 1 lb — 12,400 COP</div>
 
 </div>
@@ -1381,7 +1402,7 @@ function openExtensionPopup(imageSrc) {
       <div class="inner-sharp-border">
 
             
-           <img src="https://homie-2205.github.io/Running-GPS-App/fruits/uvaisabella.jpeg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/uvaisabela.html')">
+           <img src="repartidor/uvaisabella.jpeg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/uvaisabela.html')">
             
           <div class="price-badge">Uva Isabela 1 lb — 5.950 COP</div>
 </div>
@@ -1401,7 +1422,7 @@ function openExtensionPopup(imageSrc) {
             <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-  <img src="https://homie-2205.github.io/Running-GPS-App/fruits/maracuya.jpeg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/maracuya.html')">
+  <img src="repartidor/maracuya.jpeg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/maracuya.html')">
   
   <div class="price-badge">Maracuya 1 lb — 5,000 COP</div>
 
@@ -1430,13 +1451,13 @@ function openExtensionPopup(imageSrc) {
 
             <div class="container-section">
                <section class="content-text">
-           <h2>Reducir, Reutilizar<span style="color: green;">y Reciclar</span></h2>
+        <h2>Go the <span style="color: green;">Extra mile</span></h2>
 
         <section class="photo-gallery">
               <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-            <img src="https://homie-2205.github.io/Running-GPS-App/fruits/zanahoria.png"  style="width: 300px; height: 250px;" alt="Hope" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/zanahoria.html')">
+            <img src="repartidor/zanahoria.png"  style="width: 300px; height: 250px;" alt="Hope" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/zanahoria.html')">
     <div class="price-badge">Zanahoria 1 lb — 1,400 COP</div>
 
 </div>
@@ -1448,7 +1469,7 @@ function openExtensionPopup(imageSrc) {
       <div class="inner-sharp-border">
 
             
-           <img src="https://homie-2205.github.io/Running-GPS-App/fruits/repollo-morado-kilo.jpg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/repollomo.html')">
+           <img src="repartidor/repollo-morado-kilo.jpg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/repollomo.html')">
             
           <div class="price-badge">Repollo Morado 1 lb — 2,400 COP</div>
 </div>
@@ -1468,7 +1489,7 @@ function openExtensionPopup(imageSrc) {
             <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-  <img src="https://homie-2205.github.io/Running-GPS-App/fruits/repolloblanco.jpg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/repolloblan.html')">
+  <img src="repartidor/repolloblanco.jpg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/repolloblan.html')">
   
   <div class="price-badge">Repollo blanco 1 lb — 2,400 COP</div>
 
@@ -1498,13 +1519,13 @@ function openExtensionPopup(imageSrc) {
             
             <div class="container-section">
                <section class="content-text">
-    <h2>Enjoy <span style="color: green;">Jazz</span></h2>
+        <h2>Reducir, Reutilizar<span style="color: green;">y Reciclar</span></h2>
 
         <section class="photo-gallery">
               <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-            <img src="https://homie-2205.github.io/Running-GPS-App/fruits/remolacha.jpeg"  style="width: 300px; height: 250px;" alt="Hope" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/remolacha.html')">
+            <img src="repartidor/remolacha.jpeg"  style="width: 300px; height: 250px;" alt="Hope" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/remolacha.html')">
     <div class="price-badge">Remolacha 1 lb — 1,650 COP</div>
 
 </div>
@@ -1516,7 +1537,7 @@ function openExtensionPopup(imageSrc) {
       <div class="inner-sharp-border">
 
             
-           <img src="https://homie-2205.github.io/Running-GPS-App/fruits/naranja.png" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/naranja.html')">
+           <img src="repartidor/naranja.png" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/naranja.html')">
             
           <div class="price-badge">Naranja  1 lb — 2,400 COP</div>
 </div>
@@ -1536,7 +1557,7 @@ function openExtensionPopup(imageSrc) {
             <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-  <img src="https://homie-2205.github.io/Running-GPS-App/fruits/maracuya.jpeg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/maracuya.html')">
+  <img src="repartidor/maracuya.jpeg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/maracuya.html')">
   
   <div class="price-badge">Maracuya. 1 lb — 5,000 COP</div>
 
@@ -1564,13 +1585,13 @@ function openExtensionPopup(imageSrc) {
             
             <div class="container-section">
                <section class="content-text">
-  <h2>Do always the <span style="color: green;">right thing</span></h2>
+        <h2>Enjoy <span style="color: green;">Jazz</span></h2>
 
         <section class="photo-gallery">
               <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-            <img src="https://homie-2205.github.io/Running-GPS-App/fruits/Granadilla.jpg"  style="width: 300px; height: 250px;" alt="Hope" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/granadilla.html')">
+            <img src="repartidor/Granadilla.jpg"  style="width: 300px; height: 250px;" alt="Hope" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/granadilla.html')">
     <div class="price-badge">Granadilla 1 lb — 5,250 COP</div>
 
 </div>
@@ -1602,7 +1623,7 @@ function openExtensionPopup(imageSrc) {
             <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-  <img src="https://homie-2205.github.io/Running-GPS-App/fruits/curuba.png" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/curuba.html')">
+  <img src="repartidor/curuba.png" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/curuba.html')">
   
   <div class="price-badge">Curuba. 1 lb — 3,500 COP</div>
 
@@ -1634,12 +1655,11 @@ function openExtensionPopup(imageSrc) {
                <section class="content-text">
         <h2>Do always the <span style="color: green;">right thing</span></h2>
 
-
         <section class="photo-gallery">
               <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-            <img src="https://homie-2205.github.io/Running-GPS-App/fruits/coliflor.jpg"  style="width: 300px; height: 250px;" alt="Hope" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/coliflor.html')">
+            <img src="repartidor/coliflor.jpg"  style="width: 300px; height: 250px;" alt="Hope" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/coliflor.html')">
     <div class="price-badge">Coliflor 1 lb — 5,300 COP</div>
 
 </div>
@@ -1651,7 +1671,7 @@ function openExtensionPopup(imageSrc) {
       <div class="inner-sharp-border">
 
             
-           <img src="https://homie-2205.github.io/Running-GPS-App/fruits/cebollacabezona.jpg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/cebollacabe.html')">
+           <img src="repartidor/cebollacabezona.jpg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/cebollacabe.html')">
             
           <div class="price-badge">Cebolla Cabezona 1 lb — 2,500 COP</div>
 </div>
@@ -1671,7 +1691,7 @@ function openExtensionPopup(imageSrc) {
             <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-  <img src="https://homie-2205.github.io/Running-GPS-App/fruits/batavia.png" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/lechugabat.html')">
+  <img src="repartidor/batavia.png" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/lechugabat.html')">
   
   <div class="price-badge">Lechuga Batavia. 1 lb — 2,600 COP</div>
 
@@ -1703,14 +1723,14 @@ function openExtensionPopup(imageSrc) {
             
             <div class="container-section">
                <section class="content-text">
-    <h2>Sea servicial <span style="color: green;">con las personas</span></h2>
+        <h2>Sea servicial <span style="color: green;">con las personas</span></h2>
 
         <section class="photo-gallery">
               <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-            <img src="https://homie-2205.github.io/Running-GPS-App/fruits/arracacha.png"  style="width: 300px; height: 250px;" alt="Hope" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/arracacha.html')">
-    <div class="price-badge">Arracacha 1 lb — 4,600 COP</div>
+            <img src="repartidor/arracacha.png"  style="width: 300px; height: 250px;" alt="Hope" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/arracacha.html')">
+    <div class="price-badge">Arracacha 1 lb — 4,400 COP</div>
 
 </div>
           </div>
@@ -1721,7 +1741,7 @@ function openExtensionPopup(imageSrc) {
       <div class="inner-sharp-border">
 
             
-           <img src="https://homie-2205.github.io/Running-GPS-App/fruits/ajo.jpeg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/ajo.html)">
+           <img src="repartidor/ajo.jpeg" alt="Mapalma" style="width: 300px; height: 250px;" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/ajo.html)">
             
           <div class="price-badge">Ajo 1 lb — 6,000 COP</div>
 </div>
@@ -1771,7 +1791,7 @@ function openExtensionPopup(imageSrc) {
             
             <div class="container-section">
                <section class="content-text">
-          <h2>Sometimes hard work never <span style="color: green;">killed anyone</span></h2>
+        <h2>Sometimes hard work never <span style="color: green;">killed anyone</span></h2>
 
         <section class="photo-gallery">
               <div class="outer-geometric-frame">
@@ -1844,6 +1864,7 @@ function openExtensionPopup(imageSrc) {
  <div class="container-section">
                <section class="content-text">
         <h2>Protege el planeta<span style="color: green;">Acuerdo de París</span></h2>
+
         <section class="photo-gallery">
               <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
@@ -1928,7 +1949,8 @@ function openExtensionPopup(imageSrc) {
 
                <div class="container-section">
                <section class="content-text">
-       <h2>Sembremos un arbol <span style="color: green;">Cop 16 Cali-Palmira</span></h2>
+        <h2>Sembremos un arbol <span style="color: green;">Cop 16 Cali-Palmira</span></h2>
+
         <section class="photo-gallery">
               <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
@@ -1980,7 +2002,7 @@ function openExtensionPopup(imageSrc) {
 
    <div class="container-section">
                <section class="content-text">
-        <h2>Je voudrais vous fair un favor</h2>
+        <h2>Je voudrais vous fair<span style="color: green;">un favor</span></h2>
 
         <section class="photo-gallery">
               <div class="outer-geometric-frame">
@@ -2007,7 +2029,7 @@ function openExtensionPopup(imageSrc) {
             <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-  <img src="https://homie-2205.github.io/Running-GPS-App/domi.jpg" alt="Mapalma" style="width: 300px; height: 250px;" alt="Recipe" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/favormoi.html')">
+  <img src="https://homie-2205.github.io/Running-GPS-App/domi.jpg" alt="Mapalma" style="width: 300px; height: 250px;" alt="Recipe" onclick="openExtensionPopup('favormoi.html')">
 
 
          <script>
@@ -2038,13 +2060,13 @@ function openExtensionPopup(imageSrc) {
 
                <div class="container-section">
                <section class="content-text">
-        <h2>Música Instrumental saxofón  y Quena</h2>
+        <h2>Música Instrumental<span style="color: green;">Saxofón y Quena</span></h2>
 
         <section class="photo-gallery">
               <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-            <img src="https://homie-2205.github.io/Running-GPS-App/Music.png"  style="width: 300px; height: 250px;" alt="Hope" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/Music2.html')">
+            <img src="https://homie-2205.github.io/Running-GPS-App/Music.png"  style="width: 300px; height: 250px;" alt="Hope" onclick="openExtensionPopup('Music2.html')">
   <audio id="audio2" src="gracias.mp3"></audio>
 
 </div>
@@ -2055,7 +2077,7 @@ function openExtensionPopup(imageSrc) {
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
 
-             <img src="https://homie-2205.github.io/Running-GPS-App/Music.png"  style="width: 300px; height: 250px;" alt="Recipe" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/Music2.html')">
+             <img src="https://homie-2205.github.io/Running-GPS-App/Music.png"  style="width: 300px; height: 250px;" alt="Recipe" onclick="openExtensionPopup('Music2.html')">
   <audio id="audio5" src="gracias.mp3"></audio>
              <!-- Image 4 plays its audio when clicked -->
 </div>
@@ -2065,7 +2087,7 @@ function openExtensionPopup(imageSrc) {
             <div class="outer-geometric-frame">
     <div class="mid-geometric-lines">
       <div class="inner-sharp-border">
-  <img src="https://homie-2205.github.io/Running-GPS-App/Music.png" alt="Mapalma" style="width: 300px; height: 250px; alt="Recipe" onclick="openExtensionPopup('https://homie-2205.github.io/Running-GPS-App/Music2.html')">
+  <img src="https://homie-2205.github.io/Running-GPS-App/Music.png" alt="Mapalma" style="width: 300px; height: 250px; alt="Recipe" onclick="openExtensionPopup('Music2.html')">
   <audio id="audio4" src="gracias.mp3"></audio>
 
          <script>
